@@ -27,7 +27,6 @@ export default function CreateModal(props) {
       });
     });
   };
-  console.log(props.image);
   return (
     <>
       <Button
