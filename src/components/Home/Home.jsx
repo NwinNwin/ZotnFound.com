@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Map from "../Map/Map";
 import "./Home.css";
 import Filter from "../Filter/Filter";
@@ -10,16 +10,13 @@ import { AuthContext } from "../../context/AuthContext";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import CreateModal from "../CreateModal/CreateModal";
-import { onSnapshot, collection, orderBy, query } from "firebase/firestore";
-import { db } from "../../firebase";
 
 import instagram from "../../assets/logos/instagram.svg";
 
 import { Input, InputGroup, InputLeftAddon, Button, Flex, HStack, Text, Image } from "@chakra-ui/react";
 import logo from "../../assets/images/small_logo.png";
-export default function Home() {
+export default function Home({ data, setData }) {
   const [search, setSearch] = useState("");
-  const [data, setData] = useState([]);
 
   const [findFilter, setFindFilter] = useState({
     type: "everything",
@@ -52,14 +49,6 @@ export default function Home() {
       });
   };
 
-  useEffect(() => {
-    const collectionRef = collection(db, "items");
-    const q = query(collectionRef, orderBy("date"));
-    onSnapshot(q, (snapshot) => {
-      setData(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    });
-  }, []);
-
   const compareDates = (a, b) => {
     const dateA = new Date(a.date);
     const dateB = new Date(b.date);
@@ -68,8 +57,6 @@ export default function Home() {
 
   // Sort the array by date
   data.sort(compareDates);
-
-  console.log(data);
 
   return (
     <div>
@@ -132,8 +119,9 @@ export default function Home() {
           search={search}
           findFilter={findFilter}
           setIsLost={setIsLost}
+          setData={setData}
         />
-        <ResultsBar data={data} search={search} findFilter={findFilter} currentEmail={currentUser?.email} />
+        <ResultsBar data={data} search={search} findFilter={findFilter} currentEmail={currentUser?.email} setData={setData} />
       </div>
     </div>
   );

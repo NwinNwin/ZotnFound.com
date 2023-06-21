@@ -27,7 +27,7 @@ import InfoModal from "../InfoModal/InfoModal";
 import { db } from "../../firebase";
 import { collection, addDoc } from "firebase/firestore";
 
-export default function Map({ data, isEdit, type, isLost, name, email, image, description, setIsEdit, search, findFilter, setIsLost }) {
+export default function Map({ data, isEdit, type, isLost, name, email, image, description, setIsEdit, search, findFilter, setIsLost, setData }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [itemData, setItemData] = useState({});
   // const mapUser = L.icon({
@@ -188,7 +188,7 @@ export default function Map({ data, isEdit, type, isLost, name, email, image, de
     const dateObj = new Date();
     const formattedDate = ("0" + (dateObj.getMonth() + 1)).slice(-2) + "-" + ("0" + dateObj.getDate()).slice(-2) + "-" + dateObj.getFullYear();
 
-    await addDoc(collection(db, "items"), {
+    const docRef = await addDoc(collection(db, "items"), {
       image: image,
       type: type,
       isLost: isLost,
@@ -199,6 +199,18 @@ export default function Map({ data, isEdit, type, isLost, name, email, image, de
       date: formattedDate,
     });
 
+    const newItem = {
+      image: image,
+      type: type,
+      isLost: isLost,
+      name: name,
+      description: description,
+      email: email,
+      location: [position.lat, position.lng],
+      date: formattedDate,
+      id: docRef.id,
+    };
+    setData((prev) => [...prev, newItem]);
     setPosition(centerPosition);
   }
 
@@ -207,20 +219,6 @@ export default function Map({ data, isEdit, type, isLost, name, email, image, de
     setIsEdit(!isEdit);
   };
 
-  // function LocationMarker() {
-  //   const map = useMapEvents({
-  //     locationfound(e) {
-  //       setPosition(e.latlng);
-  //       map.flyTo(e.latlng, map.getZoom());
-  //     },
-  //   });
-
-  //   return position === null ? null : (
-  //     <Marker position={position} icon={mapUser}>
-  //       <Popup>You are here</Popup>
-  //     </Marker>
-  //   );
-  // }
   return (
     <div>
       <MapContainer
@@ -245,7 +243,7 @@ export default function Map({ data, isEdit, type, isLost, name, email, image, de
           </Marker>
         )}
       </MapContainer>
-      <InfoModal props={itemData} onOpen={onOpen} onClose={onClose} isOpen={isOpen} currentEmail={email} />
+      <InfoModal props={itemData} onOpen={onOpen} onClose={onClose} isOpen={isOpen} currentEmail={email} setData={setData} />
     </div>
   );
 }

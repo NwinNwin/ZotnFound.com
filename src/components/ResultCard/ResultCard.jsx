@@ -1,20 +1,9 @@
 import * as React from "react";
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  Image,
-  Stack,
-  Text,
-  Divider,
-  Button,
-  Flex,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Card, CardBody, CardFooter, Image, Stack, Text, Divider, Button, Flex, useDisclosure } from "@chakra-ui/react";
 import { InfoIcon } from "@chakra-ui/icons";
 import InfoModal from "../InfoModal/InfoModal.jsx";
 
-export default function ResultCard({ props, currentEmail }) {
+export default function ResultCard({ props, currentEmail, setData }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -36,14 +25,7 @@ export default function ResultCard({ props, currentEmail }) {
         <Divider />
         <CardFooter>
           <Flex justifyContent={"space-between"}>
-            <Button
-              variant="ghost"
-              colorScheme="blue"
-              leftIcon={<InfoIcon />}
-              size="md"
-              w="20"
-              onClick={onOpen}
-            >
+            <Button variant="ghost" colorScheme="blue" leftIcon={<InfoIcon />} size="md" w="20" onClick={onOpen}>
               View
             </Button>
             {props.isLost ? (
@@ -58,13 +40,7 @@ export default function ResultCard({ props, currentEmail }) {
           </Flex>
         </CardFooter>
       </Card>
-      <InfoModal
-        props={props}
-        onOpen={onOpen}
-        onClose={onClose}
-        isOpen={isOpen}
-        currentEmail={currentEmail}
-      />
+      <InfoModal props={props} onOpen={onOpen} onClose={onClose} isOpen={isOpen} currentEmail={currentEmail} setData={setData} />
     </>
   );
 }

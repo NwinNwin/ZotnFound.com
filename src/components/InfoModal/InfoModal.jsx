@@ -3,9 +3,16 @@ import { Box, Button, Center, Heading, Text, Stack, useColorModeValue, Image, Mo
 import { db } from "../../firebase";
 import { doc, deleteDoc } from "firebase/firestore";
 
-export default function InfoModal({ onOpen, isOpen, onClose, props, currentEmail }) {
+export default function InfoModal({ setData, isOpen, onClose, props, currentEmail }) {
   async function handleDelete() {
     await deleteDoc(doc(db, "items", props.id));
+    setData((prevItems) => {
+      if (prevItems && prevItems.length > 0) {
+        return prevItems.filter((item) => item.id !== props.id);
+      }
+      return prevItems;
+    });
+
     onClose();
   }
 
