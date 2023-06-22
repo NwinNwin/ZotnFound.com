@@ -27,7 +27,7 @@ import InfoModal from "../InfoModal/InfoModal";
 import { db } from "../../firebase";
 import { collection, addDoc } from "firebase/firestore";
 
-export default function Map({ data, isEdit, type, isLost, name, email, image, description, setIsEdit, search, findFilter, setIsLost, setData }) {
+export default function Map({ data, isEdit, type, isLost, name, email, image, description, setIsEdit, search, findFilter, setIsCreate, setData, isCreate, centerPosition, position, setPosition }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [itemData, setItemData] = useState({});
   // const mapUser = L.icon({
@@ -168,8 +168,6 @@ export default function Map({ data, isEdit, type, isLost, name, email, image, de
       </Marker>
     ));
 
-  const centerPosition = [33.6461, -117.8427];
-  const [position, setPosition] = useState(centerPosition);
   const markerRef = useRef(null);
 
   const eventHandlers = useMemo(
@@ -217,6 +215,7 @@ export default function Map({ data, isEdit, type, isLost, name, email, image, de
   const toggleDraggable = () => {
     handleSubmit(image, type, name, description);
     setIsEdit(!isEdit);
+    setIsCreate(!isCreate);
   };
 
   return (
