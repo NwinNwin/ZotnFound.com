@@ -1,22 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Map from "../Map/Map";
 import "./Home.css";
 import Filter from "../Filter/Filter";
 import ResultsBar from "../ResultsBar/ResultsBar";
 import { auth } from "../../firebase";
 import { signOut } from "firebase/auth";
-// import { Search2Icon } from "@chakra-ui/icons";
 import { AuthContext } from "../../context/AuthContext";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import CreateModal from "../CreateModal/CreateModal";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebase";
 
 import instagram from "../../assets/logos/instagram.svg";
 
 import { Input, InputGroup, InputLeftAddon, Button, Flex, HStack, Text, Image } from "@chakra-ui/react";
 import logo from "../../assets/images/small_logo.png";
-export default function Home({ data, setData }) {
+export default function Home() {
   const [search, setSearch] = useState("");
+  const [data, setData] = useState([]);
 
   const [findFilter, setFindFilter] = useState({
     type: "everything",
@@ -57,6 +59,16 @@ export default function Home({ data, setData }) {
 
   // Sort the array by date
   data.sort(compareDates);
+
+  //get data
+  useEffect(() => {
+    const collectionRef = collection(db, "items");
+    const getData = async () => {
+      const data = await getDocs(collectionRef);
+      setData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+    getData();
+  }, []);
 
   return (
     <div>
