@@ -138,7 +138,7 @@ export default function Map({ data, isEdit, type, isLost, name, email, image, de
             onOpen();
             setItemData(item);
           },
-          mouseover: (event) => event.target.openPopup(),
+          mouseover: (event) => !isEdit && event.target.openPopup(),
         }}
         icon={
           item.type === "headphone" && item.isLost
@@ -236,7 +236,7 @@ export default function Map({ data, isEdit, type, isLost, name, email, image, de
         {allMarkers}
         {isEdit && (
           <Marker draggable={true} eventHandlers={eventHandlers} position={position} ref={markerRef} icon={othersDrag}>
-            <Popup minWidth={90}>
+            <Popup minWidth={90} closeButton={false}>
               <span onClick={() => toggleDraggable()}>Click to Confirm Location 🤔</span>
             </Popup>
           </Marker>
