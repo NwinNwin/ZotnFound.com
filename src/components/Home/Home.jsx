@@ -47,7 +47,6 @@ export default function Home() {
   const [description, setDescription] = useState("");
   const [itemDate, setItemDate] = useState(formatDate());
 
-  console.log(itemDate);
   const navigate = useNavigate();
 
   const centerPosition = [33.6461, -117.8427];
@@ -162,6 +161,8 @@ export default function Home() {
           centerPosition={centerPosition}
           position={position}
           setPosition={setPosition}
+          itemDate={itemDate}
+          setItemDate={setItemDate}
         />
         <ResultsBar data={data} search={search} findFilter={findFilter} currentEmail={currentUser?.email} setData={setData} />
       </div>
