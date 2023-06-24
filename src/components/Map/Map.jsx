@@ -125,7 +125,7 @@ export default function Map({ data, isEdit, type, isLost, name, email, image, de
           return item;
         }
       }
-      return item;
+      return;
     })
     .filter((item) => {
       return findFilter.uploadDate === "" ? item : item.date.includes(findFilter.uploadDate);
@@ -233,7 +233,7 @@ export default function Map({ data, isEdit, type, isLost, name, email, image, de
       >
         <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         {!isEdit}
-        {allMarkers}
+        {!isEdit && allMarkers}
         {isEdit && (
           <Marker draggable={true} eventHandlers={eventHandlers} position={position} ref={markerRef} icon={othersDrag}>
             <Popup minWidth={90} closeButton={false}>

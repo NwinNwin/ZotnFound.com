@@ -38,7 +38,7 @@ export default function ResultsBar({ data, search, findFilter, currentEmail, set
         }
       }
 
-      return item;
+      return;
     })
     .filter((item) => {
       return findFilter.uploadDate === "" ? item : item.date.includes(findFilter.uploadDate);
