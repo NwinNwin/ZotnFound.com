@@ -14,11 +14,12 @@ export default function CreateModal(props) {
     if (!props.image) return;
 
     const time = new Date().getTime();
-    const imageRef = ref(storage, `zotnfound/images/${time + props.image.name}`);
+    const imageRef = ref(storage, `zotnfound2/images/${time + props.image.name}`);
 
     uploadBytes(imageRef, props.image).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((url) => {
-        if (url.includes("https://firebasestorage.googleapis.com/v0/b/zotnfound.appspot.com/o/zotnfound%2Fimages%2FNaN")) {
+        console.log(url)
+        if (url.includes("https://firebasestorage.googleapis.com/v0/b/zotnfound2.appspot.com/o/zotnfound2%2Fimages%2FNaN")) {
           setUploadImg(upload);
         } else {
           setUploadImg(url);
