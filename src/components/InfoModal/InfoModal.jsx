@@ -76,6 +76,8 @@ export default function InfoModal({ setData, isOpen, onClose, props, currentEmai
                   </Tag>
                 </Flex>
               )}
+              <Flex justifyContent="center">{props.isLost ? <Text as="b">Lost on {props.itemDate}</Text> : <Text as="b">Found on {props.itemDate}</Text>}</Flex>
+
               <Center>
                 <Image rounded={"lg"} height={230} width={282} objectFit={"cover"} src={props.image} mt={5} />
               </Center>

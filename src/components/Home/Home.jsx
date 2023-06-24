@@ -13,16 +13,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
 import instagram from "../../assets/logos/instagram.svg";
 
-import {
-  Input,
-  InputGroup,
-  InputLeftAddon,
-  Button,
-  Flex,
-  HStack,
-  Text,
-  Image,
-} from "@chakra-ui/react";
+import { Input, InputGroup, InputLeftAddon, Button, Flex, HStack, Text, Image } from "@chakra-ui/react";
 import logo from "../../assets/images/small_logo.png";
 export default function Home() {
   const [search, setSearch] = useState("");
@@ -35,14 +26,26 @@ export default function Home() {
     uploadDate: "",
   });
 
+  function formatDate() {
+    var d = new Date(),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [year, month, day].join("-");
+  }
   const { dispatch } = useContext(AuthContext);
-  const [isEdit, setIsEdit] = React.useState(false);
-  const [isCreate, setIsCreate] = React.useState(true);
-  const [image, setImage] = React.useState("");
-  const [type, setType] = React.useState("");
-  const [isLost, setIsLost] = React.useState(true);
-  const [name, setName] = React.useState("");
-  const [description, setDescription] = React.useState("");
+  const [isEdit, setIsEdit] = useState(false);
+  const [isCreate, setIsCreate] = useState(true);
+  const [image, setImage] = useState("");
+  const [type, setType] = useState("");
+  const [isLost, setIsLost] = useState(true);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [itemDate, setItemDate] = useState(formatDate());
 
   const navigate = useNavigate();
 
@@ -83,17 +86,15 @@ export default function Home() {
     getData();
   }, []);
 
+  console.log(findFilter);
+
   return (
     <div>
       <Flex justifyContent="space-between" shadow="md" alignItems="center">
         <Flex alignItems="center" w="10%">
           <Image width="100px" src={logo} mb="3%" mt="3%" ml="10%" />
           <Text fontSize="3xl" fontWeight="500">
-            <a
-              href="https://www.instagram.com/zotnfound/"
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href="https://www.instagram.com/zotnfound/" target="_blank" rel="noreferrer">
               @zotnfound&nbsp;
             </a>
           </Text>
@@ -103,11 +104,7 @@ export default function Home() {
         <HStack w="40%">
           <InputGroup ml="12%" mt="1%" size="lg" mb="1%">
             <InputLeftAddon children="🔎" />
-            <Input
-              type="teal"
-              placeholder="Search Items ..."
-              onChange={(e) => setSearch(e.target.value)}
-            />
+            <Input type="teal" placeholder="Search Items ..." onChange={(e) => setSearch(e.target.value)} />
           </InputGroup>
         </HStack>
 
@@ -115,13 +112,7 @@ export default function Home() {
           <Text fontSize="xl" fontWeight="500" mr="4%">
             {currentUser?.email}
           </Text>
-          <Button
-            colorScheme="blue"
-            size="lg"
-            mt="2%"
-            mr="5%"
-            onClick={handleLogout}
-          >
+          <Button colorScheme="blue" size="lg" mt="2%" mr="5%" onClick={handleLogout}>
             Logout
           </Button>
         </HStack>
@@ -147,6 +138,8 @@ export default function Home() {
             setIsEdit={setIsEdit}
             setPosition={setPosition}
             centerPosition={centerPosition}
+            itemDate={itemDate}
+            setItemDate={setItemDate}
           />
         </Flex>
         <Map
@@ -168,14 +161,10 @@ export default function Home() {
           centerPosition={centerPosition}
           position={position}
           setPosition={setPosition}
+          itemDate={itemDate}
+          setItemDate={setItemDate}
         />
-        <ResultsBar
-          data={data}
-          search={search}
-          findFilter={findFilter}
-          currentEmail={currentUser?.email}
-          setData={setData}
-        />
+        <ResultsBar data={data} search={search} findFilter={findFilter} currentEmail={currentUser?.email} setData={setData} />
       </div>
     </div>
   );

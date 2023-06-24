@@ -27,7 +27,26 @@ import InfoModal from "../InfoModal/InfoModal";
 import { db } from "../../firebase";
 import { collection, addDoc } from "firebase/firestore";
 
-export default function Map({ data, isEdit, type, isLost, name, email, image, description, setIsEdit, search, findFilter, setIsCreate, setData, isCreate, centerPosition, position, setPosition }) {
+export default function Map({
+  itemDate,
+  data,
+  isEdit,
+  type,
+  isLost,
+  name,
+  email,
+  image,
+  description,
+  setIsEdit,
+  search,
+  findFilter,
+  setIsCreate,
+  setData,
+  isCreate,
+  centerPosition,
+  position,
+  setPosition,
+}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [itemData, setItemData] = useState({});
   // const mapUser = L.icon({
@@ -89,6 +108,7 @@ export default function Map({ data, isEdit, type, isLost, name, email, image, de
     iconUrl: others_black,
     iconSize: [50, 50],
   });
+  console.log(data);
 
   const allMarkers = data
     .filter((item) => {
@@ -125,10 +145,10 @@ export default function Map({ data, isEdit, type, isLost, name, email, image, de
           return item;
         }
       }
-      return item;
+      return;
     })
     .filter((item) => {
-      return findFilter.uploadDate === "" ? item : item.date.includes(findFilter.uploadDate);
+      return findFilter.uploadDate === "" ? item : item.itemDate.includes(findFilter.uploadDate);
     })
     .map((item) => (
       <Marker
@@ -194,6 +214,7 @@ export default function Map({ data, isEdit, type, isLost, name, email, image, de
       description: description,
       email: email,
       location: [position.lat, position.lng],
+      itemDate: itemDate,
       date: formattedDate,
     });
 
@@ -206,6 +227,7 @@ export default function Map({ data, isEdit, type, isLost, name, email, image, de
       email: email,
       location: [position.lat, position.lng],
       date: formattedDate,
+      itemDate: itemDate,
       id: docRef.id,
     };
     setData((prev) => [...prev, newItem]);
@@ -233,7 +255,7 @@ export default function Map({ data, isEdit, type, isLost, name, email, image, de
       >
         <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         {!isEdit}
-        {allMarkers}
+        {!isEdit && allMarkers}
         {isEdit && (
           <Marker draggable={true} eventHandlers={eventHandlers} position={position} ref={markerRef} icon={othersDrag}>
             <Popup minWidth={90} closeButton={false}>

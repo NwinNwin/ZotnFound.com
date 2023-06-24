@@ -38,10 +38,10 @@ export default function ResultsBar({ data, search, findFilter, currentEmail, set
         }
       }
 
-      return item;
+      return;
     })
     .filter((item) => {
-      return findFilter.uploadDate === "" ? item : item.date.includes(findFilter.uploadDate);
+      return findFilter.uploadDate === "" ? item : item.itemDate.includes(findFilter.uploadDate);
     })
     .map((item) => {
       return <ResultCard props={item} currentEmail={currentEmail} setData={setData} />;
