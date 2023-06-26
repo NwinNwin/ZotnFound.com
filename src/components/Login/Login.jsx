@@ -2,75 +2,19 @@ import React, { useContext } from "react";
 import {
   Button,
   Flex,
-  FormControl,
-  FormLabel,
   Heading,
-  Input,
-  Link,
   Stack,
   Image,
   Center,
 } from "@chakra-ui/react";
 import logo from "../../assets/images/logo.png";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signInWithRedirect,
-} from "firebase/auth";
-import { auth, provider } from "../../firebase";
 import { useNavigate } from "react-router-dom";
-// import { AuthContext } from "../../context/AuthContext";
 import wallpaper from "../../assets/images/wallpaper.png";
 import { UserAuth } from "../../context/AuthContext";
 
 export default function Login() {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
   const [isSignUp, setIsSignUp] = React.useState(false);
-  // const { dispatch } = useContext(AuthContext);
-
-  const navigate = useNavigate();
-
-  function handleEmail(e) {
-    e.preventDefault();
-    setEmail(e.target.value);
-  }
-  function handlePassword(e) {
-    e.preventDefault();
-    setPassword(e.target.value);
-  }
-  function handleSubmit(e) {
-    e.preventDefault();
-    // isSignUp ? createUsers() : signIn();
-  }
-  // function createUsers() {
-  //   if (email.endsWith("@uci.edu")) {
-  //     createUserWithEmailAndPassword(auth, email, password)
-  //       .then((userCredential) => {
-  //         const user = userCredential.user;
-  //         navigate(0);
-  //       })
-  //       .catch((error) => {
-  //         alert("EMAIL ALREADY IN USE");
-  //       });
-  //   } else {
-  //     alert("INVALID EMAIL: ONLY FROM UCI");
-  //   }
-  // }
-
-  // async function signIn() {
-  //   await signInWithEmailAndPassword(auth, email, password)
-  //     .then((userCredential) => {
-  //       const user = userCredential.user;
-  //       dispatch({ type: "LOGIN", payload: user });
-  //       navigate("/home");
-  //     })
-  //     .catch((error) => {
-  //       alert("INVALID EMAIL OR PASSWORD");
-  //     });
-  // }
-
-  const { googleSignIn, user } = UserAuth();
+  const { googleSignIn} = UserAuth();
 
   async function signInGoogle() {
     try {
@@ -101,35 +45,6 @@ export default function Login() {
             {isSignUp ? "Create ZotnFound Account" : "Welcome Back Anteater!"}
           </Heading>
           <Button onClick={signInGoogle} colorScheme={"green"} variant={"solid"}>SIGN IN WITH UCI</Button>
-          {/* <form onSubmit={(e) => handleSubmit(e)}>
-            <FormControl id="email">
-              <FormLabel>Email address</FormLabel>
-              <Input type="email" onChange={(e) => handleEmail(e)} />
-            </FormControl>
-            <FormControl id="password">
-              <FormLabel>Password</FormLabel>
-              <Input type="password" onChange={(e) => handlePassword(e)} />
-            </FormControl>
-            <Stack spacing={6}>
-              <Stack
-                direction={{ base: "column", sm: "row" }}
-                align={"start"}
-                justify={"space-between"}
-              ></Stack>
-              {isSignUp ? (
-                <Button colorScheme={"green"} variant={"solid"} type="submit">
-                  Create Account
-                </Button>
-              ) : (
-                <Button colorScheme={"blue"} variant={"solid"} type="submit">
-                  Sign In
-                </Button>
-              )}
-            </Stack>
-          </form>
-          <Link color={"blue.500"} onClick={() => setIsSignUp(!isSignUp)}>
-            {isSignUp ? "Have Account? Sign In" : "No Account? Create One"}
-          </Link> */}
         </Stack>
       </Flex>
       <Flex flex={1}>

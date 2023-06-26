@@ -3,10 +3,6 @@ import Map from "../Map/Map";
 import "./Home.css";
 import Filter from "../Filter/Filter";
 import ResultsBar from "../ResultsBar/ResultsBar";
-import { auth } from "../../firebase";
-import { signOut } from "firebase/auth";
-// import { AuthContext } from "../../context/AuthContext";
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import CreateModal from "../CreateModal/CreateModal";
 import { collection, getDocs } from "firebase/firestore";
@@ -48,7 +44,6 @@ export default function Home() {
 
     return [year, month, day].join("-");
   }
-  // const { dispatch } = useContext(AuthContext);
   const [isEdit, setIsEdit] = useState(false);
   const [isCreate, setIsCreate] = useState(true);
   const [image, setImage] = useState("");
@@ -57,26 +52,11 @@ export default function Home() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [itemDate, setItemDate] = useState(formatDate());
-
-  const navigate = useNavigate();
-
   const centerPosition = [33.6461, -117.8427];
   const [position, setPosition] = useState(centerPosition);
 
-  // const currentUser = JSON.parse(localStorage.getItem("user"));
-  // console.log("current", currentUser)
-
   const handleLogout = async (e) => {
     e.preventDefault();
-    // signOut(auth)
-    //   .then(() => {
-    //     // // Sign-out successful.
-    //     // dispatch({ type: "LOGOUT" });
-    //     navigate("/");
-    //   })
-    //   .catch((error) => {
-    //     // An error happened.
-    //   });
     try {
       await logOut();
     } catch (error) {
