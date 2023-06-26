@@ -5,19 +5,30 @@ import Filter from "../Filter/Filter";
 import ResultsBar from "../ResultsBar/ResultsBar";
 import { auth } from "../../firebase";
 import { signOut } from "firebase/auth";
-import { AuthContext } from "../../context/AuthContext";
+// import { AuthContext } from "../../context/AuthContext";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import CreateModal from "../CreateModal/CreateModal";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
 import instagram from "../../assets/logos/instagram.svg";
+import { UserAuth } from "../../context/AuthContext";
 
-import { Input, InputGroup, InputLeftAddon, Button, Flex, HStack, Text, Image } from "@chakra-ui/react";
+import {
+  Input,
+  InputGroup,
+  InputLeftAddon,
+  Button,
+  Flex,
+  HStack,
+  Text,
+  Image,
+} from "@chakra-ui/react";
 import logo from "../../assets/images/small_logo.png";
 export default function Home() {
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
+  const { user, logOut } = UserAuth();
 
   const [findFilter, setFindFilter] = useState({
     type: "everything",
@@ -37,7 +48,7 @@ export default function Home() {
 
     return [year, month, day].join("-");
   }
-  const { dispatch } = useContext(AuthContext);
+  // const { dispatch } = useContext(AuthContext);
   const [isEdit, setIsEdit] = useState(false);
   const [isCreate, setIsCreate] = useState(true);
   const [image, setImage] = useState("");
@@ -52,19 +63,25 @@ export default function Home() {
   const centerPosition = [33.6461, -117.8427];
   const [position, setPosition] = useState(centerPosition);
 
-  const currentUser = JSON.parse(localStorage.getItem("user"));
+  // const currentUser = JSON.parse(localStorage.getItem("user"));
+  // console.log("current", currentUser)
 
-  const handleLogout = (e) => {
+  const handleLogout = async (e) => {
     e.preventDefault();
-    signOut(auth)
-      .then(() => {
-        // // Sign-out successful.
-        dispatch({ type: "LOGOUT" });
-        navigate("/");
-      })
-      .catch((error) => {
-        // An error happened.
-      });
+    // signOut(auth)
+    //   .then(() => {
+    //     // // Sign-out successful.
+    //     // dispatch({ type: "LOGOUT" });
+    //     navigate("/");
+    //   })
+    //   .catch((error) => {
+    //     // An error happened.
+    //   });
+    try {
+      await logOut();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const compareDates = (a, b) => {
@@ -86,7 +103,7 @@ export default function Home() {
     getData();
   }, []);
 
-  console.log(findFilter);
+  // console.log(findFilter);
 
   return (
     <div>
@@ -94,7 +111,11 @@ export default function Home() {
         <Flex alignItems="center" w="10%">
           <Image width="100px" src={logo} mb="3%" mt="3%" ml="10%" />
           <Text fontSize="3xl" fontWeight="500">
-            <a href="https://www.instagram.com/zotnfound/" target="_blank" rel="noreferrer">
+            <a
+              href="https://www.instagram.com/zotnfound/"
+              target="_blank"
+              rel="noreferrer"
+            >
               @zotnfound&nbsp;
             </a>
           </Text>
@@ -104,15 +125,25 @@ export default function Home() {
         <HStack w="40%">
           <InputGroup ml="12%" mt="1%" size="lg" mb="1%">
             <InputLeftAddon children="🔎" />
-            <Input type="teal" placeholder="Search Items ..." onChange={(e) => setSearch(e.target.value)} />
+            <Input
+              type="teal"
+              placeholder="Search Items ..."
+              onChange={(e) => setSearch(e.target.value)}
+            />
           </InputGroup>
         </HStack>
 
         <HStack mr="1%">
           <Text fontSize="xl" fontWeight="500" mr="4%">
-            {currentUser?.email}
+            {user?.email}
           </Text>
-          <Button colorScheme="blue" size="lg" mt="2%" mr="5%" onClick={handleLogout}>
+          <Button
+            colorScheme="blue"
+            size="lg"
+            mt="2%"
+            mr="5%"
+            onClick={handleLogout}
+          >
             Logout
           </Button>
         </HStack>
@@ -150,7 +181,7 @@ export default function Home() {
           image={image}
           description={description}
           name={name}
-          email={currentUser?.email}
+          email={user?.email}
           setIsEdit={setIsEdit}
           search={search}
           findFilter={findFilter}
@@ -164,7 +195,13 @@ export default function Home() {
           itemDate={itemDate}
           setItemDate={setItemDate}
         />
-        <ResultsBar data={data} search={search} findFilter={findFilter} currentEmail={currentUser?.email} setData={setData} />
+        <ResultsBar
+          data={data}
+          search={search}
+          findFilter={findFilter}
+          currentEmail={user?.email}
+          setData={setData}
+        />
       </div>
     </div>
   );

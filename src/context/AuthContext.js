@@ -1,22 +1,51 @@
-import { createContext, useEffect, useReducer } from 'react'
-import AuthReducer from './AuthReducer'
+import {useContext, createContext} from "react";
+import { GoogleAuthProvider, signInWithRedirect, signOut, onAuthStateChanged, signInWithPopup } from "firebase/auth";
+import { auth } from "../firebase";
+import { useEffect, useState } from "react";
 
-const INITIAL_STATE = {
-  currentUser: JSON.parse(localStorage.getItem('user')) || null
-}
+const AuthContext = createContext();
 
-export const AuthContext = createContext(INITIAL_STATE)
+export const AuthContextProvider = ({children}) => {
 
-export const AuthContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE)
+  const [user, setUser] = useState(null)
 
-  useEffect(() => {
-    localStorage.setItem('user', JSON.stringify(state.currentUser))
-  }, [state.currentUser])
+  const googleSignIn = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithRedirect(auth, provider).then((res) => {
+      if (res.user.email.endsWith("@uci.edu")){
+        setUser(res.user)
+      } else{
+        setUser(null)
+      }console.log(res.user)
+    });
+  }
+
+  console.log("test", user)
+  
+  const logOut = () => {
+    signOut(auth);
+  }
+
+  useEffect(() =>{
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) =>{
+      if (currentUser == null){
+        setUser(null)
+      } else if (currentUser.email.endsWith("@uci.edu")){
+        setUser(currentUser)
+      }
+    });
+    return () =>{
+      unsubscribe();
+    };
+  }, [])
 
   return (
-    <AuthContext.Provider value={{ currentUser: state.currentUser, dispatch }}>
+    <AuthContext.Provider value={{googleSignIn, logOut, user}}>
       {children}
     </AuthContext.Provider>
   )
+}
+
+export const UserAuth = () =>{
+  return useContext(AuthContext)
 }
