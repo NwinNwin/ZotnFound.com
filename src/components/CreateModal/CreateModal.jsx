@@ -153,7 +153,13 @@ export default function CreateModal(props) {
                         >
                           Cancel
                         </Button>
-                        <Button isDisabled={props.image === "" || props.type === "" || props.name === "" || props.description === ""} variant={"solid"} type="submit" colorScheme="green" size="lg">
+                        <Button
+                          isDisabled={props.uploadImg === upload || props.image === "" || props.type === "" || props.name === "" || props.description === ""}
+                          variant={"solid"}
+                          type="submit"
+                          colorScheme="green"
+                          size="lg"
+                        >
                           Continue
                         </Button>
                       </Flex>

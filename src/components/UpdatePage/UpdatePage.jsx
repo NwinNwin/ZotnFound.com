@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Flex, Text, Button } from "@chakra-ui/react";
+import { Flex, Text, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 export default function UpdatePage() {
