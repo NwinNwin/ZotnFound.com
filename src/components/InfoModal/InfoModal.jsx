@@ -2,6 +2,7 @@ import * as React from "react";
 import { Box, Button, Center, Heading, Text, Stack, useColorModeValue, Image, Modal, ModalOverlay, ModalContent, ModalCloseButton, Flex, Tag } from "@chakra-ui/react";
 import { db } from "../../firebase";
 import { doc, deleteDoc } from "firebase/firestore";
+import { formatDate } from "../../utils";
 
 export default function InfoModal({ setData, isOpen, onClose, props, currentEmail }) {
   async function handleDelete() {
@@ -15,6 +16,8 @@ export default function InfoModal({ setData, isOpen, onClose, props, currentEmai
 
     onClose();
   }
+
+  const formattedDate = formatDate(new Date(props.date));
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
@@ -92,7 +95,7 @@ export default function InfoModal({ setData, isOpen, onClose, props, currentEmai
               <Flex>
                 {currentEmail !== props.email && (
                   <Button colorScheme="blue" py="10px">
-                    <a href={`mailto:${props.email}?subject=From ZOT-N-FOUND!&body=${props.isLost ? "I FOUND YOUR ITEM!!" : "THANK YOU FOR FINDING MY ITEM!!"}`} target="_blank" rel="noreferrer">
+                    <a href={`mailto:dangnn1@uci.edu?subject=From ZOT-N-FOUND!&body=${props.isLost ? "I FOUND YOUR ITEM!!" : "THANK YOU FOR FINDING MY ITEM!!"}`} target="_blank" rel="noreferrer">
                       Contact Me
                     </a>
                   </Button>
@@ -104,7 +107,7 @@ export default function InfoModal({ setData, isOpen, onClose, props, currentEmai
                 )}
               </Flex>
 
-              <Text color={"gray.500"}>Posted on {props.date}</Text>
+              <Text color={"gray.500"}>Posted on {formattedDate}</Text>
             </Stack>
           </Box>
         </Center>

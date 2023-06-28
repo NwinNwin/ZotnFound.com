@@ -203,8 +203,7 @@ export default function Map({
   );
 
   async function handleSubmit(image, type, name, description) {
-    const dateObj = new Date();
-    const formattedDate = ("0" + (dateObj.getMonth() + 1)).slice(-2) + "-" + ("0" + dateObj.getDate()).slice(-2) + "-" + dateObj.getFullYear();
+    const date = new Date();
 
     const docRef = await addDoc(collection(db, "items"), {
       image: image,
@@ -215,7 +214,7 @@ export default function Map({
       email: email,
       location: [position.lat, position.lng],
       itemDate: itemDate,
-      date: formattedDate,
+      date: date.toISOString(),
     });
 
     const newItem = {
@@ -226,7 +225,7 @@ export default function Map({
       description: description,
       email: email,
       location: [position.lat, position.lng],
-      date: formattedDate,
+      date: date.toISOString(),
       itemDate: itemDate,
       id: docRef.id,
     };
