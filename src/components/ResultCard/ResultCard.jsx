@@ -2,9 +2,12 @@ import * as React from "react";
 import { Card, CardBody, CardFooter, Image, Stack, Text, Divider, Button, Flex, useDisclosure } from "@chakra-ui/react";
 import { InfoIcon } from "@chakra-ui/icons";
 import InfoModal from "../InfoModal/InfoModal.jsx";
+import { formatDate } from "../../utils.js";
 
 export default function ResultCard({ props, currentEmail, setData }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const formattedDate = formatDate(new Date(props.date));
 
   return (
     <>
@@ -17,7 +20,7 @@ export default function ResultCard({ props, currentEmail, setData }) {
                 {props.name}
               </Text>
               <Text color="blue.600" fontSize="sm">
-                {props.date}
+                {formattedDate}
               </Text>
             </Flex>
           </Stack>

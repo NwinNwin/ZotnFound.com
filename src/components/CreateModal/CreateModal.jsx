@@ -18,7 +18,7 @@ export default function CreateModal(props) {
 
     uploadBytes(imageRef, props.image).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((url) => {
-        console.log(url)
+        console.log(url);
         if (url.includes("https://firebasestorage.googleapis.com/v0/b/zotnfound2.appspot.com/o/zotnfound2%2Fimages%2FNaN")) {
           setUploadImg(upload);
         } else {
@@ -153,7 +153,7 @@ export default function CreateModal(props) {
                         >
                           Cancel
                         </Button>
-                        <Button colorScheme={props.image !== "" && props.type !== "" && props.name !== "" && props.description !== "" ? "green" : "gray"} variant={"solid"} type="submit" size="lg">
+                        <Button isDisabled={props.image === "" || props.type === "" || props.name === "" || props.description === ""} variant={"solid"} type="submit" colorScheme="green" size="lg">
                           Continue
                         </Button>
                       </Flex>
