@@ -257,9 +257,9 @@ export default function Map({
         {!isEdit}
         {!isEdit && allMarkers}
         {isEdit && (
-          <Marker draggable={true} eventHandlers={eventHandlers} position={position} ref={markerRef} icon={othersDrag}>
+          <Marker className="marker" draggable={true} eventHandlers={eventHandlers} position={position} ref={markerRef} icon={othersDrag}>
             <Popup minWidth={90} closeButton={false}>
-              <span onClick={() => toggleDraggable()}>Click to Confirm Location 🤔</span>
+              <span className="popup" onClick={() => toggleDraggable()}>Click to Confirm Location 🤔</span>
             </Popup>
           </Marker>
         )}
