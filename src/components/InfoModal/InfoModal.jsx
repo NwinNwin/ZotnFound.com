@@ -1,10 +1,31 @@
 import * as React from "react";
-import { Box, Button, Center, Heading, Text, Stack, useColorModeValue, Image, Modal, ModalOverlay, ModalContent, ModalCloseButton, Flex, Tag } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Center,
+  Heading,
+  Text,
+  Stack,
+  useColorModeValue,
+  Image,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalCloseButton,
+  Flex,
+  Tag,
+} from "@chakra-ui/react";
 import { db } from "../../firebase";
 import { doc, deleteDoc } from "firebase/firestore";
 import { formatDate } from "../../utils";
 
-export default function InfoModal({ setData, isOpen, onClose, props, currentEmail }) {
+export default function InfoModal({
+  setData,
+  isOpen,
+  onClose,
+  props,
+  currentEmail,
+}) {
   async function handleDelete() {
     await deleteDoc(doc(db, "items", props.id));
     setData((prevItems) => {
@@ -36,30 +57,10 @@ export default function InfoModal({ setData, isOpen, onClose, props, currentEmai
             rounded={"lg"}
             pos={"relative"}
             zIndex={1}
-            marginTop={"30px"}
+            marginTop={"28px"}
+            pt={"0"}
           >
-            <Box
-              rounded={"lg"}
-              mt={-12}
-              pos={"relative"}
-              bgPos={"center"}
-              height={"230px"}
-              _after={{
-                transition: "all .3s ease",
-                content: '""',
-                w: "full",
-                h: "full",
-                pos: "absolute",
-                top: 5,
-                left: 0,
-                zIndex: -1,
-              }}
-              _groupHover={{
-                _after: {
-                  filter: "blur(20px)",
-                },
-              }}
-            >
+            <Stack align={"center"} justifyContent={"center"} gap={"3px"}>
               {currentEmail === props.email ? (
                 <Flex align="center" justifyContent="center">
                   <Tag colorScheme="blue" variant="solid">
@@ -79,35 +80,62 @@ export default function InfoModal({ setData, isOpen, onClose, props, currentEmai
                   </Tag>
                 </Flex>
               )}
-              <Flex justifyContent="center">{props.isLost ? <Text as="b">Lost on {props.itemDate}</Text> : <Text as="b">Found on {props.itemDate}</Text>}</Flex>
-
-              <Center>
-                <Image rounded={"lg"} height={230} width={282} objectFit={"cover"} src={props.image} mt={5} />
-              </Center>
-            </Box>
-            <Stack pt={10} align={"center"}>
-              <Heading mt="20px" fontSize={"3xl"} fontFamily={"body"} fontWeight={"bold"}>
+              <Heading
+                // mt="20px"
+                fontSize={"3xl"}
+                fontFamily={"body"}
+                fontWeight={"bold"}
+              >
                 {props.name}
               </Heading>
-              <Text textAlign="center" color={"gray.500"} fontSize={"md"}>
+              
+              <Image
+                rounded={"lg"}
+                height={230}
+                width={282}
+                objectFit={"cover"}
+                src={props.image}
+              />
+              
+              <Text
+                textAlign="center"
+                color={"gray.500"}
+                fontSize={"md"}
+                overflowY={"auto"}
+                maxHeight={"200"}
+              >
                 {props.description}
               </Text>
-              <Flex>
-                {currentEmail !== props.email && (
-                  <Button colorScheme="blue" py="10px">
-                    <a href={`mailto:dangnn1@uci.edu?subject=From ZOT-N-FOUND!&body=${props.isLost ? "I FOUND YOUR ITEM!!" : "THANK YOU FOR FINDING MY ITEM!!"}`} target="_blank" rel="noreferrer">
-                      Contact Me
-                    </a>
-                  </Button>
-                )}
-                {currentEmail === props.email && (
-                  <Button colorScheme="red" ml="3" px="36px" onClick={handleDelete}>
-                    Delete
-                  </Button>
-                )}
-              </Flex>
-
-              <Text color={"gray.500"}>Posted on {formattedDate}</Text>
+              {currentEmail !== props.email && (
+                <Button colorScheme="blue">
+                  <a
+                    href={`mailto:dangnn1@uci.edu?subject=From ZOT-N-FOUND!&body=${
+                      props.isLost
+                        ? "I FOUND YOUR ITEM!!"
+                        : "THANK YOU FOR FINDING MY ITEM!!"
+                    }`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Contact Me
+                  </a>
+                </Button>
+              )}
+              {currentEmail === props.email && (
+                <Button
+                  colorScheme="red"
+                  px="36px"
+                  onClick={handleDelete}
+                >
+                  Delete
+                </Button>
+              )}
+              {props.isLost ? (
+                <Text as="b">Lost on {props.itemDate}</Text>
+              ) : (
+                <Text as="b">Found on {props.itemDate}</Text>
+              )}
+              <Text color={"gray.500"} >Posted on {formattedDate}</Text>
             </Stack>
           </Box>
         </Center>
