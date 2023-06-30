@@ -46,6 +46,7 @@ export default function Map({
   centerPosition,
   position,
   setPosition,
+  onOpen2,
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [itemData, setItemData] = useState({});
@@ -244,13 +245,13 @@ export default function Map({
       <MapContainer
         style={{
           height: "80vh",
-          width: "55vw",
+          width: "90vw",
           borderRadius: "30px",
           zIndex: "0",
         }}
         center={centerPosition}
         zoom={17}
-        scrollWheelZoom={false}
+        zoomControl={false}
       >
         <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         {!isEdit}

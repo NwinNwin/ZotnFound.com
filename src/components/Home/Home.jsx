@@ -10,12 +10,14 @@ import { db } from "../../firebase";
 import instagram from "../../assets/logos/instagram.svg";
 import { UserAuth } from "../../context/AuthContext";
 
-import { Input, InputGroup, InputLeftAddon, Button, Flex, HStack, Text, Image } from "@chakra-ui/react";
+import { Input, InputGroup, InputLeftAddon, Button, Flex, HStack, Text, Image, useDisclosure } from "@chakra-ui/react";
 import logo from "../../assets/images/small_logo.png";
 export default function Home() {
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
   const { user, logOut } = UserAuth();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [findFilter, setFindFilter] = useState({
     type: "everything",
@@ -108,8 +110,11 @@ export default function Home() {
       </Flex>
       <div className="home">
         {/* <CreateModal /> */}
-        <Flex alignItems="center" display="block">
-          <Filter setFindFilter={setFindFilter} />
+        <Flex alignItems="center" display="block" position="absolute" zIndex={1000}>
+          <Button colorScheme="teal" onClick={onOpen}>
+            Filter
+          </Button>
+          <Filter setFindFilter={setFindFilter} onOpen={onOpen} isOpen={isOpen} onClose={onClose} />
           <CreateModal
             setImage={setImage}
             setDescription={setDescription}
@@ -131,29 +136,35 @@ export default function Home() {
             setItemDate={setItemDate}
           />
         </Flex>
-        <Map
-          data={data}
-          isEdit={isEdit}
-          isLost={isLost}
-          type={type}
-          image={image}
-          description={description}
-          name={name}
-          email={user?.email}
-          setIsEdit={setIsEdit}
-          search={search}
-          findFilter={findFilter}
-          setIsLost={setIsLost}
-          setData={setData}
-          setIsCreate={setIsCreate}
-          isCreate={isCreate}
-          centerPosition={centerPosition}
-          position={position}
-          setPosition={setPosition}
-          itemDate={itemDate}
-          setItemDate={setItemDate}
-        />
-        <ResultsBar data={data} search={search} findFilter={findFilter} currentEmail={user?.email} setData={setData} />
+        <Flex position="absolute">
+          <Map
+            data={data}
+            isEdit={isEdit}
+            isLost={isLost}
+            type={type}
+            image={image}
+            description={description}
+            name={name}
+            email={user?.email}
+            setIsEdit={setIsEdit}
+            search={search}
+            findFilter={findFilter}
+            setIsLost={setIsLost}
+            setData={setData}
+            setIsCreate={setIsCreate}
+            isCreate={isCreate}
+            centerPosition={centerPosition}
+            position={position}
+            setPosition={setPosition}
+            itemDate={itemDate}
+            setItemDate={setItemDate}
+            onOpen2={onOpen}
+          />
+        </Flex>
+
+        <Flex position="absolute" top={0} right={5}>
+          <ResultsBar data={data} search={search} findFilter={findFilter} currentEmail={user?.email} setData={setData} />
+        </Flex>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 .home {
-  display: flex;
+  position: relative;
   /* align-items: center; */
-  justify-content: space-around;
   margin-top: 30px;
+  padding: 0% 3%;
 }
