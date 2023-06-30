@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Switch, Box, Stack, Radio, RadioGroup, Text, Flex, Input, Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton, Button } from "@chakra-ui/react";
 import "./Filter.css";
 
-export default function Filter({ setFindFilter, onClose, isOpen }) {
+export default function Filter({ findFilter, setFindFilter, onClose, isOpen }) {
   const [value, setValue] = useState("everything");
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export default function Filter({ setFindFilter, onClose, isOpen }) {
                   <Switch
                     colorScheme="red"
                     size="lg"
-                    defaultChecked
+                    defaultChecked={findFilter.isLost}
                     onChange={() => {
                       setFindFilter((prev) => ({ ...prev, isLost: !prev.isLost }));
                     }}
@@ -39,10 +39,10 @@ export default function Filter({ setFindFilter, onClose, isOpen }) {
                   <Switch
                     colorScheme="green"
                     size="lg"
-                    defaultChecked
                     onChange={() => {
                       setFindFilter((prev) => ({ ...prev, isFound: !prev.isFound }));
                     }}
+                    defaultChecked={findFilter.isFound}
                   />
                   <Text mb="0px" ml="50px" fontSize="xl">
                     Found
@@ -82,6 +82,7 @@ export default function Filter({ setFindFilter, onClose, isOpen }) {
                   }}
                   mt="10px"
                   type="date"
+                  value={findFilter.uploadDate}
                 />
               </form>
             </Flex>
