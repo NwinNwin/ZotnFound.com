@@ -47,6 +47,7 @@ export default function Home() {
   const [itemDate, setItemDate] = useState(formatDate());
   const centerPosition = [33.6461, -117.8427];
   const [position, setPosition] = useState(centerPosition);
+  const [focusLocation, setFocusLocation] = useState();
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -159,11 +160,12 @@ export default function Home() {
             itemDate={itemDate}
             setItemDate={setItemDate}
             onOpen2={onOpen}
+            focusLocation={focusLocation}
           />
         </Flex>
 
         <Flex position="absolute" top={0} right={5}>
-          <ResultsBar data={data} search={search} findFilter={findFilter} currentEmail={user?.email} setData={setData} />
+          <ResultsBar data={data} search={search} findFilter={findFilter} currentEmail={user?.email} setData={setData} setFocusLocation={setFocusLocation} />
         </Flex>
       </div>
     </div>

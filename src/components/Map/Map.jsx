@@ -20,7 +20,9 @@ import others_red from "../../assets/logos/others_red.svg";
 import others_green from "../../assets/logos/others_green.svg";
 import others_black from "../../assets/logos/others_black.svg";
 
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import fly_img from "../../assets/images/fly_img.png";
+
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { useDisclosure } from "@chakra-ui/react";
 import InfoModal from "../InfoModal/InfoModal";
 
@@ -47,13 +49,10 @@ export default function Map({
   position,
   setPosition,
   onOpen2,
+  focusLocation,
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [itemData, setItemData] = useState({});
-  // const mapUser = L.icon({
-  //   iconUrl: mapuser,
-  //   iconSize: [50, 50],
-  // });
 
   const headphoneLost = L.icon({
     iconUrl: headphone_red,
@@ -109,7 +108,11 @@ export default function Map({
     iconUrl: others_black,
     iconSize: [50, 50],
   });
-  console.log(data);
+
+  const flyImg = L.icon({
+    iconUrl: fly_img,
+    iconSize: [0.01, 0.01],
+  });
 
   const allMarkers = data
     .filter((item) => {
@@ -189,6 +192,13 @@ export default function Map({
       </Marker>
     ));
 
+  function Test({ location }) {
+    const map = useMap();
+    if (location) map.flyTo(location, 18);
+
+    return location ? <Marker position={location} icon={flyImg}></Marker> : null;
+  }
+
   const markerRef = useRef(null);
 
   const eventHandlers = useMemo(
@@ -245,7 +255,7 @@ export default function Map({
       <MapContainer
         style={{
           height: "80vh",
-          width: "90vw",
+          width: "75vw",
           borderRadius: "30px",
           zIndex: "0",
         }}
@@ -254,12 +264,15 @@ export default function Map({
         zoomControl={false}
       >
         <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <Test location={focusLocation} search={search} />
         {!isEdit}
         {!isEdit && allMarkers}
         {isEdit && (
           <Marker className="marker" draggable={true} eventHandlers={eventHandlers} position={position} ref={markerRef} icon={othersDrag}>
             <Popup minWidth={90} closeButton={false}>
-              <span className="popup" onClick={() => toggleDraggable()}>Click to Confirm Location 🤔</span>
+              <span className="popup" onClick={() => toggleDraggable()}>
+                Click to Confirm Location 🤔
+              </span>
             </Popup>
           </Marker>
         )}
