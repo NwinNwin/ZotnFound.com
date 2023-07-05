@@ -50,6 +50,7 @@ export default function Map({
   setPosition,
   onOpen2,
   focusLocation,
+  setFocusLocation,
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [itemData, setItemData] = useState({});
@@ -161,6 +162,7 @@ export default function Map({
           click: () => {
             onOpen();
             setItemData(item);
+            setFocusLocation(item.location);
           },
           mouseover: (event) => !isEdit && event.target.openPopup(),
         }}

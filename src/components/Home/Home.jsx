@@ -161,6 +161,7 @@ export default function Home() {
             setItemDate={setItemDate}
             onOpen2={onOpen}
             focusLocation={focusLocation}
+            setFocusLocation={setFocusLocation}
           />
         </Flex>
 
