@@ -22,7 +22,14 @@ import others_black from "../../assets/logos/others_black.svg";
 
 import fly_img from "../../assets/images/fly_img.png";
 
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMap,
+  Rectangle
+} from "react-leaflet";
 import { useDisclosure } from "@chakra-ui/react";
 import InfoModal from "../InfoModal/InfoModal";
 
@@ -61,6 +68,7 @@ export default function Map({
     [33.630120665484185, -117.82240778293699],
   ];
   const bounds = L.latLngBounds(allowedBounds);
+  console.log(bounds);
 
   const headphoneLost = L.icon({
     iconUrl: headphone_red,
@@ -277,6 +285,31 @@ export default function Map({
       setIsCreate(!isCreate);
     }
   };
+  const redColor = { color: "#880808", fillColor:'None'};
+
+  function SetBoundsRectangles() {
+    const map = useMap();
+
+    const outerHandlers = useMemo(
+      () => ({
+        click() {
+          map.fitBounds(bounds);
+        },
+      }),
+      [map]
+    );
+
+    return (
+      <>
+        <Rectangle
+          bounds={bounds}
+          eventHandlers={outerHandlers}
+          pathOptions={redColor}
+        />
+        
+      </>
+    );
+  }
 
   return (
     <div>
@@ -314,6 +347,7 @@ export default function Map({
             </Popup>
           </Marker>
         )}
+        <SetBoundsRectangles />
       </MapContainer>
       <InfoModal
         props={itemData}
