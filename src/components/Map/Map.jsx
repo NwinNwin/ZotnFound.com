@@ -54,6 +54,13 @@ export default function Map({
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [itemData, setItemData] = useState({});
+  const allowedBounds = [
+    [33.656487295651, -117.85412222020983],
+    [33.65580858123096, -117.82236486775658],
+    [33.63290776411016, -117.85403639000239],
+    [33.630120665484185, -117.82240778293699],
+  ];
+  const bounds = L.latLngBounds(allowedBounds);
 
   const headphoneLost = L.icon({
     iconUrl: headphone_red,
@@ -117,13 +124,18 @@ export default function Map({
 
   const allMarkers = data
     .filter((item) => {
-      return search.toLowerCase() === "" ? item : item.name.toLowerCase().includes(search);
+      return search.toLowerCase() === ""
+        ? item
+        : item.name.toLowerCase().includes(search);
     })
     .filter((item) => {
       if (findFilter.isLost && item.isLost) {
         if (findFilter.type === "everything") {
           return item;
-        } else if (findFilter.type === "headphone" && item.type === "headphone") {
+        } else if (
+          findFilter.type === "headphone" &&
+          item.type === "headphone"
+        ) {
           return item;
         } else if (findFilter.type === "phone" && item.type === "phone") {
           return item;
@@ -138,7 +150,10 @@ export default function Map({
       if (findFilter.isFound && !item.isLost) {
         if (findFilter.type === "everything") {
           return item;
-        } else if (findFilter.type === "headphone" && item.type === "headphone") {
+        } else if (
+          findFilter.type === "headphone" &&
+          item.type === "headphone"
+        ) {
           return item;
         } else if (findFilter.type === "phone" && item.type === "phone") {
           return item;
@@ -153,7 +168,9 @@ export default function Map({
       return;
     })
     .filter((item) => {
-      return findFilter.uploadDate === "" ? item : item.itemDate.includes(findFilter.uploadDate);
+      return findFilter.uploadDate === ""
+        ? item
+        : item.itemDate.includes(findFilter.uploadDate);
     })
     .map((item) => (
       <Marker
@@ -198,7 +215,9 @@ export default function Map({
     const map = useMap();
     if (location) map.flyTo(location, 18);
 
-    return location ? <Marker position={location} icon={flyImg}></Marker> : null;
+    return location ? (
+      <Marker position={location} icon={flyImg}></Marker>
+    ) : null;
   }
 
   const markerRef = useRef(null);
@@ -209,6 +228,7 @@ export default function Map({
         const marker = markerRef.current;
         if (marker != null) {
           setPosition(marker.getLatLng());
+          console.log(position);
         }
       },
     }),
@@ -244,12 +264,18 @@ export default function Map({
     };
     setData((prev) => [...prev, newItem]);
     setPosition(centerPosition);
+    setFocusLocation(newItem.location);
   }
 
   const toggleDraggable = () => {
-    handleSubmit(image, type, name, description);
-    setIsEdit(!isEdit);
-    setIsCreate(!isCreate);
+    if (!bounds.contains(position)) {
+      alert("ITEM OUT OF BOUNDS (UCI ONLY)");
+      return;
+    } else {
+      handleSubmit(image, type, name, description);
+      setIsEdit(!isEdit);
+      setIsCreate(!isCreate);
+    }
   };
 
   return (
@@ -265,12 +291,22 @@ export default function Map({
         zoom={17}
         zoomControl={false}
       >
-        <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        <Test location={focusLocation} search={search} />
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        {!isEdit && <Test location={focusLocation} search={search} />}
         {!isEdit}
         {!isEdit && allMarkers}
         {isEdit && (
-          <Marker className="marker" draggable={true} eventHandlers={eventHandlers} position={position} ref={markerRef} icon={othersDrag}>
+          <Marker
+            className="marker"
+            draggable={true}
+            eventHandlers={eventHandlers}
+            position={position}
+            ref={markerRef}
+            icon={othersDrag}
+          >
             <Popup minWidth={90} closeButton={false}>
               <span className="popup" onClick={() => toggleDraggable()}>
                 Click to Confirm Location 🤔
@@ -279,7 +315,14 @@ export default function Map({
           </Marker>
         )}
       </MapContainer>
-      <InfoModal props={itemData} onOpen={onOpen} onClose={onClose} isOpen={isOpen} currentEmail={email} setData={setData} />
+      <InfoModal
+        props={itemData}
+        onOpen={onOpen}
+        onClose={onClose}
+        isOpen={isOpen}
+        currentEmail={email}
+        setData={setData}
+      />
     </div>
   );
 }
