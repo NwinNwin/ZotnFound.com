@@ -10,7 +10,23 @@ import { db } from "../../firebase";
 import instagram from "../../assets/logos/instagram.svg";
 import { UserAuth } from "../../context/AuthContext";
 
-import { Input, InputGroup, InputLeftAddon, Button, Flex, HStack, Text, Image, useDisclosure } from "@chakra-ui/react";
+import {
+  Input,
+  InputGroup,
+  InputLeftAddon,
+  Button,
+  Flex,
+  HStack,
+  Text,
+  Image,
+  useDisclosure,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverBody,
+  Tooltip,
+  Box,
+} from "@chakra-ui/react";
 import logo from "../../assets/images/small_logo.png";
 export default function Home() {
   const [search, setSearch] = useState("");
@@ -86,36 +102,70 @@ export default function Home() {
         <Flex alignItems="center" w="10%">
           <Image width="100px" src={logo} mb="3%" mt="3%" ml="10%" />
           <Text fontSize="3xl" fontWeight="500">
-            <a href="https://www.instagram.com/zotnfound/" target="_blank" rel="noreferrer">
+            <a
+              href="https://www.instagram.com/zotnfound/"
+              target="_blank"
+              rel="noreferrer"
+            >
               @zotnfound&nbsp;
             </a>
           </Text>
           <Image boxSize="30px" src={instagram} />
-          {/* <Image boxSize='50' src={instagram} /> */}
         </Flex>
-        <HStack w="40%">
-          <InputGroup ml="12%" mt="1%" size="lg" mb="1%">
+
+        <HStack w="45%">
+          <InputGroup mt="1%" size="lg" mb="1%" mr="5%">
             <InputLeftAddon children="🔎" />
-            <Input type="teal" placeholder="Search Items ..." onChange={(e) => setSearch(e.target.value)} />
+            <Input
+              type="teal"
+              placeholder="Search Items ..."
+              onChange={(e) => setSearch(e.target.value)}
+            />
           </InputGroup>
+
+          <Popover isLazy>
+            <PopoverTrigger>
+              <Button>News</Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <PopoverBody>No new updates</PopoverBody>
+            </PopoverContent>
+          </Popover>
         </HStack>
 
         <HStack mr="1%">
           <Text fontSize="xl" fontWeight="500" mr="4%">
             {user?.email}
           </Text>
-          <Button colorScheme="blue" size="lg" mt="2%" mr="5%" onClick={handleLogout}>
+          <Button
+            colorScheme="blue"
+            size="lg"
+            mt="2%"
+            mr="5%"
+            onClick={handleLogout}
+          >
             Logout
           </Button>
         </HStack>
       </Flex>
       <div className="home">
         {/* <CreateModal /> */}
-        <Flex alignItems="center" display="block" position="absolute" zIndex={1000}>
+        <Flex
+          alignItems="center"
+          display="block"
+          position="absolute"
+          zIndex={1000}
+        >
           <Button colorScheme="teal" onClick={onOpen}>
             Filter
           </Button>
-          <Filter setFindFilter={setFindFilter} findFilter={findFilter} onOpen={onOpen} isOpen={isOpen} onClose={onClose} />
+          <Filter
+            setFindFilter={setFindFilter}
+            findFilter={findFilter}
+            onOpen={onOpen}
+            isOpen={isOpen}
+            onClose={onClose}
+          />
           <CreateModal
             setImage={setImage}
             setDescription={setDescription}
@@ -166,7 +216,14 @@ export default function Home() {
         </Flex>
 
         <Flex position="absolute" top={0} right={5}>
-          <ResultsBar data={data} search={search} findFilter={findFilter} currentEmail={user?.email} setData={setData} setFocusLocation={setFocusLocation} />
+          <ResultsBar
+            data={data}
+            search={search}
+            findFilter={findFilter}
+            currentEmail={user?.email}
+            setData={setData}
+            setFocusLocation={setFocusLocation}
+          />
         </Flex>
       </div>
     </div>
