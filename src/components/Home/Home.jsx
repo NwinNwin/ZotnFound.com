@@ -96,6 +96,8 @@ export default function Home() {
 
   // console.log(findFilter);
 
+  
+
   return (
     <div>
       <Flex justifyContent="space-between" shadow="md" alignItems="center">
@@ -114,7 +116,7 @@ export default function Home() {
         </Flex>
 
         <HStack w="45%">
-          <InputGroup mt="1%" size="lg" mb="1%" mr="5%">
+          <InputGroup mt="1%" size="lg" mb="1%">
             <InputLeftAddon children="🔎" />
             <Input
               type="teal"
@@ -123,17 +125,27 @@ export default function Home() {
             />
           </InputGroup>
 
-          <Popover isLazy>
-            <PopoverTrigger>
-              <Button>News</Button>
-            </PopoverTrigger>
-            <PopoverContent>
-              <PopoverBody>No new updates</PopoverBody>
-            </PopoverContent>
-          </Popover>
+          
         </HStack>
 
         <HStack mr="1%">
+        <Popover isLazy>
+            <PopoverTrigger>
+              <Button colorScheme="green">News</Button>
+            </PopoverTrigger>
+            <PopoverContent boxShadow={"2xl"} width="20vw" maxWidth="20vw">
+              <PopoverBody>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti cumque rem aliquam quas obcaecati culpa! Beatae quasi qui mollitia quam quod a, temporibus veritatis reprehenderit eos sint nihil placeat fugiat.Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet mollitia enim perspiciatis magnam aperiam reprehenderit tenetur doloremque facere, neque vel! Voluptatem vero, eveniet harum architecto odit aliquid voluptatibus aliquam inventore.</PopoverBody>
+            </PopoverContent>
+          </Popover>
+
+          <Popover isLazy>
+            <PopoverTrigger>
+              <Button colorScheme="green">About</Button>
+            </PopoverTrigger>
+            <PopoverContent boxShadow={"2xl"} width="20vw" maxWidth="20vw">
+              <PopoverBody>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti cumque rem aliquam quas obcaecati culpa! Beatae quasi qui mollitia quam quod a, temporibus veritatis reprehenderit eos sint nihil placeat fugiat.Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet mollitia enim perspiciatis magnam aperiam reprehenderit tenetur doloremque facere, neque vel! Voluptatem vero, eveniet harum architecto odit aliquid voluptatibus aliquam inventore.</PopoverBody>
+            </PopoverContent>
+          </Popover>
           <Text fontSize="xl" fontWeight="500" mr="4%">
             {user?.email}
           </Text>
