@@ -289,17 +289,7 @@ export default function Map({
 
   return (
     <div>
-      <MapContainer
-        style={{
-          height: "80vh",
-          width: "95vw",
-          borderRadius: "30px",
-          zIndex: "0",
-        }}
-        center={centerPosition}
-        zoom={17}
-        zoomControl={false}
-      >
+      <MapContainer className="map-container" center={centerPosition} zoom={17} zoomControl={false}>
         <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         {!isEdit && <Test location={focusLocation} search={search} />}
         {!isEdit}

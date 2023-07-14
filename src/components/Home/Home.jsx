@@ -12,7 +12,6 @@ import { UserAuth } from "../../context/AuthContext";
 
 import { SettingsIcon } from "@chakra-ui/icons";
 
-
 import { Input, InputGroup, InputLeftAddon, Button, Flex, HStack, Text, Image, useDisclosure } from "@chakra-ui/react";
 import logo from "../../assets/images/small_logo.png";
 export default function Home() {
