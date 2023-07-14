@@ -27,6 +27,7 @@ import {
   Tooltip,
   Box,
 } from "@chakra-ui/react";
+import { SettingsIcon } from "@chakra-ui/icons";
 import logo from "../../assets/images/small_logo.png";
 export default function Home() {
   const [search, setSearch] = useState("");
@@ -101,22 +102,17 @@ export default function Home() {
   return (
     <div>
       <Flex justifyContent="space-between" shadow="md" alignItems="center">
-        <Flex alignItems="center" w="10%">
-          <Image width="100px" src={logo} mb="3%" mt="3%" ml="10%" />
-          <Text fontSize="3xl" fontWeight="500">
-            <a
-              href="https://www.instagram.com/zotnfound/"
-              target="_blank"
-              rel="noreferrer"
-            >
+        <Flex alignItems="center" w={{ base: "20%", md: "10%" }}>
+          <Image width={{ base: "50px", md: "100px" }} src={logo} mb="5%" mt="3%" ml="10%" />
+          <Text fontSize={{ base: "xl", md: "3xl" }} fontWeight="500">
+            <a href="https://www.instagram.com/zotnfound/" target="_blank" rel="noreferrer">
               @zotnfound&nbsp;
             </a>
           </Text>
-          <Image boxSize="30px" src={instagram} />
+          <Image boxSize="30px" src={instagram} display={{ base: "none", md: "block" }} />
         </Flex>
-
-        <HStack w="45%">
-          <InputGroup mt="1%" size="lg" mb="1%">
+        <HStack w={{ base: "100%", md: "40%" }} display={{ base: "none", md: "block" }}>
+          <InputGroup ml={{ base: "5%", md: "12%" }} mt="1%" size={{ base: "md", md: "lg" }} mb="1%">
             <InputLeftAddon children="🔎" />
             <Input
               type="teal"
@@ -146,12 +142,12 @@ export default function Home() {
               <PopoverBody>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti cumque rem aliquam quas obcaecati culpa! Beatae quasi qui mollitia quam quod a, temporibus veritatis reprehenderit eos sint nihil placeat fugiat.Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet mollitia enim perspiciatis magnam aperiam reprehenderit tenetur doloremque facere, neque vel! Voluptatem vero, eveniet harum architecto odit aliquid voluptatibus aliquam inventore.</PopoverBody>
             </PopoverContent>
           </Popover>
-          <Text fontSize="xl" fontWeight="500" mr="4%">
+          <Text fontSize={{ base: "sm", md: "xl" }} fontWeight="500" mr={{ base: "1%", md: "4%" }}>
             {user?.email}
           </Text>
           <Button
             colorScheme="blue"
-            size="lg"
+            size={{ base: "sm", md: "lg" }}
             mt="2%"
             mr="5%"
             onClick={handleLogout}
@@ -160,16 +156,29 @@ export default function Home() {
           </Button>
         </HStack>
       </Flex>
-      <div className="home">
+
+      {/* Mobile Search */}
+      <Flex w="100%" display={{ base: "flex", md: "none" }} justifyContent="center" alignItems="center">
+        <Flex width="95%">
+          <InputGroup mt="3%" size={{ base: "md", md: "lg" }} mb="1%">
+            <InputLeftAddon children="🔎" />
+            <Input type="teal" placeholder="Search Items ..." onChange={(e) => setSearch(e.target.value)} />
+          </InputGroup>
+        </Flex>
+      </Flex>
+      <Flex position="relative" marginTop="2%" px="2%">
         {/* <CreateModal /> */}
         <Flex
-          alignItems="center"
-          display="block"
+          width={{ base: "95vw", md: "10vw" }}
+          height={{ md: "80vh" }}
+          padding={{ base: 0, md: 5 }}
           position="absolute"
           zIndex={1000}
+          flexDirection={{ base: "row", md: "column" }}
+          justifyContent="space-between"
         >
-          <Button colorScheme="teal" onClick={onOpen}>
-            Filter
+          <Button colorScheme="teal" onClick={onOpen} fontSize="3xl" size="lg">
+            <SettingsIcon />
           </Button>
           <Filter
             setFindFilter={setFindFilter}
@@ -226,18 +235,10 @@ export default function Home() {
             setFocusLocation={setFocusLocation}
           />
         </Flex>
-
-        <Flex position="absolute" top={0} right={5}>
-          <ResultsBar
-            data={data}
-            search={search}
-            findFilter={findFilter}
-            currentEmail={user?.email}
-            setData={setData}
-            setFocusLocation={setFocusLocation}
-          />
+        <Flex position="absolute" top={0} right={5} display={{ base: "none", md: "flex" }}>
+          <ResultsBar data={data} search={search} findFilter={findFilter} currentEmail={user?.email} setData={setData} setFocusLocation={setFocusLocation} />
         </Flex>
-      </div>
+      </Flex>
     </div>
   );
 }

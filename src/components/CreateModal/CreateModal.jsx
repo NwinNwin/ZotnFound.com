@@ -5,6 +5,7 @@ import { Image, Stack, Heading, Button, Flex, FormLabel, Input, Switch, useDiscl
 import upload from "../../assets/images/download.png";
 import { storage } from "../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { AddIcon } from "@chakra-ui/icons";
 
 export default function CreateModal(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -32,34 +33,32 @@ export default function CreateModal(props) {
     <>
       {props.isCreate ? (
         <Button
-          mt="20px"
-          h="20%"
-          w="100%"
+          h={{ base: "10vh", md: "15vh" }}
+          w={{ base: "10vh", md: "15vh" }}
           _hover={{ bg: "#b4dbd9" }}
           backgroundColor="#61b895"
           color="white"
           fontSize="4xl"
           fontWeight="bold"
-          borderRadius="20px"
+          borderRadius={{ base: 10, md: "100%" }}
           onClick={() => {
             onOpen();
             props.setIsLost(true);
             props.setIsEdit(!props.isEdit);
           }}
         >
-          +
+          <AddIcon />
         </Button>
       ) : (
         <Button
-          mt="20px"
-          h="20%"
-          w="100%"
+          h={{ base: "10vh", md: "15vh" }}
+          w={{ base: "10vh", md: "15vh" }}
           _hover={{ bg: "#F4C2C2" }}
           backgroundColor="#B31B1B"
           color="white"
-          fontSize="4xl"
+          fontSize="2xl"
           fontWeight="bold"
-          borderRadius="20px"
+          borderRadius={{ base: 10, md: "100%" }}
           onClick={() => {
             props.setIsEdit(!props.isEdit);
             props.setIsLost(true);
