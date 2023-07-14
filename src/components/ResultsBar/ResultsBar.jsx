@@ -59,7 +59,7 @@ export default function ResultsBar({ data, search, findFilter, currentEmail, set
     });
 
   return (
-    <Box paddingX="5px" width="20vw" height="80vh" overflowY="scroll">
+    <Box paddingX="5px" width="21vw" height="80vh" overflowY="scroll">
       {allResults}
     </Box>
   );

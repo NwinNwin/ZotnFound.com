@@ -1,6 +1,7 @@
 import React from "react";
 import { Flex, Text, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
 export default function UpdatePage() {
   const navigate = useNavigate();
@@ -45,6 +46,18 @@ export default function UpdatePage() {
         </Flex>
       </Flex>
       <Button onClick={handleClick}>Back </Button>
+
+      <PanelGroup direction="horizontal">
+        <Panel defaultSize={20} minSize={20}>
+          left
+        </Panel>
+        <PanelResizeHandle />
+        <Panel minSize={30}>middle</Panel>
+        <PanelResizeHandle />
+        <Panel defaultSize={20} minSize={20}>
+          right
+        </Panel>
+      </PanelGroup>
     </>
   );
 }
