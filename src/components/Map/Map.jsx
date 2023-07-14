@@ -22,14 +22,7 @@ import others_black from "../../assets/logos/others_black.svg";
 
 import fly_img from "../../assets/images/fly_img.png";
 
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  useMap,
-  Rectangle
-} from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap, Rectangle } from "react-leaflet";
 import { useDisclosure } from "@chakra-ui/react";
 import InfoModal from "../InfoModal/InfoModal";
 
@@ -132,18 +125,13 @@ export default function Map({
 
   const allMarkers = data
     .filter((item) => {
-      return search.toLowerCase() === ""
-        ? item
-        : item.name.toLowerCase().includes(search);
+      return search.toLowerCase() === "" ? item : item.name.toLowerCase().includes(search);
     })
     .filter((item) => {
       if (findFilter.isLost && item.isLost) {
         if (findFilter.type === "everything") {
           return item;
-        } else if (
-          findFilter.type === "headphone" &&
-          item.type === "headphone"
-        ) {
+        } else if (findFilter.type === "headphone" && item.type === "headphone") {
           return item;
         } else if (findFilter.type === "phone" && item.type === "phone") {
           return item;
@@ -158,10 +146,7 @@ export default function Map({
       if (findFilter.isFound && !item.isLost) {
         if (findFilter.type === "everything") {
           return item;
-        } else if (
-          findFilter.type === "headphone" &&
-          item.type === "headphone"
-        ) {
+        } else if (findFilter.type === "headphone" && item.type === "headphone") {
           return item;
         } else if (findFilter.type === "phone" && item.type === "phone") {
           return item;
@@ -176,9 +161,7 @@ export default function Map({
       return;
     })
     .filter((item) => {
-      return findFilter.uploadDate === ""
-        ? item
-        : item.itemDate.includes(findFilter.uploadDate);
+      return findFilter.uploadDate === "" ? item : item.itemDate.includes(findFilter.uploadDate);
     })
     .map((item) => (
       <Marker
@@ -223,9 +206,7 @@ export default function Map({
     const map = useMap();
     if (location) map.flyTo(location, 18);
 
-    return location ? (
-      <Marker position={location} icon={flyImg}></Marker>
-    ) : null;
+    return location ? <Marker position={location} icon={flyImg}></Marker> : null;
   }
 
   const markerRef = useRef(null);
@@ -285,7 +266,7 @@ export default function Map({
       setIsCreate(!isCreate);
     }
   };
-  const redColor = { color: "#880808", fillColor:'None'};
+  const redColor = { color: "#880808", fillColor: "None" };
 
   function SetBoundsRectangles() {
     const map = useMap();
@@ -301,12 +282,7 @@ export default function Map({
 
     return (
       <>
-        <Rectangle
-          bounds={bounds}
-          eventHandlers={outerHandlers}
-          pathOptions={redColor}
-        />
-        
+        <Rectangle bounds={bounds} eventHandlers={outerHandlers} pathOptions={redColor} />
       </>
     );
   }
@@ -316,7 +292,7 @@ export default function Map({
       <MapContainer
         style={{
           height: "80vh",
-          width: "75vw",
+          width: "95vw",
           borderRadius: "30px",
           zIndex: "0",
         }}
@@ -324,22 +300,12 @@ export default function Map({
         zoom={17}
         zoomControl={false}
       >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+        <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         {!isEdit && <Test location={focusLocation} search={search} />}
         {!isEdit}
         {!isEdit && allMarkers}
         {isEdit && (
-          <Marker
-            className="marker"
-            draggable={true}
-            eventHandlers={eventHandlers}
-            position={position}
-            ref={markerRef}
-            icon={othersDrag}
-          >
+          <Marker className="marker" draggable={true} eventHandlers={eventHandlers} position={position} ref={markerRef} icon={othersDrag}>
             <Popup minWidth={90} closeButton={false}>
               <span className="popup" onClick={() => toggleDraggable()}>
                 Click to Confirm Location 🤔
@@ -349,14 +315,7 @@ export default function Map({
         )}
         <SetBoundsRectangles />
       </MapContainer>
-      <InfoModal
-        props={itemData}
-        onOpen={onOpen}
-        onClose={onClose}
-        isOpen={isOpen}
-        currentEmail={email}
-        setData={setData}
-      />
+      <InfoModal props={itemData} onOpen={onOpen} onClose={onClose} isOpen={isOpen} currentEmail={email} setData={setData} />
     </div>
   );
 }
