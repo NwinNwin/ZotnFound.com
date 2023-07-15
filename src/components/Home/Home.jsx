@@ -9,7 +9,6 @@ import { collection, query, orderBy, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
 import instagram from "../../assets/logos/instagram.svg";
 import { UserAuth } from "../../context/AuthContext";
-
 import {
   Input,
   InputGroup,
@@ -24,10 +23,21 @@ import {
   PopoverTrigger,
   PopoverContent,
   PopoverBody,
-  Tooltip,
+  Menu,
+  MenuButton,
+  Portal,
+  MenuList,
+  MenuItem,
   Box,
+  PopoverArrow,
+  Link,
 } from "@chakra-ui/react";
-import { SettingsIcon } from "@chakra-ui/icons";
+import {
+  SettingsIcon,
+  TriangleDownIcon,
+  PhoneIcon,
+  ChevronDownIcon,
+} from "@chakra-ui/icons";
 import logo from "../../assets/images/small_logo.png";
 export default function Home() {
   const [search, setSearch] = useState("");
@@ -97,22 +107,101 @@ export default function Home() {
 
   // console.log(findFilter);
 
-  
-
   return (
     <div>
       <Flex justifyContent="space-between" shadow="md" alignItems="center">
         <Flex alignItems="center" w={{ base: "20%", md: "10%" }}>
-          <Image width={{ base: "50px", md: "100px" }} src={logo} mb="5%" mt="3%" ml="10%" />
-          <Text fontSize={{ base: "xl", md: "3xl" }} fontWeight="500">
+          <Image
+            width={{ base: "50px", md: "100px" }}
+            src={logo}
+            mb="5%"
+            mt="3%"
+            ml="10%"
+          />
+          {/* <Text fontSize={{ base: "xl", md: "3xl" }} fontWeight="500">
             <a href="https://www.instagram.com/zotnfound/" target="_blank" rel="noreferrer">
               @zotnfound&nbsp;
             </a>
-          </Text>
-          <Image boxSize="30px" src={instagram} display={{ base: "none", md: "block" }} />
+          </Text> */}
+          <Box>
+            <Menu autoSelect={false}>
+              <MenuButton
+                as={Button}
+                fontSize={{ base: "xl", md: "3xl" }}
+                fontWeight="500"
+                rightIcon={<ChevronDownIcon />}
+                bg={"white"}
+              >
+                ZotnFound
+              </MenuButton>
+              <Portal>
+                <MenuList zIndex={1000}>
+                  <MenuItem closeOnSelect={false}>
+                    <Popover placement="right-start">
+                      <PopoverTrigger>
+                        <Button width="100%" colorScheme="gray">
+                          News
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent
+                        boxShadow={"2xl"}
+                        width="20vw"
+                        maxWidth="20vw"
+                      >
+                        <PopoverArrow />
+                        <PopoverBody>
+                          <Flex justifyContent={"center"} alignItems={"center"}>
+                            No updates currently!
+                          </Flex>
+                        </PopoverBody>
+                      </PopoverContent>
+                    </Popover>
+                  </MenuItem>
+                  <MenuItem closeOnSelect={false}>
+                    <Popover placement="right-start">
+                      <PopoverTrigger>
+                        <Button width="100%" colorScheme="gray">
+                          About
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent
+                        boxShadow={"2xl"}
+                        width="20vw"
+                        maxWidth="20vw"
+                      >
+                        <PopoverArrow />
+                        <PopoverBody>
+                          <Flex justifyContent={"center"} alignItems={"center"}>
+                            <p>
+                              Keep up with our{" "}
+                              <Link
+                                href="https://www.instagram.com/zotnfound/"
+                                color="#305db7"
+                              >
+                                Instagram
+                                <span></span>
+                              </Link>
+                            </p>
+                            <Image
+                              boxSize="20px"
+                              src={instagram}
+                              display={{ base: "none", md: "block" }}
+                            />
+                          </Flex>
+                        </PopoverBody>
+                      </PopoverContent>
+                    </Popover>
+                  </MenuItem>
+                </MenuList>
+              </Portal>
+            </Menu>
+          </Box>
         </Flex>
-        <HStack w={{ base: "100%", md: "40%" }} display={{ base: "none", md: "block" }}>
-          <InputGroup ml={{ base: "5%", md: "12%" }} mt="1%" size={{ base: "md", md: "lg" }} mb="1%">
+        <HStack
+          w={{ base: "100%", md: "40%" }}
+          display={{ base: "none", md: "block" }}
+        >
+          <InputGroup mt="1%" size={{ base: "md", md: "lg" }} mb="1%">
             <InputLeftAddon children="🔎" />
             <Input
               type="teal"
@@ -120,29 +209,14 @@ export default function Home() {
               onChange={(e) => setSearch(e.target.value)}
             />
           </InputGroup>
-
-          
         </HStack>
 
         <HStack mr="1%">
-        <Popover isLazy>
-            <PopoverTrigger>
-              <Button colorScheme="green">News</Button>
-            </PopoverTrigger>
-            <PopoverContent boxShadow={"2xl"} width="20vw" maxWidth="20vw">
-              <PopoverBody>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti cumque rem aliquam quas obcaecati culpa! Beatae quasi qui mollitia quam quod a, temporibus veritatis reprehenderit eos sint nihil placeat fugiat.Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet mollitia enim perspiciatis magnam aperiam reprehenderit tenetur doloremque facere, neque vel! Voluptatem vero, eveniet harum architecto odit aliquid voluptatibus aliquam inventore.</PopoverBody>
-            </PopoverContent>
-          </Popover>
-
-          <Popover isLazy>
-            <PopoverTrigger>
-              <Button colorScheme="green">About</Button>
-            </PopoverTrigger>
-            <PopoverContent boxShadow={"2xl"} width="20vw" maxWidth="20vw">
-              <PopoverBody>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deleniti cumque rem aliquam quas obcaecati culpa! Beatae quasi qui mollitia quam quod a, temporibus veritatis reprehenderit eos sint nihil placeat fugiat.Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet mollitia enim perspiciatis magnam aperiam reprehenderit tenetur doloremque facere, neque vel! Voluptatem vero, eveniet harum architecto odit aliquid voluptatibus aliquam inventore.</PopoverBody>
-            </PopoverContent>
-          </Popover>
-          <Text fontSize={{ base: "sm", md: "xl" }} fontWeight="500" mr={{ base: "1%", md: "4%" }}>
+          <Text
+            fontSize={{ base: "sm", md: "xl" }}
+            fontWeight="500"
+            mr={{ base: "1%", md: "4%" }}
+          >
             {user?.email}
           </Text>
           <Button
@@ -158,11 +232,20 @@ export default function Home() {
       </Flex>
 
       {/* Mobile Search */}
-      <Flex w="100%" display={{ base: "flex", md: "none" }} justifyContent="center" alignItems="center">
+      <Flex
+        w="100%"
+        display={{ base: "flex", md: "none" }}
+        justifyContent="center"
+        alignItems="center"
+      >
         <Flex width="95%">
           <InputGroup mt="3%" size={{ base: "md", md: "lg" }} mb="1%">
             <InputLeftAddon children="🔎" />
-            <Input type="teal" placeholder="Search Items ..." onChange={(e) => setSearch(e.target.value)} />
+            <Input
+              type="teal"
+              placeholder="Search Items ..."
+              onChange={(e) => setSearch(e.target.value)}
+            />
           </InputGroup>
         </Flex>
       </Flex>
@@ -235,8 +318,20 @@ export default function Home() {
             setFocusLocation={setFocusLocation}
           />
         </Flex>
-        <Flex position="absolute" top={0} right={5} display={{ base: "none", md: "flex" }}>
-          <ResultsBar data={data} search={search} findFilter={findFilter} currentEmail={user?.email} setData={setData} setFocusLocation={setFocusLocation} />
+        <Flex
+          position="absolute"
+          top={0}
+          right={5}
+          display={{ base: "none", md: "flex" }}
+        >
+          <ResultsBar
+            data={data}
+            search={search}
+            findFilter={findFilter}
+            currentEmail={user?.email}
+            setData={setData}
+            setFocusLocation={setFocusLocation}
+          />
         </Flex>
       </Flex>
     </div>
