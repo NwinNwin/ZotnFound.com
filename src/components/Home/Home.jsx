@@ -3,7 +3,6 @@ import Map from "../Map/Map";
 import "./Home.css";
 import Filter from "../Filter/Filter";
 import ResultsBar from "../ResultsBar/ResultsBar";
-import { useNavigate } from "react-router-dom";
 import CreateModal from "../CreateModal/CreateModal";
 import { collection, query, orderBy, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
@@ -19,26 +18,13 @@ import {
   Text,
   Image,
   useDisclosure,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverBody,
   Menu,
   MenuButton,
-  Portal,
   MenuList,
   MenuItem,
-  Box,
-  PopoverArrow,
-  Link,
   Stack,
 } from "@chakra-ui/react";
-import {
-  SettingsIcon,
-  TriangleDownIcon,
-  PhoneIcon,
-  ChevronDownIcon,
-} from "@chakra-ui/icons";
+import { SettingsIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import logo from "../../assets/images/small_logo.png";
 export default function Home() {
   const [search, setSearch] = useState("");
@@ -179,111 +165,6 @@ export default function Home() {
               </MenuItem>
             </MenuList>
           </Menu>
-          {/* <Text fontSize={{ base: "xl", md: "3xl" }} fontWeight="500">
-            <a href="https://www.instagram.com/zotnfound/" target="_blank" rel="noreferrer">
-              @zotnfound&nbsp;
-            </a>
-          </Text> */}
-          {/* <Box className="smal">
-            <Menu autoSelect={false} width={{ base: "50px", md: "100px" }}>
-              <MenuButton
-                as={Button}
-                fontSize={{ base: "xl", md: "3xl" }}
-                fontWeight="500"
-                rightIcon={<ChevronDownIcon />}
-                bg={"white"}
-              >
-                ZotnFound
-              </MenuButton>
-              <Portal>
-                <MenuList zIndex={1000}>
-                  <MenuItem closeOnSelect={false}>
-                    <Popover placement="right-start">
-                      <PopoverTrigger>
-                        <Button width="100%" colorScheme="gray">
-                          Instagram{" "}
-                          <Image
-                            src={instagram}
-                            maxWidth="70%"
-                            maxHeight="70%"
-                            ml="5%"
-                          ></Image>
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent
-                        boxShadow={"2xl"}
-                        width="20vw"
-                        maxWidth="20vw"
-                      >
-                        <PopoverArrow />
-                        <PopoverBody>
-                          <Flex justifyContent={"center"} alignItems={"center"}>
-                            No updates currently!
-                          </Flex>
-                        </PopoverBody>
-                      </PopoverContent>
-                    </Popover>
-                  </MenuItem>
-                  <MenuItem closeOnSelect={false}>
-                    <Popover placement="right-start">
-                      <PopoverTrigger>
-                        <Button width="100%" colorScheme="gray">
-                          News
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent
-                        boxShadow={"2xl"}
-                        width="20vw"
-                        maxWidth="20vw"
-                      >
-                        <PopoverArrow />
-                        <PopoverBody>
-                          <Flex justifyContent={"center"} alignItems={"center"}>
-                            No updates currently!
-                          </Flex>
-                        </PopoverBody>
-                      </PopoverContent>
-                    </Popover>
-                  </MenuItem>
-                  <MenuItem closeOnSelect={false}>
-                    <Popover placement="right-start">
-                      <PopoverTrigger>
-                        <Button width="100%" colorScheme="gray">
-                          About
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent
-                        boxShadow={"2xl"}
-                        width="20vw"
-                        maxWidth="20vw"
-                      >
-                        <PopoverArrow />
-                        <PopoverBody>
-                          <Flex justifyContent={"center"} alignItems={"center"}>
-                            <p>
-                              Keep up with our{" "}
-                              <Link
-                                href="https://www.instagram.com/zotnfound/"
-                                color="#305db7"
-                              >
-                                Instagram
-                                <span></span>
-                              </Link>
-                            </p>
-                            <Image
-                              boxSize="20px"
-                              src={instagram}
-                              display={{ base: "none", md: "block" }}
-                            />
-                          </Flex>
-                        </PopoverBody>
-                      </PopoverContent>
-                    </Popover>
-                  </MenuItem>
-                </MenuList>
-              </Portal>
-            </Menu>
-          </Box> */}
         </Flex>
         <HStack
           w={{ base: "100%", md: "40%" }}
