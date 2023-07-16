@@ -31,6 +31,7 @@ import {
   Box,
   PopoverArrow,
   Link,
+  Stack,
 } from "@chakra-ui/react";
 import {
   SettingsIcon,
@@ -75,6 +76,7 @@ export default function Home() {
   const centerPosition = [33.6461, -117.8427];
   const [position, setPosition] = useState(centerPosition);
   const [focusLocation, setFocusLocation] = useState();
+  const [screenWidth, setScreenWidth] = useState(window.screen.width);
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -106,25 +108,84 @@ export default function Home() {
   }, []);
 
   // console.log(findFilter);
+  window.onresize = () => {
+    setScreenWidth(window.screen.width);
+    console.log(screenWidth);
+  };
 
   return (
     <div>
-      <Flex justifyContent="space-between" shadow="md" alignItems="center">
-        <Flex alignItems="center" w={{ base: "20%", md: "10%" }}>
+      <Flex
+        justifyContent="space-between"
+        shadow="md"
+        alignItems="center"
+        className="big"
+      >
+        <Flex
+          alignItems="center"
+          w={{ base: "20%", md: "20%" }}
+          className="med"
+          minWidth={{ base: "125px", md: "315px" }}
+        >
           <Image
             width={{ base: "50px", md: "100px" }}
             src={logo}
             mb="5%"
             mt="3%"
             ml="10%"
+            display={screenWidth < 350 ? "None" : "inline"}
           />
+          <Menu autoSelect={false}>
+            <MenuButton
+              as={Button}
+              rightIcon={<ChevronDownIcon />}
+              w={{ base: "sm", md: "lg" }}
+              minWidth={{ base: "120px", md: "180px" }}
+              mr="1%"
+              fontSize={{ base: "sm", md: "2xl" }}
+            >
+              ZotnFound
+            </MenuButton>
+            <MenuList zIndex={10000}>
+              <MenuItem
+                alignItems={"center"}
+                justifyContent={"center"}
+                as={"a"}
+                href="/update"
+              >
+                News
+              </MenuItem>
+              <MenuItem
+                alignItems={"center"}
+                justifyContent={"center"}
+                as={"a"}
+                href="/about"
+              >
+                About
+              </MenuItem>
+              <MenuItem
+                alignItems={"center"}
+                justifyContent={"center"}
+                as={"a"}
+                href="https://www.instagram.com/zotnfound/"
+              >
+                @ZotnFound
+                <Image
+                  src={instagram}
+                  maxWidth="10%"
+                  maxHeight="10%"
+                  ml="5%"
+                ></Image>
+              </MenuItem>
+            </MenuList>
+          </Menu>
           {/* <Text fontSize={{ base: "xl", md: "3xl" }} fontWeight="500">
             <a href="https://www.instagram.com/zotnfound/" target="_blank" rel="noreferrer">
               @zotnfound&nbsp;
             </a>
           </Text> */}
-          <Box>
-            <Menu autoSelect={false}>
+          {/* <Box className="smal">
+            <Menu autoSelect={false} width={{ base: "50px", md: "100px" }}>
               <MenuButton
                 as={Button}
                 fontSize={{ base: "xl", md: "3xl" }}
@@ -136,6 +197,33 @@ export default function Home() {
               </MenuButton>
               <Portal>
                 <MenuList zIndex={1000}>
+                  <MenuItem closeOnSelect={false}>
+                    <Popover placement="right-start">
+                      <PopoverTrigger>
+                        <Button width="100%" colorScheme="gray">
+                          Instagram{" "}
+                          <Image
+                            src={instagram}
+                            maxWidth="70%"
+                            maxHeight="70%"
+                            ml="5%"
+                          ></Image>
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent
+                        boxShadow={"2xl"}
+                        width="20vw"
+                        maxWidth="20vw"
+                      >
+                        <PopoverArrow />
+                        <PopoverBody>
+                          <Flex justifyContent={"center"} alignItems={"center"}>
+                            No updates currently!
+                          </Flex>
+                        </PopoverBody>
+                      </PopoverContent>
+                    </Popover>
+                  </MenuItem>
                   <MenuItem closeOnSelect={false}>
                     <Popover placement="right-start">
                       <PopoverTrigger>
@@ -195,7 +283,7 @@ export default function Home() {
                 </MenuList>
               </Portal>
             </Menu>
-          </Box>
+          </Box> */}
         </Flex>
         <HStack
           w={{ base: "100%", md: "40%" }}
@@ -211,11 +299,18 @@ export default function Home() {
           </InputGroup>
         </HStack>
 
-        <HStack mr="1%">
+        <Stack
+          mr="1%"
+          direction={{ base: "column", md: "row" }}
+          paddingRight={"1%"}
+          width={"fit-content"}
+          // minWidth={"50px"}
+        >
           <Text
             fontSize={{ base: "sm", md: "xl" }}
             fontWeight="500"
             mr={{ base: "1%", md: "4%" }}
+            width={"10em"}
           >
             {user?.email}
           </Text>
@@ -228,7 +323,7 @@ export default function Home() {
           >
             Logout
           </Button>
-        </HStack>
+        </Stack>
       </Flex>
 
       {/* Mobile Search */}
