@@ -110,7 +110,6 @@ export default function Home() {
   // console.log(findFilter);
   window.onresize = () => {
     setScreenWidth(window.screen.width);
-    console.log(screenWidth);
   };
 
   return (
