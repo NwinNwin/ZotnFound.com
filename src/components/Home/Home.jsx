@@ -124,14 +124,31 @@ export default function Home() {
             <MenuButton
               as={Button}
               rightIcon={<ChevronDownIcon />}
-              w={{ base: "sm", md: "lg" }}
-              minWidth={{ base: "120px", md: "180px" }}
-              mr="1%"
-              fontSize={{ base: "sm", md: "2xl" }}
+              size={{ base: "4xl", md: "4xl" }}
+              ml="3%"
+              fontSize={{ base: "xl", md: "4xl" }}
+              background="white"
+              justifyContent="center"
+              alignItems="center"
+              padding={2}
             >
               ZotnFound
             </MenuButton>
             <MenuList zIndex={10000}>
+              <MenuItem
+                alignItems={"center"}
+                justifyContent={"center"}
+                as={"a"}
+                href="https://www.instagram.com/zotnfound/"
+              >
+                @ZotnFound
+                <Image
+                  src={instagram}
+                  maxWidth="10%"
+                  maxHeight="10%"
+                  ml="5%"
+                ></Image>
+              </MenuItem>
               <MenuItem
                 alignItems={"center"}
                 justifyContent={"center"}
@@ -147,20 +164,6 @@ export default function Home() {
                 href="/about"
               >
                 About
-              </MenuItem>
-              <MenuItem
-                alignItems={"center"}
-                justifyContent={"center"}
-                as={"a"}
-                href="https://www.instagram.com/zotnfound/"
-              >
-                @ZotnFound
-                <Image
-                  src={instagram}
-                  maxWidth="10%"
-                  maxHeight="10%"
-                  ml="5%"
-                ></Image>
               </MenuItem>
             </MenuList>
           </Menu>
