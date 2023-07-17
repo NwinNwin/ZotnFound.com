@@ -1,63 +1,119 @@
-import React from "react";
-import { Flex, Text, Button } from "@chakra-ui/react";
+import { React, useState } from "react";
+import {
+  Flex,
+  Text,
+  Button,
+  Stack,
+  Image,
+  List,
+  ListItem,
+  ListIcon,
+  Icon,
+} from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import { ChevronRightIcon, ArrowBackIcon } from "@chakra-ui/icons";
+import instagram from "../../assets/logos/instagram.svg";
+import { SiInstagram } from "react-icons/si";
 
 export default function UpdatePage() {
   const navigate = useNavigate();
+  const [screenWidth, setScreenWidth] = useState(window.screen.width);
 
   const handleClick = () => {
     navigate("/");
   };
 
+  window.onresize = () => {
+    setScreenWidth(window.screen.width);
+  };
+
   return (
-    <>
-      <Text fontSize="3rem" as="b">
-        Update Page
-      </Text>
-      <Flex justifyContent="center" height="70vh" mt="1%">
-        <Flex background="#f7f7f7" width="50vw" borderRadius="30px" justifyContent="center" alignItems="center" flexDir="column" gap={20}>
-          <Flex background="lightblue" width="70%" height="10%" borderRadius="10px" flexDir="column">
-            <Text fontSize="3xl" color="navy" as="b">
-              We're working on this shit
+    <Stack alignItems="center" h="100vh">
+      <Stack
+        marginBottom="2%"
+        direction={{ base: "column", md: "column", lg: "row" }}
+        alignItems={"center"}
+        justifyContent={"space-between"}
+        w="100vw"
+      >
+        <Flex display={screenWidth < 992 ? "none" : "block"} marginLeft={10}>
+          <Button onClick={handleClick} visibility={"hidden"}>
+            <Icon as={ArrowBackIcon} marginRight={"2%"} />
+            Return Home{" "}
+          </Button>
+        </Flex>
+        <Flex textAlign={"center"}>
+          <Text fontSize={{ base: "2rem", md: "3rem" }} as="b">
+            ZotnFound Updates
+          </Text>
+        </Flex>
+        <Flex>
+          <Button onClick={handleClick} marginRight={{ lg: 10 }}>
+            <Icon as={ArrowBackIcon} marginRight={"2%"} />
+            Return Home{" "}
+          </Button>
+        </Flex>
+      </Stack>
+      <Flex direction="column">
+        <Flex
+          direction={"column"}
+          minH={"80vh"}
+          w={{ base: "90vw", md: "50vw" }}
+          borderLeft={"1px"}
+          borderColor={"gray"}
+        >
+          <Flex
+            position={{ lg: "absolute" }}
+            right={{ lg: "20vw" }}
+            top={{ lg: "30vh" }}
+            transform={{ lg: "rotate(90deg)" }}
+            justifyContent={"center"}
+            alignItems={"center"}
+          >
+            <Text as="b" fontSize={".75rem"} marginRight={10}>
+              FOLLOW:
             </Text>
-            <Text color="gray" as="b">
-              06/28/2023
-            </Text>
+            <a href="https://www.instagram.com/zotnfound/">
+              <SiInstagram size={"1.5rem"} cursor="pointer" />
+            </a>
           </Flex>
 
-          <Flex background="lightblue" width="70%" height="10%" borderRadius="10px" flexDir="column">
-            <Text fontSize="3xl" color="navy" as="b">
-              We're working on this shit
-            </Text>
-            <Text color="gray" as="b">
-              06/28/2023
-            </Text>
+          {/* update messages */}
+          <Flex
+            direction={"column"}
+            alignItems={"flex-start"}
+            marginLeft="15%"
+            marginRight="15%"
+            marginBottom={"2.5"}
+            marginTop={"2.5"}
+            gap="15px"
+          >
+            <Text as="b">7/16/2023</Text>
+            <List>
+              <ListItem textAlign="left" marginBottom={"2%"}>
+                <ListIcon as={ChevronRightIcon} color="gray" />
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat
+                exercitationem vitae esse rem similique nesciunt voluptatem
+                doloremque nihil? A consequuntur voluptatum provident minima
+                illo labore et quam totam dolorum aliquid. Lorem ipsum dolor sit
+                amet consectetur adipisicing elit. Facilis mollitia, illo iure
+                placeat aliquam nostrum temporibus quisquam eligendi doloribus
+                dolorem accusantium doloremque molestiae amet, ea dolorum culpa
+                voluptatum impedit nam. Lorem ipsum dolor sit amet, consectetur
+                adipisicing elit. Animi aspernatur consequuntur inventore, illum
+                cupiditate officia dolorem commodi deserunt debitis, tempore,
+                neque vitae maxime. Dicta, fugit. Dolores voluptate reiciendis
+                enim nulla?
+              </ListItem>
+              <ListItem textAlign="left">
+                <ListIcon as={ChevronRightIcon} color="gray" />
+                New and improved map
+              </ListItem>
+            </List>
           </Flex>
-
-          <Flex background="lightblue" width="70%" height="10%" borderRadius="10px" flexDir="column">
-            <Text fontSize="3xl" color="navy" as="b">
-              We're working on this shit
-            </Text>
-            <Text color="gray" as="b">
-              06/28/2023
-            </Text>
-          </Flex>
+          {/* ^^^^^ update messages ^^^^^^*/}
         </Flex>
       </Flex>
-      <Button onClick={handleClick}>Back </Button>
-
-      <PanelGroup direction="horizontal">
-        <Panel defaultSize={20} minSize={20}>
-          left
-        </Panel>
-        <PanelResizeHandle />
-        <Panel minSize={30}>middle</Panel>
-        <PanelResizeHandle />
-        <Panel defaultSize={20} minSize={20}>
-          right
-        </Panel>
-      </PanelGroup>
-    </>
+    </Stack>
   );
 }
