@@ -14,7 +14,7 @@ import AboutPage from "./components/AboutPage/AboutPage";
 
 function App() {
   const { user } = UserAuth();
-
+  console.log(user);
   return (
     <AuthContextProvider>
       <ChakraProvider>

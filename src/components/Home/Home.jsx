@@ -22,10 +22,15 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  Stack,
+  Box,
 } from "@chakra-ui/react";
 import { SettingsIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import logo from "../../assets/images/small_logo.png";
+
+import logout from "../../assets/logos/logout.svg";
+import userlogo from "../../assets/logos/userlogo.svg";
+import yourposts from "../../assets/logos/yourposts.svg";
+
 export default function Home() {
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
@@ -182,31 +187,72 @@ export default function Home() {
           </InputGroup>
         </HStack>
 
-        <Stack
-          mr="1%"
-          direction={{ base: "column", md: "row" }}
-          paddingRight={"1%"}
-          width={"fit-content"}
-          // minWidth={"50px"}
-        >
-          <Text
-            fontSize={{ base: "sm", md: "xl" }}
-            fontWeight="500"
-            mr={{ base: "1%", md: "4%" }}
-            width={"10em"}
-          >
-            {user?.email}
-          </Text>
-          <Button
-            colorScheme="blue"
-            size={{ base: "sm", md: "lg" }}
-            mt="2%"
-            mr="5%"
-            onClick={handleLogout}
-          >
-            Logout
-          </Button>
-        </Stack>
+        <Flex alignItems="center" justifyContent="space-between" mr={7}>
+          <Menu>
+            <MenuButton>
+              <Image
+                src={user?.photoURL}
+                h={{ base: "50px", md: "80px" }}
+                w={{ base: "50px", md: "80px" }}
+                borderRadius="100%"
+                mr={5}
+              />
+            </MenuButton>
+
+            <MenuList>
+              <MenuItem _focus={{ bg: "white" }}>
+                <Image
+                  boxSize="1.2rem"
+                  src={userlogo}
+                  alt="logoutbutton"
+                  mr="12px"
+                />
+                {user?.email}
+              </MenuItem>
+              <MenuItem>
+                <Image
+                  boxSize="1.2rem"
+                  src={yourposts}
+                  alt="logoutbutton"
+                  mr="12px"
+                />
+                Your Posts
+              </MenuItem>
+
+              <MenuItem onClick={handleLogout}>
+                <Image
+                  boxSize="1.2rem"
+                  src={logout}
+                  alt="logoutbutton"
+                  mr="12px"
+                />
+                Logout
+              </MenuItem>
+            </MenuList>
+          </Menu>
+          <Flex display={{ base: "none", md: "block" }}>
+            <CreateModal
+              setImage={setImage}
+              setDescription={setDescription}
+              setIsLost={setIsLost}
+              setName={setName}
+              setType={setType}
+              image={image}
+              description={description}
+              isLost={isLost}
+              setIsCreate={setIsCreate}
+              isCreate={isCreate}
+              name={name}
+              type={type}
+              isEdit={isEdit}
+              setIsEdit={setIsEdit}
+              setPosition={setPosition}
+              centerPosition={centerPosition}
+              itemDate={itemDate}
+              setItemDate={setItemDate}
+            />
+          </Flex>
+        </Flex>
       </Flex>
 
       {/* Mobile Search */}
@@ -248,7 +294,7 @@ export default function Home() {
             isOpen={isOpen}
             onClose={onClose}
           />
-          <CreateModal
+          {/* <CreateModal
             setImage={setImage}
             setDescription={setDescription}
             setIsLost={setIsLost}
@@ -267,7 +313,7 @@ export default function Home() {
             centerPosition={centerPosition}
             itemDate={itemDate}
             setItemDate={setItemDate}
-          />
+          /> */}
         </Flex>
         <Flex position="absolute">
           <Map
@@ -311,6 +357,33 @@ export default function Home() {
             setFocusLocation={setFocusLocation}
           />
         </Flex>
+        <Box
+          display={{ base: "block", md: "none" }}
+          position="fixed"
+          bottom="5%"
+          width="100vw"
+        >
+          <CreateModal
+            setImage={setImage}
+            setDescription={setDescription}
+            setIsLost={setIsLost}
+            setName={setName}
+            setType={setType}
+            image={image}
+            description={description}
+            isLost={isLost}
+            setIsCreate={setIsCreate}
+            isCreate={isCreate}
+            name={name}
+            type={type}
+            isEdit={isEdit}
+            setIsEdit={setIsEdit}
+            setPosition={setPosition}
+            centerPosition={centerPosition}
+            itemDate={itemDate}
+            setItemDate={setItemDate}
+          />
+        </Box>
       </Flex>
     </div>
   );
