@@ -57,6 +57,15 @@ export default function Home() {
     uploadDate: "",
   });
 
+  function isFilterOff() {
+    return (
+      findFilter.type === "everything" &&
+      findFilter.isFound === true &&
+      findFilter.isLost === true &&
+      findFilter.uploadDate === ""
+    );
+  }
+
   function formatDate() {
     var d = new Date(),
       month = "" + (d.getMonth() + 1),
@@ -211,7 +220,7 @@ export default function Home() {
               />
             </MenuButton>
 
-            <MenuList>
+            <MenuList zIndex={10000}>
               <MenuItem _focus={{ bg: "white" }}>
                 <Image
                   boxSize="1.2rem"
@@ -332,7 +341,18 @@ export default function Home() {
             <DrawerOverlay />
             <DrawerContent>
               <DrawerCloseButton />
-              <DrawerHeader>All Posts</DrawerHeader>
+              <DrawerHeader>
+                {isFilterOff() ? (
+                  <Text fontSize="2xl">All Posts</Text>
+                ) : (
+                  <Flex alignItems="center" gap={1}>
+                    <Text fontSize="2xl" color="green">
+                      Filter: ON
+                    </Text>
+                    <SettingsIcon color="green" />
+                  </Flex>
+                )}
+              </DrawerHeader>
               <DrawerBody>
                 <Flex width="100%">
                   <ResultsBar
@@ -348,12 +368,13 @@ export default function Home() {
               </DrawerBody>
               <DrawerFooter>
                 <Button
-                  variant="outline"
-                  colorScheme="blue"
+                  colorScheme="green"
+                  size="lg"
+                  fontSize="2xl"
                   mr={3}
-                  onClick={onResultsBarClose}
+                  onClick={onOpen}
                 >
-                  Home
+                  <SettingsIcon />
                 </Button>
               </DrawerFooter>
             </DrawerContent>
