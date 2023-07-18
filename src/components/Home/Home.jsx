@@ -62,7 +62,8 @@ export default function Home() {
       findFilter.type === "everything" &&
       findFilter.isFound === true &&
       findFilter.isLost === true &&
-      findFilter.uploadDate === ""
+      findFilter.uploadDate === "" &&
+      search === ""
     );
   }
 
@@ -357,20 +358,33 @@ export default function Home() {
               </DrawerHeader>
               <DrawerBody overflow="hidden">
                 <Flex width="100%" flexDir="column">
-                  <InputGroup
-                    mb="1%"
-                    width="90%"
-                    mx="auto"
-                    size={{ base: "md", md: "lg" }}
-                  >
-                    <InputLeftAddon children="🔎" />
-                    <Input
-                      type="teal"
-                      value={search}
-                      placeholder="Search Items ..."
-                      onChange={(e) => setSearch(e.target.value)}
-                    />
-                  </InputGroup>
+                  <Flex>
+                    <InputGroup
+                      mb="1%"
+                      width="90%"
+                      mx="auto"
+                      size={{ base: "md", md: "lg" }}
+                    >
+                      <InputLeftAddon children="🔎" />
+                      <Input
+                        type="teal"
+                        value={search}
+                        placeholder="Search Items ..."
+                        onChange={(e) => setSearch(e.target.value)}
+                      />
+                    </InputGroup>
+
+                    <Button
+                      colorScheme="green"
+                      size="md"
+                      fontSize="xl"
+                      mr={3}
+                      onClick={onOpen}
+                    >
+                      <SettingsIcon />
+                    </Button>
+                  </Flex>
+
                   <ResultsBar
                     data={data}
                     search={search}
@@ -382,17 +396,7 @@ export default function Home() {
                   />
                 </Flex>
               </DrawerBody>
-              <DrawerFooter>
-                <Button
-                  colorScheme="green"
-                  size="lg"
-                  fontSize="2xl"
-                  mr={3}
-                  onClick={onOpen}
-                >
-                  <SettingsIcon />
-                </Button>
-              </DrawerFooter>
+              <DrawerFooter></DrawerFooter>
             </DrawerContent>
           </Drawer>
         </Flex>
