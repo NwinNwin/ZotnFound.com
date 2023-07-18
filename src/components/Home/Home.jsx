@@ -202,6 +202,7 @@ export default function Home() {
             <InputLeftAddon children="🔎" />
             <Input
               type="teal"
+              value={search}
               placeholder="Search Items ..."
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -288,6 +289,7 @@ export default function Home() {
             <InputLeftAddon children="🔎" />
             <Input
               type="teal"
+              value={search}
               placeholder="Search Items ..."
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -340,7 +342,7 @@ export default function Home() {
           >
             <DrawerOverlay />
             <DrawerContent>
-              <DrawerCloseButton />
+              <DrawerCloseButton size="lg" />
               <DrawerHeader>
                 {isFilterOff() ? (
                   <Text fontSize="2xl">All Posts</Text>
@@ -353,8 +355,22 @@ export default function Home() {
                   </Flex>
                 )}
               </DrawerHeader>
-              <DrawerBody>
-                <Flex width="100%">
+              <DrawerBody overflow="hidden">
+                <Flex width="100%" flexDir="column">
+                  <InputGroup
+                    mb="1%"
+                    width="90%"
+                    mx="auto"
+                    size={{ base: "md", md: "lg" }}
+                  >
+                    <InputLeftAddon children="🔎" />
+                    <Input
+                      type="teal"
+                      value={search}
+                      placeholder="Search Items ..."
+                      onChange={(e) => setSearch(e.target.value)}
+                    />
+                  </InputGroup>
                   <ResultsBar
                     data={data}
                     search={search}
