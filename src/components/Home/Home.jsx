@@ -23,8 +23,15 @@ import {
   MenuList,
   MenuItem,
   Box,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
 } from "@chakra-ui/react";
-import { SettingsIcon, ChevronDownIcon } from "@chakra-ui/icons";
+import { SettingsIcon, ChevronDownIcon, StarIcon } from "@chakra-ui/icons";
 import logo from "../../assets/images/small_logo.png";
 
 import logout from "../../assets/logos/logout.svg";
@@ -37,6 +44,11 @@ export default function Home() {
   const { user, logOut } = UserAuth();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isResultsBarOpen,
+    onOpen: onResultsBarOpen,
+    onClose: onResultsBarClose,
+  } = useDisclosure();
 
   const [findFilter, setFindFilter] = useState({
     type: "everything",
@@ -276,16 +288,22 @@ export default function Home() {
       <Flex position="relative" marginTop="2%" px="2%">
         {/* <CreateModal /> */}
         <Flex
-          width={{ base: "95vw", md: "10vw" }}
-          height={{ md: "80vh" }}
+          width={{ base: "95vw", md: "75vw" }}
           padding={{ base: 0, md: 5 }}
           position="absolute"
           zIndex={1000}
-          flexDirection={{ base: "row", md: "column" }}
+          flexDirection="row"
           justifyContent="space-between"
         >
-          <Button colorScheme="teal" onClick={onOpen} fontSize="3xl" size="lg">
+          <Button
+            colorScheme="teal"
+            onClick={onOpen}
+            fontSize={{ base: "xl", md: "2xl" }}
+            size="lg"
+            gap={2}
+          >
             <SettingsIcon />
+            Filter
           </Button>
           <Filter
             setFindFilter={setFindFilter}
@@ -294,26 +312,52 @@ export default function Home() {
             isOpen={isOpen}
             onClose={onClose}
           />
-          {/* <CreateModal
-            setImage={setImage}
-            setDescription={setDescription}
-            setIsLost={setIsLost}
-            setName={setName}
-            setType={setType}
-            image={image}
-            description={description}
-            isLost={isLost}
-            setIsCreate={setIsCreate}
-            isCreate={isCreate}
-            name={name}
-            type={type}
-            isEdit={isEdit}
-            setIsEdit={setIsEdit}
-            setPosition={setPosition}
-            centerPosition={centerPosition}
-            itemDate={itemDate}
-            setItemDate={setItemDate}
-          /> */}
+          <Button
+            display={{ md: "none" }}
+            colorScheme="blue"
+            onClick={onResultsBarOpen}
+            fontSize="2xl"
+            size="lg"
+            gap={2}
+          >
+            <StarIcon />
+          </Button>
+
+          <Drawer
+            isOpen={isResultsBarOpen}
+            placement="right"
+            onClose={onResultsBarClose}
+            size="full"
+          >
+            <DrawerOverlay />
+            <DrawerContent>
+              <DrawerCloseButton />
+              <DrawerHeader>All Posts</DrawerHeader>
+              <DrawerBody>
+                <Flex width="100%">
+                  <ResultsBar
+                    data={data}
+                    search={search}
+                    findFilter={findFilter}
+                    currentEmail={user?.email}
+                    setData={setData}
+                    setFocusLocation={setFocusLocation}
+                    onResultsBarClose={onResultsBarClose}
+                  />
+                </Flex>
+              </DrawerBody>
+              <DrawerFooter>
+                <Button
+                  variant="outline"
+                  colorScheme="blue"
+                  mr={3}
+                  onClick={onResultsBarClose}
+                >
+                  Home
+                </Button>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
         </Flex>
         <Flex position="absolute">
           <Map

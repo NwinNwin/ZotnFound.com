@@ -1,16 +1,29 @@
 import "./ResultsBar.css";
 import ResultCard from "../ResultCard/ResultCard";
 import { Box } from "@chakra-ui/react";
-export default function ResultsBar({ data, search, findFilter, currentEmail, setData, setFocusLocation }) {
+export default function ResultsBar({
+  data,
+  search,
+  findFilter,
+  currentEmail,
+  setData,
+  setFocusLocation,
+  onResultsBarClose,
+}) {
   const allResults = data
     .filter((item) => {
-      return search.toLowerCase() === "" ? item : item.name.toLowerCase().includes(search);
+      return search.toLowerCase() === ""
+        ? item
+        : item.name.toLowerCase().includes(search);
     })
     .filter((item) => {
       if (findFilter.isLost && item.isLost) {
         if (findFilter.type === "everything") {
           return item;
-        } else if (findFilter.type === "headphone" && item.type === "headphone") {
+        } else if (
+          findFilter.type === "headphone" &&
+          item.type === "headphone"
+        ) {
           return item;
         } else if (findFilter.type === "phone" && item.type === "phone") {
           return item;
@@ -25,7 +38,10 @@ export default function ResultsBar({ data, search, findFilter, currentEmail, set
       if (findFilter.isFound && !item.isLost) {
         if (findFilter.type === "everything") {
           return item;
-        } else if (findFilter.type === "headphone" && item.type === "headphone") {
+        } else if (
+          findFilter.type === "headphone" &&
+          item.type === "headphone"
+        ) {
           return item;
         } else if (findFilter.type === "phone" && item.type === "phone") {
           return item;
@@ -41,7 +57,9 @@ export default function ResultsBar({ data, search, findFilter, currentEmail, set
       return;
     })
     .filter((item) => {
-      return findFilter.uploadDate === "" ? item : item.itemDate.includes(findFilter.uploadDate);
+      return findFilter.uploadDate === ""
+        ? item
+        : item.itemDate.includes(findFilter.uploadDate);
     })
     .map((item) => {
       return (
@@ -53,13 +71,23 @@ export default function ResultsBar({ data, search, findFilter, currentEmail, set
             transform: "scale(0.99)",
           }}
         >
-          <ResultCard props={item} currentEmail={currentEmail} setData={setData} />
+          <ResultCard
+            props={item}
+            currentEmail={currentEmail}
+            setData={setData}
+            onResultsBarClose={onResultsBarClose}
+          />
         </Box>
       );
     });
 
   return (
-    <Box paddingX="5px" width="21vw" height="80vh" overflowY="scroll">
+    <Box
+      paddingX="5px"
+      width={{ base: "90vw", md: "21vw" }}
+      height="80vh"
+      overflowY="scroll"
+    >
       {allResults}
     </Box>
   );
