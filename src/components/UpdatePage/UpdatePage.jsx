@@ -4,7 +4,6 @@ import {
   Text,
   Button,
   Stack,
-  Image,
   List,
   ListItem,
   ListIcon,
@@ -12,7 +11,6 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { ChevronRightIcon, ArrowBackIcon } from "@chakra-ui/icons";
-import instagram from "../../assets/logos/instagram.svg";
 import { SiInstagram } from "react-icons/si";
 
 export default function UpdatePage() {
