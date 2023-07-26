@@ -8,6 +8,7 @@ import { collection, query, orderBy, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
 import instagram from "../../assets/logos/instagram.svg";
 import { UserAuth } from "../../context/AuthContext";
+import DataContext from "../../context/DataContext";
 import {
   Input,
   InputGroup,
@@ -126,7 +127,7 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <DataContext.Provider value={{ data: data }}>
       <Flex
         justifyContent="space-between"
         shadow="md"
@@ -386,10 +387,8 @@ export default function Home() {
                   </Flex>
 
                   <ResultsBar
-                    data={data}
                     search={search}
                     findFilter={findFilter}
-                    currentEmail={user?.email}
                     setData={setData}
                     setFocusLocation={setFocusLocation}
                     onResultsBarClose={onResultsBarClose}
@@ -402,7 +401,6 @@ export default function Home() {
         </Flex>
         <Flex position="absolute">
           <Map
-            data={data}
             isEdit={isEdit}
             isLost={isLost}
             type={type}
@@ -422,7 +420,6 @@ export default function Home() {
             setPosition={setPosition}
             itemDate={itemDate}
             setItemDate={setItemDate}
-            onOpen2={onOpen}
             focusLocation={focusLocation}
             setFocusLocation={setFocusLocation}
           />
@@ -434,10 +431,8 @@ export default function Home() {
           display={{ base: "none", md: "flex" }}
         >
           <ResultsBar
-            data={data}
             search={search}
             findFilter={findFilter}
-            currentEmail={user?.email}
             setData={setData}
             setFocusLocation={setFocusLocation}
           />
@@ -470,6 +465,6 @@ export default function Home() {
           />
         </Box>
       </Flex>
-    </div>
+    </DataContext.Provider>
   );
 }

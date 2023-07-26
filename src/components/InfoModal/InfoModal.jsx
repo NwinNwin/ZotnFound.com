@@ -18,14 +18,11 @@ import {
 import { db } from "../../firebase";
 import { doc, deleteDoc } from "firebase/firestore";
 import { formatDate } from "../../utils";
+import { UserAuth } from "../../context/AuthContext";
 
-export default function InfoModal({
-  setData,
-  isOpen,
-  onClose,
-  props,
-  currentEmail,
-}) {
+export default function InfoModal({ setData, isOpen, onClose, props }) {
+  const { user } = UserAuth();
+  const currentEmail = user.email;
   async function handleDelete() {
     await deleteDoc(doc(db, "items", props.id));
     setData((prevItems) => {
@@ -88,7 +85,7 @@ export default function InfoModal({
               >
                 {props.name}
               </Heading>
-              
+
               <Image
                 rounded={"lg"}
                 height={230}
@@ -96,7 +93,7 @@ export default function InfoModal({
                 objectFit={"cover"}
                 src={props.image}
               />
-              
+
               <Text
                 textAlign="center"
                 color={"gray.500"}
@@ -122,11 +119,7 @@ export default function InfoModal({
                 </Button>
               )}
               {currentEmail === props.email && (
-                <Button
-                  colorScheme="red"
-                  px="36px"
-                  onClick={handleDelete}
-                >
+                <Button colorScheme="red" px="36px" onClick={handleDelete}>
                   Delete
                 </Button>
               )}
@@ -135,7 +128,7 @@ export default function InfoModal({
               ) : (
                 <Text as="b">Found on {props.itemDate}</Text>
               )}
-              <Text color={"gray.500"} >Posted on {formattedDate}</Text>
+              <Text color={"gray.500"}>Posted on {formattedDate}</Text>
             </Stack>
           </Box>
         </Center>

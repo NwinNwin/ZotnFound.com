@@ -1,65 +1,28 @@
+import { useContext } from "react";
 import "./ResultsBar.css";
 import ResultCard from "../ResultCard/ResultCard";
 import { Box } from "@chakra-ui/react";
+import DataContext from "../../context/DataContext";
 export default function ResultsBar({
-  data,
   search,
   findFilter,
-  currentEmail,
   setData,
   setFocusLocation,
   onResultsBarClose,
 }) {
+  const { data } = useContext(DataContext);
+
   const allResults = data
     .filter((item) => {
-      return search.toLowerCase() === ""
-        ? item
-        : item.name.toLowerCase().includes(search);
-    })
-    .filter((item) => {
-      if (findFilter.isLost && item.isLost) {
-        if (findFilter.type === "everything") {
-          return item;
-        } else if (
-          findFilter.type === "headphone" &&
-          item.type === "headphone"
-        ) {
-          return item;
-        } else if (findFilter.type === "phone" && item.type === "phone") {
-          return item;
-        } else if (findFilter.type === "key" && item.type === "key") {
-          return item;
-        } else if (findFilter.type === "wallet" && item.type === "wallet") {
-          return item;
-        } else if (findFilter.type === "others" && item.type === "others") {
-          return item;
-        }
-      }
-      if (findFilter.isFound && !item.isLost) {
-        if (findFilter.type === "everything") {
-          return item;
-        } else if (
-          findFilter.type === "headphone" &&
-          item.type === "headphone"
-        ) {
-          return item;
-        } else if (findFilter.type === "phone" && item.type === "phone") {
-          return item;
-        } else if (findFilter.type === "key" && item.type === "key") {
-          return item;
-        } else if (findFilter.type === "wallet" && item.type === "wallet") {
-          return item;
-        } else if (findFilter.type === "others" && item.type === "others") {
-          return item;
-        }
-      }
-
-      return;
-    })
-    .filter((item) => {
-      return findFilter.uploadDate === ""
-        ? item
-        : item.itemDate.includes(findFilter.uploadDate);
+      return (
+        (search.toLowerCase() === "" ||
+          item.name.toLowerCase().includes(search)) &&
+        (findFilter.isLost === item.isLost ||
+          findFilter.isFound === !item.isLost) &&
+        (findFilter.type === "everything" || findFilter.type === item.type) &&
+        (findFilter.uploadDate === "" ||
+          item.itemDate.includes(findFilter.uploadDate))
+      );
     })
     .map((item) => {
       return (
@@ -73,7 +36,6 @@ export default function ResultsBar({
         >
           <ResultCard
             props={item}
-            currentEmail={currentEmail}
             setData={setData}
             onResultsBarClose={onResultsBarClose}
           />

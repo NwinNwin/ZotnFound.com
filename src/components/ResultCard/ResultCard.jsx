@@ -16,16 +16,10 @@ import InfoModal from "../InfoModal/InfoModal.jsx";
 import { formatDate } from "../../utils.js";
 import locate from "../../assets/logos/locate.svg";
 
-export default function ResultCard({
-  props,
-  currentEmail,
-  setData,
-  onResultsBarClose,
-}) {
+export default function ResultCard({ props, setData, onResultsBarClose }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const formattedDate = formatDate(new Date(props.date));
-
   return (
     <>
       <Card maxW="lg" align={"center"} mb="10px">
@@ -88,7 +82,6 @@ export default function ResultCard({
         onOpen={onOpen}
         onClose={onClose}
         isOpen={isOpen}
-        currentEmail={currentEmail}
         setData={setData}
       />
     </>
