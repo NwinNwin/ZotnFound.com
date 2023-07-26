@@ -10,16 +10,20 @@ export default function AboutPage() {
 
   return (
     <Flex justifyContent={"center"} alignItems={"center"} direction={"column"}>
-      <Text fontSize={{ base: "2rem", md: "3rem" }} as="b">
+      <Text fontSize={{ base: "2rem", md: "3rem" }} as="b" width={"10em"}>
         We are ZotnFound
       </Text>
-      <Text fontSize={{ base: "1rem", md: "1.5rem" }}>
+      <Text fontSize={{ base: "1rem", md: "1.5rem" }} width={"40em"}>
         insert bio Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut
         quae distinctio corporis officiis neque incidunt placeat, doloribus
         minus atque qui in accusamus architecto quidem excepturi maxime
         reiciendis, harum est sequi?
       </Text>
-      <Flex>
+      <Flex
+        justifyContent={"space-between"}
+        direction={"row"}
+        alignItems={"center"}
+      >
         <Text>Lost Items</Text>
         <Text>Found Items</Text>
         <Text>Successful Returns</Text>
