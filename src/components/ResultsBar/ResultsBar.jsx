@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import "./ResultsBar.css";
 import ResultCard from "../ResultCard/ResultCard";
-import { Box } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import DataContext from "../../context/DataContext";
 import { UserAuth } from "../../context/AuthContext";
 export default function ResultsBar({
@@ -54,7 +54,20 @@ export default function ResultsBar({
       height="80vh"
       overflowY="scroll"
     >
-      {allResults}
+      {allResults.length > 0 ? (
+        allResults
+      ) : (
+        <Flex
+          height="80%"
+          width="100%"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Text fontSize="4xl" as="b" color="gray">
+            No Items
+          </Text>
+        </Flex>
+      )}
     </Box>
   );
 }
