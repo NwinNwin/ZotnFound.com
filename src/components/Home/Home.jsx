@@ -9,6 +9,7 @@ import { db } from "../../firebase";
 import instagram from "../../assets/logos/instagram.svg";
 import { UserAuth } from "../../context/AuthContext";
 import DataContext from "../../context/DataContext";
+import { Spinner } from "@chakra-ui/react";
 import {
   Input,
   InputGroup,
@@ -81,6 +82,9 @@ export default function Home() {
 
     return [year, month, day].join("-");
   }
+
+  const [loading, setLoading] = useState(false);
+
   const [isEdit, setIsEdit] = useState(false);
   const [isCreate, setIsCreate] = useState(true);
   const [image, setImage] = useState("");
@@ -119,6 +123,7 @@ export default function Home() {
       const querySnapshot = await query(collectionRef, orderBy("date"));
       const data = await getDocs(querySnapshot);
       setData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      setLoading(true);
     };
     getData();
   }, []);
@@ -208,6 +213,7 @@ export default function Home() {
               type="teal"
               value={search}
               placeholder="Search Items ..."
+              isDisabled={!loading}
               onChange={(e) => setSearch(e.target.value)}
             />
           </InputGroup>
@@ -381,6 +387,7 @@ export default function Home() {
                         type="teal"
                         value={search}
                         placeholder="Search Items ..."
+                        isDisabled={!loading}
                         onChange={(e) => setSearch(e.target.value)}
                       />
                     </InputGroup>
@@ -432,6 +439,7 @@ export default function Home() {
             setItemDate={setItemDate}
             focusLocation={focusLocation}
             setFocusLocation={setFocusLocation}
+            setLoading={setLoading}
           />
         </Flex>
         <Flex
@@ -475,6 +483,24 @@ export default function Home() {
           />
         </Box>
       </Flex>
+      {!loading && (
+        <Flex
+          width="100%"
+          height="83vh"
+          bg="gray"
+          opacity="0.8"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="yellow"
+            color="blue"
+            size="xl"
+          />
+        </Flex>
+      )}
     </DataContext.Provider>
   );
 }

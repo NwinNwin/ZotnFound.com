@@ -42,6 +42,7 @@ export default function Map({
   setPosition,
   focusLocation,
   setFocusLocation,
+  setLoading,
 }) {
   const { user } = UserAuth();
   const { data } = useContext(DataContext);
@@ -143,6 +144,7 @@ export default function Map({
     setData((prev) => [...prev, newItem]);
     setPosition(centerPosition);
     setFocusLocation(newItem.location);
+    setLoading(true);
   }
 
   const toggleDraggable = () => {
@@ -150,6 +152,7 @@ export default function Map({
       alert("ITEM OUT OF BOUNDS (UCI ONLY)");
       return;
     } else {
+      setLoading(false);
       handleSubmit(image, type, name, description);
       setIsEdit(!isEdit);
       setIsCreate(!isCreate);
