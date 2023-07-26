@@ -28,6 +28,7 @@ export default function AboutPage() {
         <Text>Found Items</Text>
         <Text>Successful Returns</Text>
         <Text>Active Users</Text>
+        <Text>test</Text>
       </Flex>
       <Button onClick={handleClick}>Back </Button>
     </Flex>
