@@ -3,6 +3,7 @@ import "./ResultsBar.css";
 import ResultCard from "../ResultCard/ResultCard";
 import { Box } from "@chakra-ui/react";
 import DataContext from "../../context/DataContext";
+import { UserAuth } from "../../context/AuthContext";
 export default function ResultsBar({
   search,
   findFilter,
@@ -11,6 +12,7 @@ export default function ResultsBar({
   onResultsBarClose,
 }) {
   const { data } = useContext(DataContext);
+  const { user } = UserAuth();
 
   const allResults = data
     .filter((item) => {
@@ -21,7 +23,9 @@ export default function ResultsBar({
           findFilter.isFound === !item.isLost) &&
         (findFilter.type === "everything" || findFilter.type === item.type) &&
         (findFilter.uploadDate === "" ||
-          item.itemDate.includes(findFilter.uploadDate))
+          item.itemDate.includes(findFilter.uploadDate)) &&
+        (!findFilter.isYourPosts ||
+          (findFilter.isYourPosts && item.email === user.email))
       );
     })
     .map((item) => {

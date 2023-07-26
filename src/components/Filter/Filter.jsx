@@ -1,6 +1,23 @@
 import { useState, useEffect } from "react";
 
-import { Switch, Box, Stack, Radio, RadioGroup, Text, Flex, Input, Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton, Button } from "@chakra-ui/react";
+import {
+  Switch,
+  Box,
+  Stack,
+  Radio,
+  RadioGroup,
+  Text,
+  Flex,
+  Input,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  Button,
+} from "@chakra-ui/react";
 import "./Filter.css";
 
 export default function Filter({ findFilter, setFindFilter, onClose, isOpen }) {
@@ -27,7 +44,10 @@ export default function Filter({ findFilter, setFindFilter, onClose, isOpen }) {
                     size="lg"
                     defaultChecked={findFilter.isLost}
                     onChange={() => {
-                      setFindFilter((prev) => ({ ...prev, isLost: !prev.isLost }));
+                      setFindFilter((prev) => ({
+                        ...prev,
+                        isLost: !prev.isLost,
+                      }));
                     }}
                   />
                   <Text mb="0px" ml="50px" fontSize="xl">
@@ -40,12 +60,32 @@ export default function Filter({ findFilter, setFindFilter, onClose, isOpen }) {
                     colorScheme="green"
                     size="lg"
                     onChange={() => {
-                      setFindFilter((prev) => ({ ...prev, isFound: !prev.isFound }));
+                      setFindFilter((prev) => ({
+                        ...prev,
+                        isFound: !prev.isFound,
+                      }));
                     }}
                     defaultChecked={findFilter.isFound}
                   />
                   <Text mb="0px" ml="50px" fontSize="xl">
                     Found
+                  </Text>
+                </Flex>
+
+                <Flex mb="15px">
+                  <Switch
+                    colorScheme="blue"
+                    size="lg"
+                    defaultChecked={findFilter.isYourPosts}
+                    onChange={() => {
+                      setFindFilter((prev) => ({
+                        ...prev,
+                        isYourPosts: !prev.isYourPosts,
+                      }));
+                    }}
+                  />
+                  <Text mb="0px" ml="50px" fontSize="xl">
+                    Your Posts
                   </Text>
                 </Flex>
 
@@ -55,10 +95,19 @@ export default function Filter({ findFilter, setFindFilter, onClose, isOpen }) {
                 <Box>
                   <RadioGroup onChange={setValue} value={value}>
                     <Stack>
-                      <Radio defaultChecked size="lg" value="everything" className="text--spacing">
+                      <Radio
+                        defaultChecked
+                        size="lg"
+                        value="everything"
+                        className="text--spacing"
+                      >
                         Everything
                       </Radio>
-                      <Radio size="lg" value="headphone" className="text--spacing">
+                      <Radio
+                        size="lg"
+                        value="headphone"
+                        className="text--spacing"
+                      >
                         Headphones
                       </Radio>
                       <Radio size="lg" value="wallet" className="text--spacing">
@@ -78,7 +127,10 @@ export default function Filter({ findFilter, setFindFilter, onClose, isOpen }) {
                 </Box>
                 <Input
                   onChange={(e) => {
-                    setFindFilter((prev) => ({ ...prev, uploadDate: e.target.value }));
+                    setFindFilter((prev) => ({
+                      ...prev,
+                      uploadDate: e.target.value,
+                    }));
                   }}
                   mt="10px"
                   type="date"
@@ -93,7 +145,12 @@ export default function Filter({ findFilter, setFindFilter, onClose, isOpen }) {
               variant="outline"
               mr={3}
               onClick={() => {
-                setFindFilter({ type: "everything", isFound: true, isLost: true, uploadDate: "" });
+                setFindFilter({
+                  type: "everything",
+                  isFound: true,
+                  isLost: true,
+                  uploadDate: "",
+                });
                 onClose();
               }}
             >

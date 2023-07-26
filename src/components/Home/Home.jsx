@@ -56,6 +56,7 @@ export default function Home() {
     isFound: true,
     isLost: true,
     uploadDate: "",
+    isYourPosts: false,
   });
 
   function isFilterOff() {
@@ -64,7 +65,8 @@ export default function Home() {
       findFilter.isFound === true &&
       findFilter.isLost === true &&
       findFilter.uploadDate === "" &&
-      search === ""
+      search === "" &&
+      !findFilter.isYourPosts
     );
   }
 
@@ -233,7 +235,15 @@ export default function Home() {
                 />
                 {user?.email}
               </MenuItem>
-              <MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setFindFilter((prev) => ({
+                    ...prev,
+                    isYourPosts: !prev.isYourPosts,
+                  }));
+                  onOpen();
+                }}
+              >
                 <Image
                   boxSize="1.2rem"
                   src={yourposts}

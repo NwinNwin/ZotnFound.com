@@ -64,7 +64,9 @@ export default function Map({
           findFilter.isFound === !item.isLost) &&
         (findFilter.type === "everything" || findFilter.type === item.type) &&
         (findFilter.uploadDate === "" ||
-          item.itemDate.includes(findFilter.uploadDate))
+          item.itemDate.includes(findFilter.uploadDate)) &&
+        (!findFilter.isYourPosts ||
+          (findFilter.isYourPosts && item.email === user.email))
       );
     })
     .map((item) => (
