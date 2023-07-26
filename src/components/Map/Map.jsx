@@ -42,10 +42,9 @@ export default function Map({
   setPosition,
   focusLocation,
   setFocusLocation,
-  setLoading,
 }) {
   const { user } = UserAuth();
-  const { data } = useContext(DataContext);
+  const { data, setLoading } = useContext(DataContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [itemData, setItemData] = useState({});
   const allowedBounds = [

@@ -19,11 +19,15 @@ import { db } from "../../firebase";
 import { doc, deleteDoc } from "firebase/firestore";
 import { formatDate } from "../../utils";
 import { UserAuth } from "../../context/AuthContext";
+import DataContext from "../../context/DataContext";
 
 export default function InfoModal({ setData, isOpen, onClose, props }) {
+  const { setLoading } = React.useContext(DataContext);
   const { user } = UserAuth();
   const currentEmail = user.email;
   async function handleDelete() {
+    onClose();
+    setLoading(false);
     await deleteDoc(doc(db, "items", props.id));
     setData((prevItems) => {
       if (prevItems && prevItems.length > 0) {
@@ -31,8 +35,7 @@ export default function InfoModal({ setData, isOpen, onClose, props }) {
       }
       return prevItems;
     });
-
-    onClose();
+    setLoading(true);
   }
 
   const formattedDate = formatDate(new Date(props.date));

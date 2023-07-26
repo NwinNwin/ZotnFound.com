@@ -134,7 +134,7 @@ export default function Home() {
   };
 
   return (
-    <DataContext.Provider value={{ data: data }}>
+    <DataContext.Provider value={{ data: data, setLoading: setLoading }}>
       <Flex
         justifyContent="space-between"
         shadow="md"
@@ -439,7 +439,6 @@ export default function Home() {
             setItemDate={setItemDate}
             focusLocation={focusLocation}
             setFocusLocation={setFocusLocation}
-            setLoading={setLoading}
           />
         </Flex>
         <Flex
@@ -491,6 +490,7 @@ export default function Home() {
           opacity="0.8"
           justifyContent="center"
           alignItems="center"
+          zIndex={1000000000}
         >
           <Spinner
             thickness="4px"
