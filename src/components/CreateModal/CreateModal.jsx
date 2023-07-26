@@ -24,20 +24,29 @@ import { storage } from "../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { AddIcon } from "@chakra-ui/icons";
 
-export default function CreateModal(props) {
+export default function CreateModal({
+  newAddedItem,
+  setNewAddedItem,
+  setIsCreate,
+  isCreate,
+  isEdit,
+  setIsEdit,
+  setPosition,
+  centerPosition,
+}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [uploadImg, setUploadImg] = useState(upload);
 
   const uploadFile = () => {
-    if (!props.image) return;
+    if (!newAddedItem.image) return;
 
     const time = new Date().getTime();
     const imageRef = ref(
       storage,
-      `zotnfound2/images/${time + props.image.name}`
+      `zotnfound2/images/${time + newAddedItem.image.name}`
     );
 
-    uploadBytes(imageRef, props.image).then((snapshot) => {
+    uploadBytes(imageRef, newAddedItem.image).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((url) => {
         console.log(url);
         if (
@@ -48,14 +57,14 @@ export default function CreateModal(props) {
           setUploadImg(upload);
         } else {
           setUploadImg(url);
-          props.setImage(url);
+          setNewAddedItem((prev) => ({ ...prev, image: url }));
         }
       });
     });
   };
   return (
     <>
-      {props.isCreate ? (
+      {isCreate ? (
         <Button
           h={{ base: "8vh", md: "7vh" }}
           w={{ base: "40vw", md: "8vw" }}
@@ -67,8 +76,8 @@ export default function CreateModal(props) {
           borderRadius={20}
           onClick={() => {
             onOpen();
-            props.setIsLost(true);
-            props.setIsEdit(!props.isEdit);
+            setNewAddedItem((prev) => ({ ...prev, isLost: true }));
+            setIsEdit(!isEdit);
           }}
         >
           <Text>List an item</Text>
@@ -84,10 +93,10 @@ export default function CreateModal(props) {
           fontWeight="bold"
           borderRadius={20}
           onClick={() => {
-            props.setIsEdit(!props.isEdit);
-            props.setIsLost(true);
-            props.setIsCreate(!props.isCreate);
-            props.setPosition(props.centerPosition);
+            setIsEdit(isEdit);
+            setNewAddedItem((prev) => ({ ...prev, isLost: true }));
+            setIsCreate(!isCreate);
+            setPosition(centerPosition);
             setUploadImg("");
           }}
         >
@@ -112,7 +121,7 @@ export default function CreateModal(props) {
                     gap={2}
                   >
                     <Heading fontSize={"2xl"} py="10px" textAlign="center">
-                      {props.isLost
+                      {newAddedItem.isLost
                         ? "Oh no! Post here so anteaters can help you! 😥😭"
                         : "WHAT A LIFE SAVER! 😇😸"}
                     </Heading>
@@ -121,7 +130,7 @@ export default function CreateModal(props) {
                         e.preventDefault();
                         setUploadImg("");
                         onClose();
-                        props.setIsCreate(!props.isCreate);
+                        setIsCreate(!isCreate);
                       }}
                     >
                       <FormControl isRequired>
@@ -131,7 +140,10 @@ export default function CreateModal(props) {
                             type="file"
                             placeholder="Image URL"
                             onChange={(e) => {
-                              props.setImage(e.target.files[0]);
+                              setNewAddedItem((prev) => ({
+                                ...prev,
+                                image: e.target.files[0],
+                              }));
                             }}
                           />
                           <Button onClick={uploadFile}>Confirm</Button>
@@ -141,7 +153,12 @@ export default function CreateModal(props) {
                         <FormLabel>Select Item Type:</FormLabel>
                         <Select
                           placeholder="Select option"
-                          onChange={(e) => props.setType(e.target.value)}
+                          onChange={(e) =>
+                            setNewAddedItem((prev) => ({
+                              ...prev,
+                              type: e.target.value,
+                            }))
+                          }
                         >
                           <option value="headphone">Headphones</option>
                           <option value="wallet">Wallet</option>
@@ -160,12 +177,17 @@ export default function CreateModal(props) {
                             id="lost-switch"
                             size="lg"
                             colorScheme="red"
-                            onChange={() => props.setIsLost(!props.isLost)}
+                            onChange={() =>
+                              setNewAddedItem((prev) => ({
+                                ...prev,
+                                isLost: !prev.isLost,
+                              }))
+                            }
                           />
                         </Flex>
                         <Flex justifyContent="flex-end" mt={0}>
                           <FormHelperText fontSize="20px">
-                            {props.isLost ? "Lost" : "Found"}
+                            {newAddedItem.isLost ? "Lost" : "Found"}
                           </FormHelperText>
                         </Flex>
                       </FormControl>
@@ -179,24 +201,40 @@ export default function CreateModal(props) {
                           variant="outline"
                           placeholder="Item Name"
                           mb="2"
-                          onChange={(e) => props.setName(e.target.value)}
+                          value={newAddedItem.name}
+                          onChange={(e) =>
+                            setNewAddedItem((prev) => ({
+                              ...prev,
+                              name: e.target.value,
+                            }))
+                          }
                         />
                         <Input
                           variant="outline"
                           placeholder="Description of Item"
                           mb="2"
-                          onChange={(e) => props.setDescription(e.target.value)}
+                          onChange={(e) =>
+                            setNewAddedItem((prev) => ({
+                              ...prev,
+                              description: e.target.value,
+                            }))
+                          }
                         />
 
                         <FormLabel py="10px">
-                          {props.isLost ? "Lost Date" : "Found Date"}
+                          {newAddedItem.isLost ? "Lost Date" : "Found Date"}
                         </FormLabel>
                         <Input
                           variant="outline"
                           mb="2"
                           type="date"
-                          value={props.itemDate}
-                          onChange={(e) => props.setItemDate(e.target.value)}
+                          value={newAddedItem.itemDate}
+                          onChange={(e) =>
+                            setNewAddedItem((prev) => ({
+                              ...prev,
+                              itemDate: e.target.value,
+                            }))
+                          }
                           // onChange={(e) => console.log(e.target.value)}
                         />
                       </FormControl>
@@ -206,8 +244,11 @@ export default function CreateModal(props) {
                           colorScheme="red"
                           size="lg"
                           onClick={() => {
-                            props.setIsEdit(!props.isEdit);
-                            props.setIsLost(true);
+                            setIsEdit(!isEdit);
+                            setNewAddedItem((prev) => ({
+                              ...prev,
+                              isLost: true,
+                            }));
                             setUploadImg("");
                             onClose();
                           }}
@@ -216,11 +257,11 @@ export default function CreateModal(props) {
                         </Button>
                         <Button
                           isDisabled={
-                            props.uploadImg === upload ||
-                            props.image === "" ||
-                            props.type === "" ||
-                            props.name === "" ||
-                            props.description === ""
+                            uploadImg === upload ||
+                            newAddedItem.image === "" ||
+                            newAddedItem.type === "" ||
+                            newAddedItem.name === "" ||
+                            newAddedItem.description === ""
                           }
                           variant={"solid"}
                           type="submit"
@@ -235,7 +276,7 @@ export default function CreateModal(props) {
                   <Flex width="50%" justifyContent="center">
                     <Image
                       sizeBox="100%"
-                      src={props.image === "" ? upload : uploadImg}
+                      src={newAddedItem.image === "" ? upload : uploadImg}
                       width="90%"
                       borderRadius="30px"
                     />

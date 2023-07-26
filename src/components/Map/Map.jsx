@@ -5,7 +5,6 @@ import "./Map.css";
 
 import L from "leaflet";
 import { othersDrag, flyImg, iconsMap } from "./MapIcons";
-
 import {
   MapContainer,
   TileLayer,
@@ -24,13 +23,9 @@ import DataContext from "../../context/DataContext";
 import { UserAuth } from "../../context/AuthContext";
 
 export default function Map({
-  itemDate,
   isEdit,
-  type,
-  isLost,
-  name,
-  image,
-  description,
+  newAddedItem,
+  setNewAddedItem,
   setIsEdit,
   search,
   findFilter,
@@ -113,31 +108,31 @@ export default function Map({
     []
   );
 
-  async function handleSubmit(image, type, name, description) {
+  async function handleSubmit() {
     const date = new Date();
 
     const docRef = await addDoc(collection(db, "items"), {
-      image: image,
-      type: type,
-      isLost: isLost,
-      name: name,
-      description: description,
+      image: newAddedItem.image,
+      type: newAddedItem.type,
+      isLost: newAddedItem.isLost,
+      name: newAddedItem.name,
+      description: newAddedItem.description,
       email: user.email,
       location: [position.lat, position.lng],
-      itemDate: itemDate,
+      itemDate: newAddedItem.itemDate,
       date: date.toISOString(),
     });
 
     const newItem = {
-      image: image,
-      type: type,
-      isLost: isLost,
-      name: name,
-      description: description,
+      image: newAddedItem.image,
+      type: newAddedItem.type,
+      isLost: newAddedItem.isLost,
+      name: newAddedItem.name,
+      description: newAddedItem.description,
       email: user.email,
       location: [position.lat, position.lng],
       date: date.toISOString(),
-      itemDate: itemDate,
+      itemDate: newAddedItem.itemDate,
       id: docRef.id,
     };
     setData((prev) => [...prev, newItem]);
@@ -152,7 +147,7 @@ export default function Map({
       return;
     } else {
       setLoading(false);
-      handleSubmit(image, type, name, description);
+      handleSubmit();
       setIsEdit(!isEdit);
       setIsCreate(!isCreate);
     }

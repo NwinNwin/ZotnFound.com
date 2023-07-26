@@ -85,14 +85,17 @@ export default function Home() {
 
   const [loading, setLoading] = useState(false);
 
+  const [newAddedItem, setNewAddedItem] = useState({
+    image: "",
+    type: "",
+    isLost: true,
+    name: "",
+    description: "",
+    itemDate: "",
+  });
+
   const [isEdit, setIsEdit] = useState(false);
   const [isCreate, setIsCreate] = useState(true);
-  const [image, setImage] = useState("");
-  const [type, setType] = useState("");
-  const [isLost, setIsLost] = useState(true);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [itemDate, setItemDate] = useState(formatDate());
   const centerPosition = [33.6461, -117.8427];
   const [position, setPosition] = useState(centerPosition);
   const [focusLocation, setFocusLocation] = useState();
@@ -128,7 +131,6 @@ export default function Home() {
     getData();
   }, []);
 
-  // console.log(findFilter);
   window.onresize = () => {
     setScreenWidth(window.screen.width);
   };
@@ -272,24 +274,14 @@ export default function Home() {
           </Menu>
           <Flex display={{ base: "none", md: "block" }}>
             <CreateModal
-              setImage={setImage}
-              setDescription={setDescription}
-              setIsLost={setIsLost}
-              setName={setName}
-              setType={setType}
-              image={image}
-              description={description}
-              isLost={isLost}
               setIsCreate={setIsCreate}
               isCreate={isCreate}
-              name={name}
-              type={type}
               isEdit={isEdit}
               setIsEdit={setIsEdit}
               setPosition={setPosition}
               centerPosition={centerPosition}
-              itemDate={itemDate}
-              setItemDate={setItemDate}
+              newAddedItem={newAddedItem}
+              setNewAddedItem={setNewAddedItem}
             />
           </Flex>
         </Flex>
@@ -418,25 +410,19 @@ export default function Home() {
         </Flex>
         <Flex position="absolute">
           <Map
+            newAddedItem={newAddedItem}
+            setNewAddedItem={setNewAddedItem}
             isEdit={isEdit}
-            isLost={isLost}
-            type={type}
-            image={image}
-            description={description}
-            name={name}
             email={user?.email}
             setIsEdit={setIsEdit}
             search={search}
             findFilter={findFilter}
-            setIsLost={setIsLost}
             setData={setData}
             setIsCreate={setIsCreate}
             isCreate={isCreate}
             centerPosition={centerPosition}
             position={position}
             setPosition={setPosition}
-            itemDate={itemDate}
-            setItemDate={setItemDate}
             focusLocation={focusLocation}
             setFocusLocation={setFocusLocation}
           />
@@ -461,24 +447,14 @@ export default function Home() {
           width="100vw"
         >
           <CreateModal
-            setImage={setImage}
-            setDescription={setDescription}
-            setIsLost={setIsLost}
-            setName={setName}
-            setType={setType}
-            image={image}
-            description={description}
-            isLost={isLost}
             setIsCreate={setIsCreate}
             isCreate={isCreate}
-            name={name}
-            type={type}
             isEdit={isEdit}
             setIsEdit={setIsEdit}
             setPosition={setPosition}
             centerPosition={centerPosition}
-            itemDate={itemDate}
-            setItemDate={setItemDate}
+            newAddedItem={newAddedItem}
+            setNewAddedItem={setNewAddedItem}
           />
         </Box>
       </Flex>
