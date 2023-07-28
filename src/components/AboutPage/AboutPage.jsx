@@ -1,7 +1,15 @@
 import { React, useState } from "react";
-import { Button, Text, Flex, Stack, Icon } from "@chakra-ui/react";
+import { Button, Text, Flex, Stack, Icon, Image } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import logo from "../../assets/images/small_logo.png";
+import login_page from "../../assets/images/login_page.jpg";
+import map from "../../assets/images/map.jpg";
 
 export default function AboutPage() {
   const navigate = useNavigate();
@@ -18,10 +26,12 @@ export default function AboutPage() {
     <Flex
       alignItems={"center"}
       direction={"column"}
-      height={"100vh"}
+      height={"auto"}
       paddingTop={"1em"}
       gap={"1em"}
-      width={"100vw"}
+      width={"auto"}
+      className="parent"
+      overflowX={"hidden"}
     >
       <Stack
         direction={{ base: "column", md: "column", lg: "row" }}
@@ -59,7 +69,6 @@ export default function AboutPage() {
         justifyContent="center"
         alignItems={"center"}
         gap={"1em"}
-        background={"#FBF7F6"}
         width={"100vw"}
       >
         <Flex direction={"column"}>
@@ -89,6 +98,230 @@ export default function AboutPage() {
           <Text fontSize={{ base: "0.8rem", md: "1rem" }}>Active Users</Text>
         </Flex>
       </Flex>
+      <Flex
+        w="80vw"
+        flexWrap={{ base: "none", md: "wrap" }}
+        justifyContent={"space-between"}
+        direction={{ base: "column", md: "row" }}
+        h="100%"
+      >
+        <Flex
+          flexBasis={"50%"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          direction={"column"}
+        >
+          <Text fontWeight={500} fontSize={{ base: "1.3rem", md: "1.6rem" }}>
+            What makes ZotnFound special?
+          </Text>
+          <Text fontSize={{ base: "0.8rem", md: "1rem" }}>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sint,
+            omnis libero nostrum sunt laboriosam praesentium modi eveniet alias
+            est quos pariatur, odio ab quod excepturi delectus vel quis illo
+            atque. Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Fugit beatae ratione assumenda illum laudantium quod maiores nisi,
+            cumque corrupti cupiditate earum eum soluta placeat autem veniam!
+            Vel neque iusto impedit!
+          </Text>
+        </Flex>
+        <Flex flexBasis={"50%"} justifyContent={"center"} alignItems={"center"}>
+          <Image src={logo} w="15em" h="15em" />
+        </Flex>
+        <Flex
+          flexBasis={"50%"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          display={{ base: "none", md: "block" }}
+        >
+          <Image src={logo} w="15em" h="15em" />
+        </Flex>
+        <Flex
+          flexBasis={"50%"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          direction={"column"}
+        >
+          <Text fontWeight={500} fontSize={{ base: "1.3rem", md: "1.6rem" }}>
+            How did ZotnFound start?
+          </Text>
+          <Text fontSize={{ base: "0.8rem", md: "1rem" }}>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sint,
+            omnis libero nostrum sunt laboriosam praesentium modi eveniet alias
+            est quos pariatur, odio ab quod excepturi delectus vel quis illo
+            atque. Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Fugit beatae ratione assumenda illum laudantium quod maiores nisi,
+            cumque corrupti cupiditate earum eum soluta placeat autem veniam!
+            Vel neque iusto impedit!
+          </Text>
+        </Flex>
+        <Flex
+          flexBasis={"50%"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          display={{ base: "block", md: "none" }}
+        >
+          <Image src={logo} w="15em" h="15em" />
+        </Flex>
+      </Flex>
+        <Flex
+          flexBasis={"100%"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          direction={"column"}
+          bg={"#fffcf6"}
+          w="100vw"
+        >
+          <Text
+            fontWeight={500}
+            fontSize={{ base: "1.3rem", md: "1.6rem" }}
+            mb={"1%"}
+            mt={"1%"}
+            >
+            Explore how ZotnFound works
+          </Text>
+          <Flex width={"60em"} height={"40em"}>
+            <Swiper
+              spaceBetween={10}
+              slidesPerView={1}
+              modules={[Navigation, Pagination]}
+              navigation
+              pagination={{ clickable: true, dynamicBullets: true }}
+            >
+              <SwiperSlide>
+                <Flex
+                  direction="column"
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                >
+                  <Image src={login_page} />
+                  <Text
+                    fontWeight={500}
+                    fontSize={{ base: "1.3rem", md: "1.6rem" }}
+                    mt={"2%"}
+                  >
+                    Get Started - It's Simple & Easy
+                  </Text>
+                  <Text fontSize={{ base: "0.8rem", md: "1rem" }} mt={"2%"}>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui
+                    ab deserunt nostrum, numquam veritatis quis odio voluptatum
+                    cupiditate harum eligendi dignissimos? Sint sit optio cumque
+                    delectus porro doloremque voluptas in?
+                  </Text>
+                </Flex>
+              </SwiperSlide>
+              <SwiperSlide>
+                <Flex
+                  direction="column"
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                >
+                  <Image src={login_page} />
+                  <Text
+                    fontWeight={500}
+                    fontSize={{ base: "1.3rem", md: "1.6rem" }}
+                    mt={"2%"}
+                  >
+                    Navigate Around the Map
+                  </Text>
+                  <Text fontSize={{ base: "0.8rem", md: "1rem" }} mt={"2%"}>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui
+                    ab deserunt nostrum, numquam veritatis quis odio voluptatum
+                    cupiditate harum eligendi dignissimos? Sint sit optio cumque
+                    delectus porro doloremque voluptas in?
+                  </Text>
+                </Flex>
+              </SwiperSlide>
+              <SwiperSlide>
+                <Flex
+                  direction="column"
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                >
+                  <Image src={login_page} />
+                  <Text
+                    fontWeight={500}
+                    fontSize={{ base: "1.3rem", md: "1.6rem" }}
+                    mt={"2%"}
+                  >
+                    Search for Lost & Found Items
+                  </Text>
+                  <Text fontSize={{ base: "0.8rem", md: "1rem" }} mt={"2%"}>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui
+                    ab deserunt nostrum, numquam veritatis quis odio voluptatum
+                    cupiditate harum eligendi dignissimos? Sint sit optio cumque
+                    delectus porro doloremque voluptas in?
+                  </Text>
+                </Flex>
+              </SwiperSlide>
+              <SwiperSlide>
+                <Flex
+                  direction="column"
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                >
+                  <Image src={login_page} />
+                  <Text
+                    fontWeight={500}
+                    fontSize={{ base: "1.3rem", md: "1.6rem" }}
+                    mt={"2%"}
+                  >
+                    Upload Your Items - Help the Community!
+                  </Text>
+                  <Text fontSize={{ base: "0.8rem", md: "1rem" }} mt={"2%"}>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui
+                    ab deserunt nostrum, numquam veritatis quis odio voluptatum
+                    cupiditate harum eligendi dignissimos? Sint sit optio cumque
+                    delectus porro doloremque voluptas in?
+                  </Text>
+                </Flex>
+              </SwiperSlide>
+              <SwiperSlide>
+                <Flex
+                  direction="column"
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                >
+                  <Image src={login_page} />
+                  <Text
+                    fontWeight={500}
+                    fontSize={{ base: "1.3rem", md: "1.6rem" }}
+                    mt={"2%"}
+                  >
+                    Contact Others and Connect
+                  </Text>
+                  <Text fontSize={{ base: "0.8rem", md: "1rem" }} mt={"2%"}>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui
+                    ab deserunt nostrum, numquam veritatis quis odio voluptatum
+                    cupiditate harum eligendi dignissimos? Sint sit optio cumque
+                    delectus porro doloremque voluptas in?
+                  </Text>
+                </Flex>
+              </SwiperSlide>
+            </Swiper>
+          </Flex>
+        </Flex>
+        <Flex
+          flexBasis={"100%"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          direction={"column"}
+        >
+          <Text fontWeight={500} fontSize={{ base: "1.3rem", md: "1.6rem" }}>
+            Community Guidelines
+          </Text>
+          <Text fontSize={{ base: "0.8rem", md: "1rem" }}>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid
+            quibusdam sit nihil consectetur optio. Delectus ullam distinctio
+            illo, odio qui excepturi minima ab officiis dolores libero aliquam
+            eum natus provident. Lorem ipsum dolor sit amet, consectetur
+            adipisicing elit. Consectetur aliquid explicabo ad doloremque maxime
+            est molestiae alias veritatis animi magni pariatur, vel architecto
+            facilis laboriosam facere iusto eum ea quo.
+          </Text>
+        </Flex>
+      <Stack height={"50"}>
+        <Text>Footer</Text>
+      </Stack>
     </Flex>
   );
 }
