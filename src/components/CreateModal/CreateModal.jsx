@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
   Image,
   Stack,
@@ -23,6 +23,8 @@ import upload from "../../assets/images/download.png";
 import { storage } from "../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { AddIcon } from "@chakra-ui/icons";
+import { UserAuth } from "../../context/AuthContext";
+import DataContext from "../../context/DataContext";
 
 export default function CreateModal({
   newAddedItem,
@@ -34,6 +36,8 @@ export default function CreateModal({
   setPosition,
   centerPosition,
 }) {
+  const { user } = UserAuth();
+  const { onLoginModalOpen } = useContext(DataContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [uploadImg, setUploadImg] = useState(upload);
 
@@ -75,9 +79,13 @@ export default function CreateModal({
           fontWeight="bold"
           borderRadius={20}
           onClick={() => {
-            onOpen();
-            setNewAddedItem((prev) => ({ ...prev, isLost: true }));
-            setIsEdit(!isEdit);
+            if (user) {
+              onOpen();
+              setNewAddedItem((prev) => ({ ...prev, isLost: true }));
+              setIsEdit(!isEdit);
+            } else {
+              onLoginModalOpen();
+            }
           }}
         >
           <Text>List an item</Text>

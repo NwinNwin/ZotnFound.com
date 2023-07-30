@@ -23,15 +23,15 @@ import DataContext from "../../context/DataContext";
 
 export default function InfoModal({ setData, isOpen, onClose, props }) {
   const [showEmail, setShowEmail] = useState(false);
+  const { onLoginModalOpen } = useContext(DataContext);
   const { setLoading } = useContext(DataContext);
   const { user } = UserAuth();
   const currentEmail = user?.email;
 
-  function viewEmail(){
-    if (user){
-      setShowEmail(true)
+  function viewEmail() {
+    if (user) {
+      setShowEmail(true);
     }
-    
   }
 
   async function handleDelete() {
@@ -50,7 +50,7 @@ export default function InfoModal({ setData, isOpen, onClose, props }) {
   const formattedDate = formatDate(new Date(props.date));
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
+    <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalCloseButton size="lg" />
@@ -115,9 +115,30 @@ export default function InfoModal({ setData, isOpen, onClose, props }) {
               >
                 {props.description}
               </Text>
-              {currentEmail !== props.email && (
-                <Button colorScheme="blue">Contact Me</Button>
-              )}
+              {currentEmail !== props.email &&
+                (!showEmail ? (
+                  <Button
+                    colorScheme="blue"
+                    onClick={() => {
+                      if (user) {
+                        setShowEmail(true);
+                      } else {
+                        onLoginModalOpen();
+                      }
+                    }}
+                  >
+                    View Contact
+                  </Button>
+                ) : (
+                  <Tag
+                    size="lg"
+                    padding="10px"
+                    variant="outline"
+                    colorScheme="blue"
+                  >
+                    {props.email}
+                  </Tag>
+                ))}
               {currentEmail === props.email && (
                 <Button colorScheme="red" px="36px" onClick={handleDelete}>
                   Delete

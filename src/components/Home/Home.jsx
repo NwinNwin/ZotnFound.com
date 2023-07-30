@@ -237,20 +237,19 @@ export default function Home() {
           </InputGroup>
         </HStack>
 
-        <Flex alignItems="center" justifyContent="space-between" mr={7}>
-          <Menu>
-            <MenuButton>
-              <Image
-                src={user?.photoURL}
-                h={{ base: "50px", md: "80px" }}
-                w={{ base: "50px", md: "80px" }}
-                borderRadius="100%"
-                mr={5}
-              />
-            </MenuButton>
+        <Flex alignItems="center" justifyContent="space-between" mr={7} gap={5}>
+          {user ? (
+            <Menu>
+              <MenuButton>
+                <Image
+                  src={user?.photoURL}
+                  h={{ base: "50px", md: "80px" }}
+                  w={{ base: "50px", md: "80px" }}
+                  borderRadius="100%"
+                />
+              </MenuButton>
 
-            <MenuList zIndex={10000}>
-              {user ? (
+              <MenuList zIndex={10000}>
                 <MenuItem _focus={{ bg: "white" }}>
                   <Image
                     boxSize="1.2rem"
@@ -260,46 +259,47 @@ export default function Home() {
                   />
                   {user?.email}
                 </MenuItem>
-              ) : (
-                <MenuItem _focus={{ bg: "white" }} onClick={onLoginModalOpen}>
+                <MenuItem
+                  onClick={() => {
+                    setFindFilter((prev) => ({
+                      ...prev,
+                      isYourPosts: !prev.isYourPosts,
+                    }));
+                    onOpen();
+                  }}
+                >
                   <Image
                     boxSize="1.2rem"
-                    src={userlogo}
+                    src={yourposts}
                     alt="logoutbutton"
                     mr="12px"
                   />
-                  Login
+                  Your Posts
                 </MenuItem>
-              )}
-              <MenuItem
-                onClick={() => {
-                  setFindFilter((prev) => ({
-                    ...prev,
-                    isYourPosts: !prev.isYourPosts,
-                  }));
-                  onOpen();
-                }}
-              >
-                <Image
-                  boxSize="1.2rem"
-                  src={yourposts}
-                  alt="logoutbutton"
-                  mr="12px"
-                />
-                Your Posts
-              </MenuItem>
 
-              <MenuItem onClick={handleLogout}>
-                <Image
-                  boxSize="1.2rem"
-                  src={logout}
-                  alt="logoutbutton"
-                  mr="12px"
-                />
-                Logout
-              </MenuItem>
-            </MenuList>
-          </Menu>
+                <MenuItem onClick={handleLogout}>
+                  <Image
+                    boxSize="1.2rem"
+                    src={logout}
+                    alt="logoutbutton"
+                    mr="12px"
+                  />
+                  Logout
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          ) : (
+            <Button
+              h={{ base: "8vh", md: "7vh" }}
+              w={{ base: "40vw", md: "8vw" }}
+              borderRadius={20}
+              fontSize="xl"
+              onClick={onLoginModalOpen}
+            >
+              Sign In
+            </Button>
+          )}
+
           <Flex display={{ base: "none", md: "block" }}>
             <CreateModal
               setIsCreate={setIsCreate}

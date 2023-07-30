@@ -210,13 +210,15 @@ export default function Map({
         )}
         <SetBoundsRectangles />
       </MapContainer>
-      <InfoModal
-        props={itemData}
-        onOpen={onOpen}
-        onClose={onClose}
-        isOpen={isOpen}
-        setData={setData}
-      />
+      {isOpen && (
+        <InfoModal
+          props={itemData}
+          onOpen={onOpen}
+          onClose={onClose}
+          isOpen={isOpen}
+          setData={setData}
+        />
+      )}
     </div>
   );
 }
