@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState, useContext } from "react";
 import {
   Box,
   Button,
@@ -22,9 +22,18 @@ import { UserAuth } from "../../context/AuthContext";
 import DataContext from "../../context/DataContext";
 
 export default function InfoModal({ setData, isOpen, onClose, props }) {
-  const { setLoading } = React.useContext(DataContext);
+  const [showEmail, setShowEmail] = useState(false);
+  const { onLoginModalOpen } = useContext(DataContext);
+  const { setLoading } = useContext(DataContext);
   const { user } = UserAuth();
-  const currentEmail = user.email;
+  const currentEmail = user?.email;
+
+  function viewEmail() {
+    if (user) {
+      setShowEmail(true);
+    }
+  }
+
   async function handleDelete() {
     onClose();
     setLoading(false);
@@ -41,7 +50,7 @@ export default function InfoModal({ setData, isOpen, onClose, props }) {
   const formattedDate = formatDate(new Date(props.date));
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
+    <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalCloseButton size="lg" />
@@ -106,21 +115,30 @@ export default function InfoModal({ setData, isOpen, onClose, props }) {
               >
                 {props.description}
               </Text>
-              {currentEmail !== props.email && (
-                <Button colorScheme="blue">
-                  <a
-                    href={`mailto:dangnn1@uci.edu?subject=From ZOT-N-FOUND!&body=${
-                      props.isLost
-                        ? "I FOUND YOUR ITEM!!"
-                        : "THANK YOU FOR FINDING MY ITEM!!"
-                    }`}
-                    target="_blank"
-                    rel="noreferrer"
+              {currentEmail !== props.email &&
+                (!showEmail ? (
+                  <Button
+                    colorScheme="blue"
+                    onClick={() => {
+                      if (user) {
+                        setShowEmail(true);
+                      } else {
+                        onLoginModalOpen();
+                      }
+                    }}
                   >
-                    Contact Me
-                  </a>
-                </Button>
-              )}
+                    View Contact
+                  </Button>
+                ) : (
+                  <Tag
+                    size="lg"
+                    padding="10px"
+                    variant="outline"
+                    colorScheme="blue"
+                  >
+                    {props.email}
+                  </Tag>
+                ))}
               {currentEmail === props.email && (
                 <Button colorScheme="red" px="36px" onClick={handleDelete}>
                   Delete

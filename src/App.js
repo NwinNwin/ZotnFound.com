@@ -22,7 +22,8 @@ function App() {
           <Routes>
             <Route path="/update" element={<UpdatePage />} />
             <Route path="/about" element={<AboutPage />} />
-            <Route path="/" element={!user ? <Login /> : <Home />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </div>
       </ChakraProvider>
