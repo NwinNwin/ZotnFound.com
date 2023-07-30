@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState, useContext } from "react";
 import {
   Box,
   Button,
@@ -22,9 +22,18 @@ import { UserAuth } from "../../context/AuthContext";
 import DataContext from "../../context/DataContext";
 
 export default function InfoModal({ setData, isOpen, onClose, props }) {
-  const { setLoading } = React.useContext(DataContext);
+  const [showEmail, setShowEmail] = useState(false);
+  const { setLoading } = useContext(DataContext);
   const { user } = UserAuth();
-  const currentEmail = user.email;
+  const currentEmail = user?.email;
+
+  function viewEmail(){
+    if (user){
+      setShowEmail(true)
+    }
+    
+  }
+
   async function handleDelete() {
     onClose();
     setLoading(false);
@@ -107,19 +116,7 @@ export default function InfoModal({ setData, isOpen, onClose, props }) {
                 {props.description}
               </Text>
               {currentEmail !== props.email && (
-                <Button colorScheme="blue">
-                  <a
-                    href={`mailto:dangnn1@uci.edu?subject=From ZOT-N-FOUND!&body=${
-                      props.isLost
-                        ? "I FOUND YOUR ITEM!!"
-                        : "THANK YOU FOR FINDING MY ITEM!!"
-                    }`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Contact Me
-                  </a>
-                </Button>
+                <Button colorScheme="blue">Contact Me</Button>
               )}
               {currentEmail === props.email && (
                 <Button colorScheme="red" px="36px" onClick={handleDelete}>

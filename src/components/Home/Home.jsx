@@ -4,6 +4,7 @@ import "./Home.css";
 import Filter from "../Filter/Filter";
 import ResultsBar from "../ResultsBar/ResultsBar";
 import CreateModal from "../CreateModal/CreateModal";
+import LoginModal from "../LoginModal/LoginModal";
 import { collection, query, orderBy, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
 import instagram from "../../assets/logos/instagram.svg";
@@ -101,6 +102,13 @@ export default function Home() {
   const [focusLocation, setFocusLocation] = useState();
   const [screenWidth, setScreenWidth] = useState(window.screen.width);
 
+  // LOGIN MODAL
+  const {
+    isOpen: isLoginModalOpen,
+    onOpen: onLoginModalOpen,
+    onClose: onLoginModalClose,
+  } = useDisclosure();
+
   const handleLogout = async (e) => {
     e.preventDefault();
     try {
@@ -136,7 +144,15 @@ export default function Home() {
   };
 
   return (
-    <DataContext.Provider value={{ data: data, setLoading: setLoading }}>
+    <DataContext.Provider
+      value={{
+        data: data,
+        setLoading: setLoading,
+        isLoginModalOpen: isLoginModalOpen,
+        onLoginModalClose: onLoginModalClose,
+        onLoginModalOpen: onLoginModalOpen,
+      }}
+    >
       <Flex
         justifyContent="space-between"
         shadow="md"
@@ -234,15 +250,27 @@ export default function Home() {
             </MenuButton>
 
             <MenuList zIndex={10000}>
-              <MenuItem _focus={{ bg: "white" }}>
-                <Image
-                  boxSize="1.2rem"
-                  src={userlogo}
-                  alt="logoutbutton"
-                  mr="12px"
-                />
-                {user?.email}
-              </MenuItem>
+              {user ? (
+                <MenuItem _focus={{ bg: "white" }}>
+                  <Image
+                    boxSize="1.2rem"
+                    src={userlogo}
+                    alt="logoutbutton"
+                    mr="12px"
+                  />
+                  {user?.email}
+                </MenuItem>
+              ) : (
+                <MenuItem _focus={{ bg: "white" }} onClick={onLoginModalOpen}>
+                  <Image
+                    boxSize="1.2rem"
+                    src={userlogo}
+                    alt="logoutbutton"
+                    mr="12px"
+                  />
+                  Login
+                </MenuItem>
+              )}
               <MenuItem
                 onClick={() => {
                   setFindFilter((prev) => ({
@@ -477,6 +505,7 @@ export default function Home() {
           />
         </Flex>
       )}
+      <LoginModal />
     </DataContext.Provider>
   );
 }
