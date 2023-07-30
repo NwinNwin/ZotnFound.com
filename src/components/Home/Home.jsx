@@ -290,13 +290,15 @@ export default function Home() {
             </Menu>
           ) : (
             <Button
-              h={{ base: "8vh", md: "7vh" }}
-              w={{ base: "40vw", md: "8vw" }}
+              h={{ base: "6vh", md: "7vh" }}
+              w={{ base: "30vw", md: "8vw" }}
               borderRadius={20}
               fontSize="xl"
+              variant="outline"
+              colorScheme="black"
               onClick={onLoginModalOpen}
             >
-              Sign In
+              Sign in
             </Button>
           )}
 

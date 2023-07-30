@@ -41,7 +41,11 @@ export default function LoginModal() {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Login</ModalHeader>
+          <ModalHeader>
+            <Text fontSize="2xl" as="b">
+              Login
+            </Text>
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Flex
