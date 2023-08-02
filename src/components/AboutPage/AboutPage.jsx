@@ -59,10 +59,7 @@ export default function AboutPage() {
         fontSize={{ base: "1rem", md: "1.5rem" }}
         width={{ base: "20em", md: "40em" }}
       >
-        insert bio Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut
-        quae distinctio corporis officiis neque incidunt placeat, doloribus
-        minus atque qui in accusamus architecto quidem excepturi maxime
-        reiciendis, harum est sequi?
+        Lost & Found Made Easy: Inspire Connections @ ZotnFound!
       </Text>
       <Flex
         direction={"row"}
@@ -107,6 +104,7 @@ export default function AboutPage() {
         justifyContent={"space-between"}
         direction={{ base: "column", md: "row" }}
         h="100%"
+        mb="3%"
       >
         <Flex
           flexBasis={"50%"}
@@ -115,16 +113,22 @@ export default function AboutPage() {
           direction={"column"}
         >
           <Text fontWeight={500} fontSize={{ base: "1.3rem", md: "1.6rem" }}>
-            What makes ZotnFound special?
+            Origin of ZotnFound
           </Text>
           <Text fontSize={{ base: "0.8rem", md: "1rem" }}>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sint,
-            omnis libero nostrum sunt laboriosam praesentium modi eveniet alias
-            est quos pariatur, odio ab quod excepturi delectus vel quis illo
-            atque. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Fugit beatae ratione assumenda illum laudantium quod maiores nisi,
-            cumque corrupti cupiditate earum eum soluta placeat autem veniam!
-            Vel neque iusto impedit!
+            Many people are constantly losing their belongings, whether that be
+            their phones, keys, or watter bottles. This is especially true for
+            UCI students on the UCI subreddit, where there are countless posts
+            being created about lost and found items. Due to this problem, we
+            decided to take matters into our own hands and created an Instagram
+            account to help lost items return back to their original owners. We
+            have so far helped over 10 people and gained over 300+ followers.
+            The process on Instagram was very time consuming due to us having to
+            manually go through each message and create a post on each
+            individual item that was sent. Due to these restraints, we decided
+            to create a platform that will allow people to post items that they
+            found and lost. These posts had descriptions on the item and where
+            they were last seen.
           </Text>
         </Flex>
         <Flex flexBasis={"50%"} justifyContent={"center"} alignItems={"center"}>
@@ -135,6 +139,7 @@ export default function AboutPage() {
           justifyContent={"center"}
           alignItems={"center"}
           display={{ base: "none", md: "block" }}
+          mt={"5%"}
         >
           <Image src={logo} w="15em" h="15em" />
         </Flex>
@@ -143,18 +148,19 @@ export default function AboutPage() {
           alignItems={"center"}
           justifyContent={"center"}
           direction={"column"}
+          mt={"5%"}
         >
           <Text fontWeight={500} fontSize={{ base: "1.3rem", md: "1.6rem" }}>
-            How did ZotnFound start?
+            What makes ZotnFound special?
           </Text>
           <Text fontSize={{ base: "0.8rem", md: "1rem" }}>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sint,
-            omnis libero nostrum sunt laboriosam praesentium modi eveniet alias
-            est quos pariatur, odio ab quod excepturi delectus vel quis illo
-            atque. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Fugit beatae ratione assumenda illum laudantium quod maiores nisi,
-            cumque corrupti cupiditate earum eum soluta placeat autem veniam!
-            Vel neque iusto impedit!
+            ZotnFound is an interactive lost and found website designed
+            exclusively for students and faculty on campus. With its
+            user-friendly platform, searchable databases, photo uploads, and
+            communication protocols, finding lost belongings becomes stress-free
+            and efficient. It's more than just a website; it fosters a sense of
+            community and inspires connections between students through the
+            shared experience of reuniting with their lost items.
           </Text>
         </Flex>
         <Flex
@@ -316,28 +322,6 @@ export default function AboutPage() {
           </Swiper>
         </Flex>
       </Flex>
-      <Flex
-        flexBasis={"100%"}
-        alignItems={"center"}
-        justifyContent={"center"}
-        direction={"column"}
-      >
-        <Text fontWeight={500} fontSize={{ base: "1.3rem", md: "1.6rem" }}>
-          Community Guidelines
-        </Text>
-        <Text fontSize={{ base: "0.8rem", md: "1rem" }} maxW={"80em"}>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid
-          quibusdam sit nihil consectetur optio. Delectus ullam distinctio illo,
-          odio qui excepturi minima ab officiis dolores libero aliquam eum natus
-          provident. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          Consectetur aliquid explicabo ad doloremque maxime est molestiae alias
-          veritatis animi magni pariatur, vel architecto facilis laboriosam
-          facere iusto eum ea quo.
-        </Text>
-      </Flex>
-      <Stack height={"50"}>
-        <Text>Footer</Text>
-      </Stack>
     </Flex>
   );
 }

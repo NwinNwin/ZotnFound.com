@@ -40,11 +40,13 @@ import logo from "../../assets/images/small_logo.png";
 import logout from "../../assets/logos/logout.svg";
 import userlogo from "../../assets/logos/userlogo.svg";
 import yourposts from "../../assets/logos/yourposts.svg";
+import axios from "axios";
 
 export default function Home() {
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
   const { user, logOut } = UserAuth();
+  console.log(user);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -143,6 +145,18 @@ export default function Home() {
     setScreenWidth(window.screen.width);
   };
 
+  // send email
+  function sendMail() {
+    let userEmail = user.email;
+    if (user) {
+      axios
+        .post("http://localhost:5000/send_email", { userEmail })
+        .then(() => alert("Email Sent Successfully!"))
+        .catch(() => alert("Email NOT SENT"));
+    }
+    return;
+  }
+
   return (
     <DataContext.Provider
       value={{
@@ -187,6 +201,7 @@ export default function Home() {
             >
               ZotnFound
             </MenuButton>
+
             <MenuList zIndex={10000}>
               <MenuItem
                 alignItems={"center"}
@@ -235,6 +250,15 @@ export default function Home() {
               onChange={(e) => setSearch(e.target.value)}
             />
           </InputGroup>
+          {user && (
+            <Button
+              onClick={() => {
+                sendMail();
+              }}
+            >
+              send email to YOU
+            </Button>
+          )}
         </HStack>
 
         <Flex alignItems="center" justifyContent="space-between" mr={7} gap={5}>
