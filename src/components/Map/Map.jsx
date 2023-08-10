@@ -22,6 +22,8 @@ import { collection, addDoc } from "firebase/firestore";
 import DataContext from "../../context/DataContext";
 import { UserAuth } from "../../context/AuthContext";
 
+import axios from "axios";
+
 export default function Map({
   isEdit,
   newAddedItem,
@@ -75,7 +77,7 @@ export default function Map({
           },
           mouseover: (event) => !isEdit && event.target.openPopup(),
         }}
-        icon={(iconsMap[item.type] || iconsMap["others"])[item.isLost]}
+        icon={(iconsMap[item.type] || iconsMap["others"])[item.islost]}
       >
         <Popup>{item.name}</Popup>
       </Marker>
@@ -111,33 +113,38 @@ export default function Map({
   async function handleSubmit() {
     const date = new Date();
 
-    const docRef = await addDoc(collection(db, "items"), {
-      image: newAddedItem.image,
-      type: newAddedItem.type,
-      isLost: newAddedItem.isLost,
-      name: newAddedItem.name,
-      description: newAddedItem.description,
-      email: user.email,
-      location: [position.lat, position.lng],
-      itemDate: newAddedItem.itemDate,
-      date: date.toISOString(),
-    });
+    axios
+      .post("http://localhost:3001/items", {
+        image: newAddedItem.image,
+        type: newAddedItem.type,
+        isLost: newAddedItem.isLost,
+        name: newAddedItem.name,
+        description: newAddedItem.description,
+        email: user.email,
+        location: [position.lat, position.lng],
+        itemDate: newAddedItem.itemDate,
+        date: date.toISOString(),
+      })
+      .then((item) => {
+        const newItem = {
+          image: newAddedItem.image,
+          type: newAddedItem.type,
+          isLost: newAddedItem.isLost,
+          name: newAddedItem.name,
+          description: newAddedItem.description,
+          email: user.email,
+          location: [position.lat, position.lng],
+          date: date.toISOString(),
+          itemDate: newAddedItem.itemDate,
+          id: item.data.id,
+        };
+        setData((prev) => [...prev, newItem]);
+        setPosition(centerPosition);
+        setFocusLocation(newItem.location);
+        console.log("success", item);
+      })
+      .catch((err) => console.log(err));
 
-    const newItem = {
-      image: newAddedItem.image,
-      type: newAddedItem.type,
-      isLost: newAddedItem.isLost,
-      name: newAddedItem.name,
-      description: newAddedItem.description,
-      email: user.email,
-      location: [position.lat, position.lng],
-      date: date.toISOString(),
-      itemDate: newAddedItem.itemDate,
-      id: docRef.id,
-    };
-    setData((prev) => [...prev, newItem]);
-    setPosition(centerPosition);
-    setFocusLocation(newItem.location);
     setLoading(true);
   }
 

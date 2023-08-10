@@ -131,15 +131,24 @@ export default function Home() {
 
   //get data
   useEffect(() => {
-    const collectionRef = collection(db, "items");
+    // const collectionRef = collection(db, "items");
     const getData = async () => {
-      const querySnapshot = await query(collectionRef, orderBy("date"));
-      const data = await getDocs(querySnapshot);
-      setData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      // const querySnapshot = await query(collectionRef, orderBy("date"));
+      // const data = await getDocs(querySnapshot);
+      // setData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      axios
+        .get("http://localhost:3001/items")
+        .then((obj) => {
+          console.log("s", obj.data);
+          setData(obj.data.map((item) => ({ ...item, id: item.id })));
+        })
+        .catch((err) => console.log(err));
       setLoading(true);
     };
     getData();
   }, []);
+
+  console.log("t", data);
 
   window.onresize = () => {
     setScreenWidth(window.screen.width);
