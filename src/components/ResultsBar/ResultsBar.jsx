@@ -19,8 +19,8 @@ export default function ResultsBar({
       return (
         (search.toLowerCase() === "" ||
           item.name.toLowerCase().includes(search)) &&
-        (findFilter.isLost === item.isLost ||
-          findFilter.isFound === !item.isLost) &&
+        (findFilter.islost === item.islost ||
+          findFilter.isFound === !item.islost) &&
         (findFilter.type === "everything" || findFilter.type === item.type) &&
         (findFilter.uploadDate === "" ||
           item.itemDate.includes(findFilter.uploadDate)) &&

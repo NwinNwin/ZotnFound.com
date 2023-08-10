@@ -16,9 +16,6 @@ import {
 import { useDisclosure } from "@chakra-ui/react";
 import InfoModal from "../InfoModal/InfoModal";
 
-import { db } from "../../firebase";
-import { collection, addDoc } from "firebase/firestore";
-
 import DataContext from "../../context/DataContext";
 import { UserAuth } from "../../context/AuthContext";
 
@@ -57,8 +54,8 @@ export default function Map({
       return (
         (search.toLowerCase() === "" ||
           item.name.toLowerCase().includes(search)) &&
-        (findFilter.isLost === item.isLost ||
-          findFilter.isFound === !item.isLost) &&
+        (findFilter.islost === item.islost ||
+          findFilter.isFound === !item.islost) &&
         (findFilter.type === "everything" || findFilter.type === item.type) &&
         (findFilter.uploadDate === "" ||
           item.itemDate.includes(findFilter.uploadDate)) &&
@@ -117,7 +114,7 @@ export default function Map({
       .post("http://localhost:3001/items", {
         image: newAddedItem.image,
         type: newAddedItem.type,
-        isLost: newAddedItem.isLost,
+        islost: newAddedItem.islost,
         name: newAddedItem.name,
         description: newAddedItem.description,
         email: user.email,
@@ -129,7 +126,7 @@ export default function Map({
         const newItem = {
           image: newAddedItem.image,
           type: newAddedItem.type,
-          isLost: newAddedItem.isLost,
+          islost: newAddedItem.islost,
           name: newAddedItem.name,
           description: newAddedItem.description,
           email: user.email,
