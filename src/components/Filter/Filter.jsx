@@ -42,11 +42,11 @@ export default function Filter({ findFilter, setFindFilter, onClose, isOpen }) {
                   <Switch
                     colorScheme="red"
                     size="lg"
-                    defaultChecked={findFilter.isLost}
+                    defaultChecked={findFilter.islost}
                     onChange={() => {
                       setFindFilter((prev) => ({
                         ...prev,
-                        isLost: !prev.isLost,
+                        islost: !prev.islost,
                       }));
                     }}
                   />
@@ -148,7 +148,7 @@ export default function Filter({ findFilter, setFindFilter, onClose, isOpen }) {
                 setFindFilter({
                   type: "everything",
                   isFound: true,
-                  isLost: true,
+                  islost: true,
                   uploadDate: "",
                 });
                 onClose();

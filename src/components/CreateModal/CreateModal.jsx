@@ -81,7 +81,7 @@ export default function CreateModal({
           onClick={() => {
             if (user) {
               onOpen();
-              setNewAddedItem((prev) => ({ ...prev, isLost: true }));
+              setNewAddedItem((prev) => ({ ...prev, islost: true }));
               setIsEdit(!isEdit);
             } else {
               onLoginModalOpen();
@@ -102,7 +102,7 @@ export default function CreateModal({
           borderRadius={20}
           onClick={() => {
             setIsEdit(isEdit);
-            setNewAddedItem((prev) => ({ ...prev, isLost: true }));
+            setNewAddedItem((prev) => ({ ...prev, islost: true }));
             setIsCreate(!isCreate);
             setPosition(centerPosition);
             setUploadImg("");
@@ -129,7 +129,7 @@ export default function CreateModal({
                     gap={2}
                   >
                     <Heading fontSize={"2xl"} py="10px" textAlign="center">
-                      {newAddedItem.isLost
+                      {newAddedItem.islost
                         ? "Oh no! Post here so anteaters can help you! 😥😭"
                         : "WHAT A LIFE SAVER! 😇😸"}
                     </Heading>
@@ -188,14 +188,14 @@ export default function CreateModal({
                             onChange={() =>
                               setNewAddedItem((prev) => ({
                                 ...prev,
-                                isLost: !prev.isLost,
+                                islost: !prev.islost,
                               }))
                             }
                           />
                         </Flex>
                         <Flex justifyContent="flex-end" mt={0}>
                           <FormHelperText fontSize="20px">
-                            {newAddedItem.isLost ? "Lost" : "Found"}
+                            {newAddedItem.islost ? "Lost" : "Found"}
                           </FormHelperText>
                         </Flex>
                       </FormControl>
@@ -230,7 +230,7 @@ export default function CreateModal({
                         />
 
                         <FormLabel py="10px">
-                          {newAddedItem.isLost ? "Lost Date" : "Found Date"}
+                          {newAddedItem.islost ? "Lost Date" : "Found Date"}
                         </FormLabel>
                         <Input
                           variant="outline"
@@ -255,7 +255,7 @@ export default function CreateModal({
                             setIsEdit(!isEdit);
                             setNewAddedItem((prev) => ({
                               ...prev,
-                              isLost: true,
+                              islost: true,
                             }));
                             setUploadImg("");
                             onClose();

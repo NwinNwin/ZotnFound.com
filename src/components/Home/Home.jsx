@@ -5,8 +5,7 @@ import Filter from "../Filter/Filter";
 import ResultsBar from "../ResultsBar/ResultsBar";
 import CreateModal from "../CreateModal/CreateModal";
 import LoginModal from "../LoginModal/LoginModal";
-import { collection, query, orderBy, getDocs } from "firebase/firestore";
-import { db } from "../../firebase";
+
 import instagram from "../../assets/logos/instagram.svg";
 import { UserAuth } from "../../context/AuthContext";
 import DataContext from "../../context/DataContext";
@@ -58,7 +57,7 @@ export default function Home() {
   const [findFilter, setFindFilter] = useState({
     type: "everything",
     isFound: true,
-    isLost: true,
+    islost: true,
     uploadDate: "",
     isYourPosts: false,
   });
@@ -67,7 +66,7 @@ export default function Home() {
     return (
       findFilter.type === "everything" &&
       findFilter.isFound === true &&
-      findFilter.isLost === true &&
+      findFilter.islost === true &&
       findFilter.uploadDate === "" &&
       search === "" &&
       !findFilter.isYourPosts
@@ -91,7 +90,7 @@ export default function Home() {
   const [newAddedItem, setNewAddedItem] = useState({
     image: "",
     type: "",
-    isLost: true,
+    islost: true,
     name: "",
     description: "",
     itemDate: "",
@@ -131,15 +130,20 @@ export default function Home() {
 
   //get data
   useEffect(() => {
-    const collectionRef = collection(db, "items");
     const getData = async () => {
-      const querySnapshot = await query(collectionRef, orderBy("date"));
-      const data = await getDocs(querySnapshot);
-      setData(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      axios
+        .get("http://localhost:3001/items")
+        .then((obj) => {
+          console.log("s", obj.data);
+          setData(obj.data.map((item) => ({ ...item, id: item.id })));
+        })
+        .catch((err) => console.log(err));
       setLoading(true);
     };
     getData();
   }, []);
+
+  console.log("t", data);
 
   window.onresize = () => {
     setScreenWidth(window.screen.width);

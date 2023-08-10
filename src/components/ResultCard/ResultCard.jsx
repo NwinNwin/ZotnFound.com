@@ -49,7 +49,7 @@ export default function ResultCard({ props, setData, onResultsBarClose }) {
             >
               View
             </Button>
-            {props.isLost ? (
+            {props.islost ? (
               <Button
                 colorScheme="red"
                 ml="20%"

@@ -15,11 +15,10 @@ import {
   Flex,
   Tag,
 } from "@chakra-ui/react";
-import { db } from "../../firebase";
-import { doc, deleteDoc } from "firebase/firestore";
 import { formatDate } from "../../utils";
 import { UserAuth } from "../../context/AuthContext";
 import DataContext from "../../context/DataContext";
+import axios from "axios";
 
 export default function InfoModal({ setData, isOpen, onClose, props }) {
   const [showEmail, setShowEmail] = useState(false);
@@ -37,7 +36,10 @@ export default function InfoModal({ setData, isOpen, onClose, props }) {
   async function handleDelete() {
     onClose();
     setLoading(false);
-    await deleteDoc(doc(db, "items", props.id));
+    axios
+      .delete(`http://localhost:3001/items/${props.id}`)
+      .then(() => console.log("Success"))
+      .catch((err) => console.log(err));
     setData((prevItems) => {
       if (prevItems && prevItems.length > 0) {
         return prevItems.filter((item) => item.id !== props.id);
@@ -76,7 +78,7 @@ export default function InfoModal({ setData, isOpen, onClose, props }) {
                     Owner
                   </Tag>
                 </Flex>
-              ) : props.isLost ? (
+              ) : props.islost ? (
                 <Flex align="center" justifyContent="center">
                   <Tag colorScheme="red" variant="solid">
                     Lost
@@ -144,7 +146,7 @@ export default function InfoModal({ setData, isOpen, onClose, props }) {
                   Delete
                 </Button>
               )}
-              {props.isLost ? (
+              {props.islost ? (
                 <Text as="b">Lost on {props.itemDate}</Text>
               ) : (
                 <Text as="b">Found on {props.itemDate}</Text>
