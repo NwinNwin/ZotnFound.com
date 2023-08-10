@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { Button, Text, Flex, Stack, Icon, Image } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
@@ -9,11 +9,13 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import logo from "../../assets/images/small_logo.png";
 import login_page from "../../assets/images/login_page.jpg";
-import map from "../../assets/images/map.jpg";
+import axios from "axios";
 
 export default function AboutPage() {
   const navigate = useNavigate();
   const [screenWidth, setScreenWidth] = useState(window.screen.width);
+  const [data, setData] = useState([]);
+
   window.onresize = () => {
     setScreenWidth(window.screen.width);
   };
@@ -21,6 +23,18 @@ export default function AboutPage() {
   const handleClick = () => {
     navigate("/");
   };
+
+  useEffect(() => {
+    const getData = async () => {
+      axios
+        .get("http://localhost:3001/items")
+        .then((data) => setData(data.data))
+        .catch((err) => console.log(err));
+    };
+    getData();
+  }, []);
+
+  console.log("data", data);
 
   return (
     <Flex
@@ -73,13 +87,13 @@ export default function AboutPage() {
       >
         <Flex direction={"column"} m={"1%"}>
           <Text fontWeight={600} fontSize={{ base: "1.3rem", md: "2.4rem" }}>
-            0
+            {data.filter((item) => item.islost).length}
           </Text>
           <Text fontSize={{ base: "0.8rem", md: "1.2rem" }}>Lost Items</Text>
         </Flex>
         <Flex direction={"column"} m={"1%"}>
           <Text fontWeight={600} fontSize={{ base: "1.3rem", md: "2.4rem" }}>
-            0
+            {data.filter((item) => !item.islost).length}
           </Text>
           <Text fontSize={{ base: "0.8rem", md: "1.2rem" }}>Found Items</Text>
         </Flex>
@@ -93,7 +107,7 @@ export default function AboutPage() {
         </Flex>
         <Flex direction={"column"} m={"1%"}>
           <Text fontWeight={600} fontSize={{ base: "1.3rem", md: "2.4rem" }}>
-            0
+            {data.length}
           </Text>
           <Text fontSize={{ base: "0.8rem", md: "1.2rem" }}>Active Users</Text>
         </Flex>
