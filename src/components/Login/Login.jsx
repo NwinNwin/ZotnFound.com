@@ -1,20 +1,12 @@
-import React, { useContext } from "react";
-import {
-  Button,
-  Flex,
-  Heading,
-  Stack,
-  Image,
-  Center,
-} from "@chakra-ui/react";
+import React from "react";
+import { Button, Flex, Heading, Stack, Image, Center } from "@chakra-ui/react";
 import logo from "../../assets/images/logo.png";
-import { useNavigate } from "react-router-dom";
 import wallpaper from "../../assets/images/wallpaper.png";
 import { UserAuth } from "../../context/AuthContext";
 
 export default function Login() {
-  const [isSignUp, setIsSignUp] = React.useState(false);
-  const { googleSignIn} = UserAuth();
+  // const [isSignUp, setIsSignUp] = React.useState(false);
+  const { googleSignIn } = UserAuth();
 
   async function signInGoogle() {
     try {
@@ -23,7 +15,6 @@ export default function Login() {
       console.log(error);
     }
   }
-
 
   return (
     <Stack
@@ -42,9 +33,15 @@ export default function Login() {
             />
           </Center>
           <Heading fontSize={"3xl"} py="20px">
-            {isSignUp ? "Create ZotnFound Account" : "Welcome Back Anteater!"}
+            {/* {isSignUp ? "Create ZotnFound Account" : "Welcome Back Anteater!"} */}
           </Heading>
-          <Button onClick={signInGoogle} colorScheme={"green"} variant={"solid"}>SIGN IN WITH UCI</Button>
+          <Button
+            onClick={signInGoogle}
+            colorScheme={"green"}
+            variant={"solid"}
+          >
+            SIGN IN WITH UCI
+          </Button>
         </Stack>
       </Flex>
       <Flex flex={1}>

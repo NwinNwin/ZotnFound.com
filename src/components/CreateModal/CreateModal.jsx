@@ -22,7 +22,6 @@ import {
 import upload from "../../assets/images/download.png";
 import { storage } from "../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { AddIcon } from "@chakra-ui/icons";
 import { UserAuth } from "../../context/AuthContext";
 import DataContext from "../../context/DataContext";
 

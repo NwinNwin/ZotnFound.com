@@ -20,8 +20,7 @@ import google_logo from "../../assets/logos/google_logo.png";
 import { UserAuth } from "../../context/AuthContext";
 
 export default function LoginModal() {
-  const { isLoginModalOpen, onLoginModalClose, onLoginModalOpen } =
-    useContext(DataContext);
+  const { isLoginModalOpen, onLoginModalClose } = useContext(DataContext);
   const { googleSignIn, user } = UserAuth();
 
   async function signInGoogle() {

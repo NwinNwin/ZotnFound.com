@@ -15,7 +15,6 @@ import {
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,
-  DrawerCloseButton,
   Button,
 } from "@chakra-ui/react";
 import "./Filter.css";

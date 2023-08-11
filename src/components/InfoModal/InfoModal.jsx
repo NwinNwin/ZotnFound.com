@@ -27,11 +27,11 @@ export default function InfoModal({ setData, isOpen, onClose, props }) {
   const { user } = UserAuth();
   const currentEmail = user?.email;
 
-  function viewEmail() {
-    if (user) {
-      setShowEmail(true);
-    }
-  }
+  // function viewEmail() {
+  //   if (user) {
+  //     setShowEmail(true);
+  //   }
+  // }
 
   async function handleDelete() {
     onClose();
