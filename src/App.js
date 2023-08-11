@@ -9,12 +9,9 @@ import UpdatePage from "./components/UpdatePage/UpdatePage";
 import { ChakraProvider } from "@chakra-ui/react";
 import "leaflet/dist/leaflet.css";
 import { AuthContextProvider } from "./context/AuthContext";
-import { UserAuth } from "./context/AuthContext";
 import AboutPage from "./components/AboutPage/AboutPage";
 
 function App() {
-  const { user } = UserAuth();
-  console.log(user);
   return (
     <AuthContextProvider>
       <ChakraProvider>
