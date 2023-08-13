@@ -129,7 +129,7 @@ export default function Home() {
   data.sort(compareDates);
 
   //get data
-  console.log(`http://${process.env.REACT_APP_AWS_BACKEND_URL}/items/`);
+  console.log(`${process.env.REACT_APP_AWS_BACKEND_URL}`);
   useEffect(() => {
     const getData = async () => {
       axios
