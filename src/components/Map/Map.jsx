@@ -111,7 +111,7 @@ export default function Map({
     const date = new Date();
 
     axios
-      .post(`http://${process.env.REACT_APP_AWS_BACKEND_URL}/items`, {
+      .post(`${process.env.REACT_APP_AWS_BACKEND_URL}/items`, {
         image: newAddedItem.image,
         type: newAddedItem.type,
         islost: newAddedItem.islost,

@@ -129,13 +129,11 @@ export default function Home() {
   data.sort(compareDates);
 
   //get data
-  console.log(
-    `http://${process.env.REACT_APP_AWS_BACKEND_URL}/items/`
-  );
+  console.log(`http://${process.env.REACT_APP_AWS_BACKEND_URL}/items/`);
   useEffect(() => {
     const getData = async () => {
       axios
-        .get(`http://${process.env.REACT_APP_AWS_BACKEND_URL}/items/`)
+        .get(`${process.env.REACT_APP_AWS_BACKEND_URL}/items/`)
         .then((obj) => {
           console.log("s", obj.data);
           setData(obj.data.map((item) => ({ ...item, id: item.id })));
@@ -157,7 +155,7 @@ export default function Home() {
     let userEmail = user.email;
     if (user) {
       axios
-        .post(`http://${process.env.REACT_APP_AWS_BACKEND_URL}/send_email`, {
+        .post(`${process.env.REACT_APP_AWS_BACKEND_URL}/send_email`, {
           userEmail,
         })
         .then(() => alert("Email Sent Successfully!"))

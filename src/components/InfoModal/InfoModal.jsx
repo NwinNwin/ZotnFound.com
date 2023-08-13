@@ -38,7 +38,7 @@ export default function InfoModal({ setData, isOpen, onClose, props }) {
     setLoading(false);
     axios
       .delete(
-        `http://${process.env.REACT_APP_AWS_BACKEND_URL}/items/${props.id}`
+        `${process.env.REACT_APP_AWS_BACKEND_URL}/items/${props.id}`
       )
       .then(() => console.log("Success"))
       .catch((err) => console.log(err));
