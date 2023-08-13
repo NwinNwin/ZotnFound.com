@@ -10,7 +10,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import "leaflet/dist/leaflet.css";
 import { AuthContextProvider } from "./context/AuthContext";
 import AboutPage from "./components/AboutPage/AboutPage";
-
+//
 function App() {
   return (
     <AuthContextProvider>
