@@ -150,20 +150,6 @@ export default function Home() {
     setScreenWidth(window.screen.width);
   };
 
-  // send email
-  function sendMail() {
-    let userEmail = user.email;
-    if (user) {
-      axios
-        .post(`${process.env.REACT_APP_AWS_BACKEND_URL}/send_email`, {
-          userEmail,
-        })
-        .then(() => alert("Email Sent Successfully!"))
-        .catch(() => alert("Email NOT SENT"));
-    }
-    return;
-  }
-
   return (
     <DataContext.Provider
       value={{
@@ -257,15 +243,6 @@ export default function Home() {
               onChange={(e) => setSearch(e.target.value)}
             />
           </InputGroup>
-          {user && (
-            <Button
-              onClick={() => {
-                sendMail();
-              }}
-            >
-              send email to YOU
-            </Button>
-          )}
         </HStack>
 
         <Flex alignItems="center" justifyContent="space-between" mr={7} gap={5}>
