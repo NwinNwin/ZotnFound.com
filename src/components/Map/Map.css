@@ -11,9 +11,8 @@
 
 @media only screen and (max-width: 600px) {
   .map-container {
-    height: 70vh;
+    height: 79vh;
     width: 95vw;
-    border-radius: 30px;
     z-index: 0;
   }
 }

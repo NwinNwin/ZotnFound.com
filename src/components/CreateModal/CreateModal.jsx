@@ -69,7 +69,7 @@ export default function CreateModal({
     <>
       {isCreate ? (
         <Button
-          h={{ base: "8vh", md: "7vh" }}
+          h={{ base: "10vh", md: "7vh" }}
           w={{ base: "40vw", md: "8vw" }}
           _hover={{ bg: "#b4dbd9" }}
           backgroundColor="#61b895"

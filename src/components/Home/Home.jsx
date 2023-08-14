@@ -504,7 +504,7 @@ export default function Home() {
         <Box
           display={{ base: "block", md: "none" }}
           position="fixed"
-          bottom="5%"
+          bottom="2.5%"
           width="100vw"
         >
           <CreateModal

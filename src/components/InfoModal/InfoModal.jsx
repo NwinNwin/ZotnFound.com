@@ -37,9 +37,7 @@ export default function InfoModal({ setData, isOpen, onClose, props }) {
     onClose();
     setLoading(false);
     axios
-      .delete(
-        `${process.env.REACT_APP_AWS_BACKEND_URL}/items/${props.id}`
-      )
+      .delete(`${process.env.REACT_APP_AWS_BACKEND_URL}/items/${props.id}`)
       .then(() => console.log("Success"))
       .catch((err) => console.log(err));
     setData((prevItems) => {
@@ -54,7 +52,7 @@ export default function InfoModal({ setData, isOpen, onClose, props }) {
   const formattedDate = formatDate(new Date(props.date));
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} size={{ base: "full", md: "md" }}>
       <ModalOverlay />
       <ModalContent>
         <ModalCloseButton size="lg" />
