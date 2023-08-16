@@ -48,7 +48,7 @@ export default function Map({
     [33.630120665484185, -117.82240778293699],
   ];
   const bounds = L.latLngBounds(allowedBounds);
-
+  console.log(newAddedItem)
   const allMarkers = data
     .filter((item) => {
       return (

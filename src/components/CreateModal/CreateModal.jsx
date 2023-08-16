@@ -17,6 +17,17 @@ import {
   FormHelperText,
   Select,
   Text,
+  Step,
+  StepDescription,
+  StepIcon,
+  StepIndicator,
+  StepNumber,
+  StepSeparator,
+  StepStatus,
+  StepTitle,
+  Stepper,
+  useSteps,
+  Box,
 } from "@chakra-ui/react";
 // import logo from "../../assets/images/small_logo.png";
 import upload from "../../assets/images/download.png";
@@ -65,6 +76,19 @@ export default function CreateModal({
       });
     });
   };
+
+  const steps = [
+    { title: "First", description: "Enter Item Info" },
+    { title: "Second", description: "Select Item Type" },
+    { title: "Third", description: "Choose Date" },
+    { title: "Fourth", description: "File Upload" },
+  ];
+
+  const { activeStep, setActiveStep } = useSteps({
+    index: 1,
+    count: steps.length,
+  });
+
   return (
     <>
       {isCreate ? (
@@ -118,7 +142,235 @@ export default function CreateModal({
       >
         <ModalOverlay>
           <ModalContent>
-            <Flex width="100%" justifyContent="center" padding="10px">
+            <Flex padding={"2%"} flexDir={"column"}>
+              {/* stepper */}
+              <Stepper size="lg" index={activeStep} flex={1}>
+                {steps.map((step, index) => (
+                  <Step key={index} onClick={() => setActiveStep(index)}>
+                    <StepIndicator>
+                      <StepStatus
+                        complete={<StepIcon />}
+                        incomplete={<StepNumber />}
+                        active={<StepNumber />}
+                      />
+                    </StepIndicator>
+
+                    <Box flexShrink="0">
+                      <StepTitle>{step.title}</StepTitle>
+                      <StepDescription>{step.description}</StepDescription>
+                    </Box>
+
+                    <StepSeparator />
+                  </Step>
+                ))}
+              </Stepper>
+              {/* steppper */}
+              <Flex
+                width="100%"
+                height="100%"
+                justifyContent={"center"}
+                mt="5%"
+                mb="3%"
+              >
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    setUploadImg("");
+                    onClose();
+                    setIsCreate(!isCreate);
+                  }}
+                >
+                  {/* first step */}
+                  {activeStep === 0 && (
+                    <FormControl isRequired>
+                      <FormLabel py="10px">
+                        Enter your information below:{" "}
+                      </FormLabel>
+
+                      <Input
+                        variant="outline"
+                        placeholder="Item Name"
+                        mb="2"
+                        onChange={(e) =>
+                          setNewAddedItem((prev) => ({
+                            ...prev,
+                            name: e.target.value,
+                          }))
+                        }
+                      />
+                      <Input
+                        variant="outline"
+                        placeholder="Description of Item"
+                        mb="2"
+                        onChange={(e) =>
+                          setNewAddedItem((prev) => ({
+                            ...prev,
+                            description: e.target.value,
+                          }))
+                        }
+                      />
+                    </FormControl>
+                  )}
+                  {/* first step */}
+
+                  {/* second step */}
+                  {activeStep === 1 && (
+                    <FormControl isRequired mb="3">
+                      <FormLabel>Select Item Type:</FormLabel>
+                      <Select
+                        placeholder="Select option"
+                        onChange={(e) =>
+                          setNewAddedItem((prev) => ({
+                            ...prev,
+                            type: e.target.value,
+                          }))
+                        }
+                      >
+                        <option value="headphone">Headphones</option>
+                        <option value="wallet">Wallet</option>
+                        <option value="key">Keys</option>
+                        <option value="phone">Phone</option>
+                        <option value="others">Others</option>
+                      </Select>
+                    </FormControl>
+                  )}
+                  {activeStep === 1 && (
+                    <FormControl>
+                      <Flex justifyContent={"space-between"} mb="0">
+                        <FormLabel htmlFor="lost-item">
+                          Lost or Found Item?
+                        </FormLabel>
+                        <Switch
+                          id="lost-switch"
+                          size="lg"
+                          colorScheme="red"
+                          onChange={() =>
+                            setNewAddedItem((prev) => ({
+                              ...prev,
+                              islost: !prev.islost,
+                            }))
+                          }
+                        />
+                      </Flex>
+                      <Flex justifyContent="flex-end" mt={0}>
+                        <FormHelperText fontSize="20px">
+                          {newAddedItem.islost ? "Lost" : "Found"}
+                        </FormHelperText>
+                      </Flex>
+                    </FormControl>
+                  )}
+                  {/* second step */}
+
+                  {/* third step */}
+                  {activeStep === 2 && (
+                    <FormControl isRequired>
+                      <FormLabel py="10px">
+                        {newAddedItem.islost ? "Lost Date" : "Found Date"}
+                      </FormLabel>
+                      <Input
+                        variant="outline"
+                        mb="2"
+                        type="date"
+                        onChange={(e) =>
+                          setNewAddedItem((prev) => ({
+                            ...prev,
+                            itemDate: e.target.value,
+                          }))
+                        }
+                        // onChange={(e) => console.log(e.target.value)}
+                      />
+                    </FormControl>
+                  )}
+                  {/* third step */}
+
+                  {/* fourth step */}
+                  {activeStep === 3 && (
+                    <FormControl isRequired>
+                      <FormLabel>File Upload:</FormLabel>
+                      <Flex mb={3} alignItems="center" flexDirection="row">
+                        <Input
+                          type="file"
+                          placeholder="Image URL"
+                          onChange={(e) => {
+                            setNewAddedItem((prev) => ({
+                              ...prev,
+                              image: e.target.files[0],
+                            }));
+                          }}
+                        />
+                        <Button onClick={uploadFile}>Confirm</Button>
+                      </Flex>
+                    </FormControl>
+                  )}
+                  {/* fourth step */}
+                </form>
+              </Flex>
+              <Flex justifyContent={"center"} gap="3%">
+                {activeStep > 0 ? (
+                  <Button
+                    variant={"solid"}
+                    colorScheme="blue"
+                    size="lg"
+                    onClick={() => {
+                      setActiveStep((prevStep) => prevStep - 1);
+                      console.log(activeStep);
+                    }}
+                  >
+                    Back
+                  </Button>
+                ) : (
+                  <Button
+                    colorScheme="red"
+                    size="lg"
+                    onClick={() => {
+                      setIsEdit(!isEdit);
+                      setNewAddedItem((prev) => ({
+                        ...prev,
+                        islost: true,
+                      }));
+                      setUploadImg("");
+                      onClose();
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                )}
+                {activeStep < 3 ? (
+                  <Button
+                    variant={"solid"}
+                    colorScheme="blue"
+                    size="lg"
+                    onClick={() => {
+                      setActiveStep((prevStep) => prevStep + 1);
+                      console.log(activeStep);
+                    }}
+                  >
+                    Continue
+                  </Button>
+                ) : (
+                  <Button
+                    isDisabled={
+                      uploadImg === upload ||
+                      newAddedItem.image === "" ||
+                      newAddedItem.type === "" ||
+                      newAddedItem.name === "" ||
+                      newAddedItem.description === ""
+                    }
+                    variant={"solid"}
+                    type="submit"
+                    colorScheme="green"
+                    size="lg"
+                    onClick={() => {
+                      onClose();
+                      setActiveStep(0);
+                    }}
+                  >
+                    Continue
+                  </Button>
+                )}
+              </Flex>
+            </Flex>
+            {/* <Flex width="100%" justifyContent="center" padding="10px">
               <Stack minH={"70vh"} direction={{ base: "column", md: "row" }}>
                 <Flex align={"center"} justify={"center"} ml={10}>
                   <Flex
@@ -291,7 +543,7 @@ export default function CreateModal({
                 </Flex>
                 <Flex flex={1}></Flex>
               </Stack>
-            </Flex>
+            </Flex> */}
           </ModalContent>
         </ModalOverlay>
       </Modal>
