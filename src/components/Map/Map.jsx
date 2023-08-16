@@ -48,7 +48,7 @@ export default function Map({
     [33.630120665484185, -117.82240778293699],
   ];
   const bounds = L.latLngBounds(allowedBounds);
-  console.log(newAddedItem)
+  console.log(newAddedItem);
   const allMarkers = data
     .filter((item) => {
       return (
@@ -138,6 +138,15 @@ export default function Map({
         setData((prev) => [...prev, newItem]);
         setPosition(centerPosition);
         setFocusLocation(newItem.location);
+        setNewAddedItem({
+          image: "",
+          type: "",
+          islost: true,
+          name: "",
+          description: "",
+          itemDate: "",
+        });
+        setIsCreate(!isCreate);
         console.log("success", item);
       })
       .catch((err) => console.log(err));
@@ -153,7 +162,6 @@ export default function Map({
       setLoading(false);
       handleSubmit();
       setIsEdit(!isEdit);
-      setIsCreate(!isCreate);
     }
   };
   const redColor = { color: "#880808", fillColor: "None" };

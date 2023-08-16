@@ -85,7 +85,7 @@ export default function CreateModal({
   ];
 
   const { activeStep, setActiveStep } = useSteps({
-    index: 1,
+    index: 0,
     count: steps.length,
   });
 
@@ -126,7 +126,8 @@ export default function CreateModal({
           onClick={() => {
             setIsEdit(isEdit);
             setNewAddedItem((prev) => ({ ...prev, islost: true }));
-            setIsCreate(!isCreate);
+            setIsCreate(true);
+            setIsEdit(false);
             setPosition(centerPosition);
             setUploadImg("");
           }}
@@ -172,49 +173,42 @@ export default function CreateModal({
                 mt="5%"
                 mb="3%"
               >
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    setUploadImg("");
-                    onClose();
-                    setIsCreate(!isCreate);
-                  }}
-                >
-                  {/* first step */}
-                  {activeStep === 0 && (
-                    <FormControl isRequired>
-                      <FormLabel py="10px">
-                        Enter your information below:{" "}
-                      </FormLabel>
+                {/* first step */}
+                {activeStep === 0 && (
+                  <FormControl isRequired>
+                    <FormLabel py="10px">
+                      Enter your information below:{" "}
+                    </FormLabel>
 
-                      <Input
-                        variant="outline"
-                        placeholder="Item Name"
-                        mb="2"
-                        onChange={(e) =>
-                          setNewAddedItem((prev) => ({
-                            ...prev,
-                            name: e.target.value,
-                          }))
-                        }
-                      />
-                      <Input
-                        variant="outline"
-                        placeholder="Description of Item"
-                        mb="2"
-                        onChange={(e) =>
-                          setNewAddedItem((prev) => ({
-                            ...prev,
-                            description: e.target.value,
-                          }))
-                        }
-                      />
-                    </FormControl>
-                  )}
-                  {/* first step */}
+                    <Input
+                      variant="outline"
+                      placeholder="Item Name"
+                      mb="2"
+                      onChange={(e) =>
+                        setNewAddedItem((prev) => ({
+                          ...prev,
+                          name: e.target.value,
+                        }))
+                      }
+                    />
+                    <Input
+                      variant="outline"
+                      placeholder="Description of Item"
+                      mb="2"
+                      onChange={(e) =>
+                        setNewAddedItem((prev) => ({
+                          ...prev,
+                          description: e.target.value,
+                        }))
+                      }
+                    />
+                  </FormControl>
+                )}
+                {/* first step */}
 
-                  {/* second step */}
-                  {activeStep === 1 && (
+                {/* second step */}
+                {activeStep === 1 && (
+                  <Flex flexDir={"column"} w="100%">
                     <FormControl isRequired mb="3">
                       <FormLabel>Select Item Type:</FormLabel>
                       <Select
@@ -233,10 +227,12 @@ export default function CreateModal({
                         <option value="others">Others</option>
                       </Select>
                     </FormControl>
-                  )}
-                  {activeStep === 1 && (
-                    <FormControl>
-                      <Flex justifyContent={"space-between"} mb="0">
+                    <FormControl isRequired>
+                      <Flex
+                        justifyContent={"space-between"}
+                        mb="0"
+                        flexDir={"column"}
+                      >
                         <FormLabel htmlFor="lost-item">
                           Lost or Found Item?
                         </FormLabel>
@@ -252,58 +248,59 @@ export default function CreateModal({
                           }
                         />
                       </Flex>
-                      <Flex justifyContent="flex-end" mt={0}>
+                      <Flex justifyContent="flex-start" mt={0}>
                         <FormHelperText fontSize="20px">
                           {newAddedItem.islost ? "Lost" : "Found"}
                         </FormHelperText>
                       </Flex>
                     </FormControl>
-                  )}
-                  {/* second step */}
+                  </Flex>
+                )}
 
-                  {/* third step */}
-                  {activeStep === 2 && (
-                    <FormControl isRequired>
-                      <FormLabel py="10px">
-                        {newAddedItem.islost ? "Lost Date" : "Found Date"}
-                      </FormLabel>
+                {/* second step */}
+
+                {/* third step */}
+                {activeStep === 2 && (
+                  <FormControl isRequired>
+                    <FormLabel py="10px">
+                      {newAddedItem.islost ? "Lost Date" : "Found Date"}
+                    </FormLabel>
+                    <Input
+                      variant="outline"
+                      mb="2"
+                      type="date"
+                      onChange={(e) =>
+                        setNewAddedItem((prev) => ({
+                          ...prev,
+                          itemDate: e.target.value,
+                        }))
+                      }
+                      // onChange={(e) => console.log(e.target.value)}
+                    />
+                  </FormControl>
+                )}
+                {/* third step */}
+
+                {/* fourth step */}
+                {activeStep === 3 && (
+                  <FormControl isRequired>
+                    <FormLabel>File Upload:</FormLabel>
+                    <Flex mb={3} alignItems="center" flexDirection="row">
                       <Input
-                        variant="outline"
-                        mb="2"
-                        type="date"
-                        onChange={(e) =>
+                        type="file"
+                        placeholder="Image URL"
+                        onChange={(e) => {
                           setNewAddedItem((prev) => ({
                             ...prev,
-                            itemDate: e.target.value,
-                          }))
-                        }
-                        // onChange={(e) => console.log(e.target.value)}
+                            image: e.target.files[0],
+                          }));
+                        }}
                       />
-                    </FormControl>
-                  )}
-                  {/* third step */}
-
-                  {/* fourth step */}
-                  {activeStep === 3 && (
-                    <FormControl isRequired>
-                      <FormLabel>File Upload:</FormLabel>
-                      <Flex mb={3} alignItems="center" flexDirection="row">
-                        <Input
-                          type="file"
-                          placeholder="Image URL"
-                          onChange={(e) => {
-                            setNewAddedItem((prev) => ({
-                              ...prev,
-                              image: e.target.files[0],
-                            }));
-                          }}
-                        />
-                        <Button onClick={uploadFile}>Confirm</Button>
-                      </Flex>
-                    </FormControl>
-                  )}
-                  {/* fourth step */}
-                </form>
+                      <Button onClick={uploadFile}>Confirm</Button>
+                    </Flex>
+                  </FormControl>
+                )}
+                {/* fourth step */}
               </Flex>
               <Flex justifyContent={"center"} gap="3%">
                 {activeStep > 0 ? (
@@ -363,6 +360,7 @@ export default function CreateModal({
                     onClick={() => {
                       onClose();
                       setActiveStep(0);
+                      setIsCreate(false);
                     }}
                   >
                     Continue
