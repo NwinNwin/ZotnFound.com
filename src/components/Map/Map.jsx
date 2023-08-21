@@ -71,7 +71,7 @@ export default function Map({
     if (focusLocation) {
       handleFocus();
     }
-  }, [focusLocation]);
+  }, [focusLocation, setFocusLocation]);
 
   const allMarkers = data
     .filter((item) => {
