@@ -344,18 +344,24 @@ export default function Home() {
           </InputGroup>
         </Flex>
       </Flex>
-      <Flex position="relative" marginTop="2%" px="2%">
+      <Flex
+        position="relative"
+        marginTop={{ base: "1vh", md: "2%" }}
+        px={{ base: 0, md: "2%" }}
+      >
         {/* <CreateModal /> */}
         <Flex
-          width={{ base: "95vw", md: "75vw" }}
-          padding={{ base: 0, md: 5 }}
+          width={{ base: "100vw", md: "75vw" }}
+          padding={{ base: 3, md: 5 }}
           position="absolute"
           zIndex={1000}
           flexDirection="row"
           justifyContent="space-between"
         >
           <Button
-            colorScheme="teal"
+            backgroundColor="#a881af"
+            boxShadow="2xl"
+            color="white"
             onClick={onOpen}
             fontSize={{ base: "xl", md: "2xl" }}
             size="lg"
@@ -376,6 +382,7 @@ export default function Home() {
             colorScheme="blue"
             onClick={onResultsBarOpen}
             fontSize="2xl"
+            boxShadow="2xl"
             size="lg"
             gap={2}
           >

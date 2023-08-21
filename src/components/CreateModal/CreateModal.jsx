@@ -71,8 +71,9 @@ export default function CreateModal({
         <Button
           h={{ base: "10vh", md: "7vh" }}
           w={{ base: "40vw", md: "8vw" }}
+          boxShadow="xl"
           _hover={{ bg: "#b4dbd9" }}
-          backgroundColor="#61b895"
+          backgroundColor="#33b249"
           color="white"
           fontSize="xl"
           fontWeight="bold"
