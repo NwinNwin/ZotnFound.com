@@ -41,6 +41,7 @@ import { SlCalender } from "react-icons/sl";
 import Calendar from "react-calendar";
 // import "react-calendar/dist/Calendar.css";
 import "./Calendar.css";
+import TypeSelector from "../TypeSelector/TypeSelector";
 
 export default function CreateModal({
   newAddedItem,
@@ -176,12 +177,7 @@ export default function CreateModal({
                 ))}
               </Stepper>
               {/* steppper */}
-              <Flex
-                width="100%"
-                justifyContent={"center"}
-                mt="5%"
-                mb="3%"
-              >
+              <Flex width="100%" justifyContent={"center"} mt="5%" mb="3%">
                 {/* first step */}
                 {activeStep === 0 && (
                   <FormControl>
@@ -217,10 +213,16 @@ export default function CreateModal({
 
                 {/* second step */}
                 {activeStep === 1 && (
-                  <Flex flexDir={"column"} w="100%">
-                    <FormControl mb="3">
+                  <Flex
+                    flexDir={"column"}
+                    w="100%"
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                  >
+                    <FormControl>
                       <FormLabel>Select Item Type:</FormLabel>
-                      <Select
+                    </FormControl>
+                    {/* <Select
                         placeholder="Select option"
                         onChange={(e) =>
                           setNewAddedItem((prev) => ({
@@ -234,8 +236,8 @@ export default function CreateModal({
                         <option value="key">Keys</option>
                         <option value="phone">Phone</option>
                         <option value="others">Others</option>
-                      </Select>
-                    </FormControl>
+                      </Select> */}
+                    <TypeSelector setNewAddedItem={setNewAddedItem}/>
                     <FormControl>
                       <Flex flexDir={"column"}>
                         <FormLabel htmlFor="lost-item">
@@ -295,14 +297,13 @@ export default function CreateModal({
                       <Calendar
                         className={"react-calendar"}
                         calendarType="US"
-                        onChange={(e) =>
-                          {
-                            setDate(e)
-                            setNewAddedItem((prev) => ({
+                        onChange={(e) => {
+                          setDate(e);
+                          setNewAddedItem((prev) => ({
                             ...prev,
                             itemDate: e.toISOString().split("T")[0],
-                          }))}
-                        }
+                          }));
+                        }}
                         value={date}
                       />
                     </Flex>
@@ -379,7 +380,7 @@ export default function CreateModal({
 
                       <Flex>
                         <SlCalender />
-                        <Text>{newAddedItem.type}</Text>
+                        <Text>{newAddedItem.itemDate}</Text>
                       </Flex>
                     </Flex>
                   </Flex>
