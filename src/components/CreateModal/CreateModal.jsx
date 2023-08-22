@@ -35,6 +35,12 @@ import { storage } from "../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { UserAuth } from "../../context/AuthContext";
 import DataContext from "../../context/DataContext";
+import { MdDriveFileRenameOutline, MdOutlineDescription } from "react-icons/md";
+import { FaMagnifyingGlass } from "react-icons/fa6";
+import { SlCalender } from "react-icons/sl";
+import Calendar from "react-calendar";
+// import "react-calendar/dist/Calendar.css";
+import "./Calendar.css";
 
 export default function CreateModal({
   newAddedItem,
@@ -77,11 +83,15 @@ export default function CreateModal({
     });
   };
 
+  const [date, setDate] = useState(new Date());
+  console.log("date", date);
+
   const steps = [
     { title: "First", description: "Enter Item Info" },
     { title: "Second", description: "Select Item Type" },
     { title: "Third", description: "Choose Date" },
     { title: "Fourth", description: "File Upload" },
+    { title: "Fifth", description: "Check Info" },
   ];
 
   const { activeStep, setActiveStep } = useSteps({
@@ -168,14 +178,13 @@ export default function CreateModal({
               {/* steppper */}
               <Flex
                 width="100%"
-                height="100%"
                 justifyContent={"center"}
                 mt="5%"
                 mb="3%"
               >
                 {/* first step */}
                 {activeStep === 0 && (
-                  <FormControl isRequired>
+                  <FormControl>
                     <FormLabel py="10px">
                       Enter your information below:{" "}
                     </FormLabel>
@@ -209,7 +218,7 @@ export default function CreateModal({
                 {/* second step */}
                 {activeStep === 1 && (
                   <Flex flexDir={"column"} w="100%">
-                    <FormControl isRequired mb="3">
+                    <FormControl mb="3">
                       <FormLabel>Select Item Type:</FormLabel>
                       <Select
                         placeholder="Select option"
@@ -227,31 +236,33 @@ export default function CreateModal({
                         <option value="others">Others</option>
                       </Select>
                     </FormControl>
-                    <FormControl isRequired>
-                      <Flex
-                        justifyContent={"space-between"}
-                        mb="0"
-                        flexDir={"column"}
-                      >
+                    <FormControl>
+                      <Flex flexDir={"column"}>
                         <FormLabel htmlFor="lost-item">
                           Lost or Found Item?
                         </FormLabel>
-                        <Switch
-                          id="lost-switch"
-                          size="lg"
-                          colorScheme="red"
-                          onChange={() =>
-                            setNewAddedItem((prev) => ({
-                              ...prev,
-                              islost: !prev.islost,
-                            }))
-                          }
-                        />
-                      </Flex>
-                      <Flex justifyContent="flex-start" mt={0}>
-                        <FormHelperText fontSize="20px">
-                          {newAddedItem.islost ? "Lost" : "Found"}
-                        </FormHelperText>
+
+                        <Flex alignItems={"center"} textAlign={"center"}>
+                          <Switch
+                            id="lost-switch"
+                            size="lg"
+                            colorScheme="red"
+                            mr="2%"
+                            onChange={() =>
+                              setNewAddedItem((prev) => ({
+                                ...prev,
+                                islost: !prev.islost,
+                              }))
+                            }
+                          />
+                          <FormHelperText
+                            fontSize="20px"
+                            textAlign={"center"}
+                            m="0"
+                          >
+                            {newAddedItem.islost ? "Lost" : "Found"}
+                          </FormHelperText>
+                        </Flex>
                       </Flex>
                     </FormControl>
                   </Flex>
@@ -261,11 +272,11 @@ export default function CreateModal({
 
                 {/* third step */}
                 {activeStep === 2 && (
-                  <FormControl isRequired>
+                  <FormControl>
                     <FormLabel py="10px">
-                      {newAddedItem.islost ? "Lost Date" : "Found Date"}
+                      {newAddedItem.islost ? "Lost Date:" : "Found Date:"}
                     </FormLabel>
-                    <Input
+                    {/* <Input
                       variant="outline"
                       mb="2"
                       type="date"
@@ -275,15 +286,33 @@ export default function CreateModal({
                           itemDate: e.target.value,
                         }))
                       }
-                      // onChange={(e) => console.log(e.target.value)}
-                    />
+                    /> */}
+                    <Flex
+                      w="100%"
+                      alignItems={"center"}
+                      justifyContent={"center"}
+                    >
+                      <Calendar
+                        className={"react-calendar"}
+                        calendarType="US"
+                        onChange={(e) =>
+                          {
+                            setDate(e)
+                            setNewAddedItem((prev) => ({
+                            ...prev,
+                            itemDate: e.toISOString().split("T")[0],
+                          }))}
+                        }
+                        value={date}
+                      />
+                    </Flex>
                   </FormControl>
                 )}
                 {/* third step */}
 
                 {/* fourth step */}
                 {activeStep === 3 && (
-                  <FormControl isRequired>
+                  <FormControl>
                     <FormLabel>File Upload:</FormLabel>
                     <Flex mb={3} alignItems="center" flexDirection="row">
                       <Input
@@ -301,7 +330,63 @@ export default function CreateModal({
                   </FormControl>
                 )}
                 {/* fourth step */}
+
+                {/* fifth step */}
+                {activeStep === 4 && (
+                  <Flex gap={"5%"}>
+                    <Flex
+                      flexDir={"column"}
+                      flex={1}
+                      justifyContent={"center"}
+                      alignItems={"center"}
+                      borderRight={"1px solid #833c3c5c"}
+                    >
+                      <Text as="b" fontSize={25}>
+                        Confirm & Submit
+                      </Text>
+                      <Image
+                        sizeBox="100%"
+                        src={newAddedItem.image === "" ? upload : uploadImg}
+                        width="25vw"
+                        height="25vh"
+                        borderRadius="15%"
+                        objectFit={"cover"}
+                      />
+                    </Flex>
+
+                    <Flex
+                      flex={1}
+                      backgroundColor={"#f9f9f9"}
+                      flexDir={"column"}
+                      borderRadius={"10%"}
+                    >
+                      <Text textAlign={"center"}>Item Information</Text>
+
+                      <Flex>
+                        <MdDriveFileRenameOutline />
+                        <Text>{newAddedItem.name}</Text>
+                      </Flex>
+
+                      <Flex>
+                        <MdOutlineDescription />
+                        <Text>{newAddedItem.description}</Text>
+                      </Flex>
+
+                      <Flex>
+                        <FaMagnifyingGlass />
+                        <Text>{newAddedItem.type}</Text>
+                      </Flex>
+
+                      <Flex>
+                        <SlCalender />
+                        <Text>{newAddedItem.type}</Text>
+                      </Flex>
+                    </Flex>
+                  </Flex>
+                )}
+                {/* fifth step */}
               </Flex>
+
               <Flex justifyContent={"center"} gap="3%">
                 {activeStep > 0 ? (
                   <Button
@@ -332,7 +417,7 @@ export default function CreateModal({
                     Cancel
                   </Button>
                 )}
-                {activeStep < 3 ? (
+                {activeStep < 4 ? (
                   <Button
                     variant={"solid"}
                     colorScheme="blue"
