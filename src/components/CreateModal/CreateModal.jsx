@@ -69,7 +69,6 @@ export default function CreateModal({
 
     uploadBytes(imageRef, newAddedItem.image).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((url) => {
-        console.log(url);
         if (
           url.includes(
             "https://firebasestorage.googleapis.com/v0/b/zotnfound2.appspot.com/o/zotnfound2%2Fimages%2FNaN"
@@ -85,7 +84,6 @@ export default function CreateModal({
   };
 
   const [date, setDate] = useState(new Date());
-  console.log("date", date);
 
   const steps = [
     { title: "First", description: "Enter Item Info" },
@@ -237,7 +235,7 @@ export default function CreateModal({
                         <option value="phone">Phone</option>
                         <option value="others">Others</option>
                       </Select> */}
-                    <TypeSelector setNewAddedItem={setNewAddedItem}/>
+                    <TypeSelector setNewAddedItem={setNewAddedItem} />
                     <FormControl>
                       <Flex flexDir={"column"}>
                         <FormLabel htmlFor="lost-item">
@@ -340,7 +338,6 @@ export default function CreateModal({
                       flex={1}
                       justifyContent={"center"}
                       alignItems={"center"}
-                      borderRight={"1px solid #833c3c5c"}
                     >
                       <Text as="b" fontSize={25}>
                         Confirm & Submit
@@ -360,27 +357,50 @@ export default function CreateModal({
                       backgroundColor={"#f9f9f9"}
                       flexDir={"column"}
                       borderRadius={"10%"}
+                      padding={"1vw"}
                     >
-                      <Text textAlign={"center"}>Item Information</Text>
+                      <Text textAlign={"center"} as="b" fontSize={23}>
+                        Item Information
+                      </Text>
 
-                      <Flex>
-                        <MdDriveFileRenameOutline />
-                        <Text>{newAddedItem.name}</Text>
+                      <Flex mb="10%" ml="1%">
+                        <MdDriveFileRenameOutline size={"1.3em"}/>
+                        <Text maxW="20vw" ml="2%" fontSize={15}>
+                          {newAddedItem.name}
+                          Lorem ipsum dolor sit amet consectetur adipisicing
+                          elit. Aut libero quis possimus numquam alias, ipsum
+                          perferendis animi laboriosam quasi minus eligendi
+                          culpa magnam nostrum non tenetur doloremque explicabo
+                          vitae porro?
+                        </Text>
                       </Flex>
 
-                      <Flex>
-                        <MdOutlineDescription />
-                        <Text>{newAddedItem.description}</Text>
+                      <Flex mb="10%">
+                        <MdOutlineDescription size={"1.3em"}/>
+                        <Text maxW="20vw" ml="2%" fontSize={15}>
+                          {newAddedItem.description}
+                          Lorem ipsum dolor sit amet consectetur adipisicing
+                          elit. Exercitationem tempore sunt cupiditate quaerat
+                          blanditiis delectus natus culpa ad est aliquam nihil
+                          omnis ipsum incidunt, magnam beatae earum neque, sint
+                          nostrum?
+                        </Text>
                       </Flex>
 
-                      <Flex>
-                        <FaMagnifyingGlass />
-                        <Text>{newAddedItem.type}</Text>
+                      <Flex mb="10%">
+                        <FaMagnifyingGlass size={"1.3em"}/>
+                        <Text maxW="20vw" ml="2%" fontSize={15}>
+                          {newAddedItem.islost ? "LOST" : "FOUND"}
+                          {", "}
+                          {newAddedItem.type}
+                        </Text>
                       </Flex>
 
-                      <Flex>
-                        <SlCalender />
-                        <Text>{newAddedItem.itemDate}</Text>
+                      <Flex mb="10%">
+                        <SlCalender size={"1.3em"}/>
+                        <Text maxW="20vw" ml="2%" fontSize={15}>
+                          {newAddedItem.itemDate}
+                        </Text>
                       </Flex>
                     </Flex>
                   </Flex>
@@ -396,7 +416,6 @@ export default function CreateModal({
                     size="lg"
                     onClick={() => {
                       setActiveStep((prevStep) => prevStep - 1);
-                      console.log(activeStep);
                     }}
                   >
                     Back
@@ -425,7 +444,6 @@ export default function CreateModal({
                     size="lg"
                     onClick={() => {
                       setActiveStep((prevStep) => prevStep + 1);
-                      console.log(activeStep);
                     }}
                   >
                     Continue

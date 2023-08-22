@@ -27,6 +27,7 @@ export default function TypeCard({
       justifyContent={"center"}
       flexDir={"column"}
       onClick={handleOnClick}
+      _hover={{cursor: "pointer"}}
     >
       <Text>{type}</Text>
       <Image src={icon} w="5vw" h="5vw" />

@@ -48,7 +48,6 @@ export default function Map({
     [33.630120665484185, -117.82240778293699],
   ];
   const bounds = L.latLngBounds(allowedBounds);
-  console.log(newAddedItem);
   const allMarkers = data
     .filter((item) => {
       return (
@@ -65,6 +64,7 @@ export default function Map({
     })
     .map((item) => (
       <Marker
+        key={item.location}
         position={item.location}
         eventHandlers={{
           click: () => {
@@ -100,7 +100,6 @@ export default function Map({
         const marker = markerRef.current;
         if (marker != null) {
           setPosition(marker.getLatLng());
-          console.log(position);
         }
       },
     }),
@@ -147,7 +146,6 @@ export default function Map({
           itemDate: "",
         });
         setIsCreate(!isCreate);
-        console.log("success", item);
       })
       .catch((err) => console.log(err));
 

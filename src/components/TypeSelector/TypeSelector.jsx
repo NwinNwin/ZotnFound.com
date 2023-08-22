@@ -16,7 +16,7 @@ export default function TypeSelector(props) {
   };
 
   const typeContainers = Object.keys(types).map((type) => (
-    <TypeCard type={type} icon={logo} pressed={pressed} setPressed={setPressed} setNewAddedItem={props.setNewAddedItem}/>
+    <TypeCard key={type} type={type} icon={logo} pressed={pressed} setPressed={setPressed} setNewAddedItem={props.setNewAddedItem}/>
   ));
 
   return (

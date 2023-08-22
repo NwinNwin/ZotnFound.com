@@ -31,6 +31,7 @@ export default function ResultsBar({
     .map((item) => {
       return (
         <Box
+          key={item.location}
           onClick={() => {
             setFocusLocation(item.location);
           }}

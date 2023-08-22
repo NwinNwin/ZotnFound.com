@@ -47,7 +47,6 @@ export default function Home() {
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
   const { user, logOut } = UserAuth();
-  console.log(user);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -131,13 +130,11 @@ export default function Home() {
   data.sort(compareDates);
 
   //get data
-  console.log(`${process.env.REACT_APP_AWS_BACKEND_URL}`);
   useEffect(() => {
     const getData = async () => {
       axios
         .get(`${process.env.REACT_APP_AWS_BACKEND_URL}/items/`)
         .then((obj) => {
-          console.log("s", obj.data);
           setData(obj.data.map((item) => ({ ...item, id: item.id })));
         })
         .catch((err) => console.log(err));
@@ -146,7 +143,6 @@ export default function Home() {
     getData();
   }, []);
 
-  console.log("t", data);
 
   window.onresize = () => {
     setScreenWidth(window.screen.width);

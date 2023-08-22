@@ -34,8 +34,6 @@ export default function AboutPage() {
     getData();
   }, []);
 
-  console.log("data", data);
-
   return (
     <Flex
       alignItems={"center"}
