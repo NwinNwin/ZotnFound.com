@@ -126,7 +126,7 @@ export default function Map({
         }
       },
     }),
-    [position, setPosition]
+    [setPosition]
   );
 
   async function handleSubmit() {

@@ -2,8 +2,6 @@ import * as React from "react";
 import { useState, useContext } from "react";
 import {
   Image,
-  Stack,
-  Heading,
   Button,
   Flex,
   FormLabel,
@@ -15,7 +13,6 @@ import {
   ModalContent,
   FormControl,
   FormHelperText,
-  Select,
   Text,
   Step,
   StepDescription,
