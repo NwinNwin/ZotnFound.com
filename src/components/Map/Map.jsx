@@ -1,9 +1,11 @@
-import { useState, useRef, useMemo, useContext } from "react";
+import { useState, useRef, useMemo, useContext, useEffect } from "react";
 // import { useMapEvents } from "react-leaflet/hooks";
 // import mapuser from "../../assets/logos/mapuser.svg";
 import "./Map.css";
 
 import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+
 import { othersDrag, flyImg, iconsMap } from "./MapIcons";
 import {
   MapContainer,
@@ -12,6 +14,7 @@ import {
   Popup,
   useMap,
   Rectangle,
+  Circle,
 } from "react-leaflet";
 import { useDisclosure } from "@chakra-ui/react";
 import InfoModal from "../InfoModal/InfoModal";
@@ -41,6 +44,9 @@ export default function Map({
   const { data, setLoading } = useContext(DataContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [itemData, setItemData] = useState({});
+  const [showDonut, setShowDonut] = useState(false);
+  console.log(showDonut);
+  console.log(focusLocation);
   const allowedBounds = [
     [33.656487295651, -117.85412222020983],
     [33.65580858123096, -117.82236486775658],
@@ -48,6 +54,26 @@ export default function Map({
     [33.630120665484185, -117.82240778293699],
   ];
   const bounds = L.latLngBounds(allowedBounds);
+
+  const handleMarkerSelect = async () => {
+    setShowDonut(true);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    setShowDonut(false);
+  };
+
+  useEffect(() => {
+    const handleFocus = async () => {
+      await handleMarkerSelect();
+      setFocusLocation(undefined);
+    };
+
+    if (focusLocation) {
+      handleFocus();
+    }
+  }, [focusLocation, setFocusLocation]);
+
+
   const allMarkers = data
     .filter((item) => {
       return (
@@ -62,29 +88,26 @@ export default function Map({
           (findFilter.isYourPosts && item.email === user.email))
       );
     })
-    .map((item) => (
-      <Marker
-        key={item.location}
-        position={item.location}
-        eventHandlers={{
-          click: () => {
-            onOpen();
-            setItemData(item);
-            setFocusLocation(item.location);
-          },
-          mouseover: (event) => !isEdit && event.target.openPopup(),
-        }}
-        icon={(iconsMap[item.type] || iconsMap["others"])[item.islost]}
-      >
-        <Popup>{item.name}</Popup>
-      </Marker>
-    ));
+    .map((item) => {
+      return (
+        <Marker
+          position={item.location}
+          eventHandlers={{
+            click: () => {
+              onOpen();
+              setItemData(item);
+              setFocusLocation(item.location);
+            },
+          }}
+          icon={(iconsMap[item.type] || iconsMap["others"])[item.islost]}
+        ></Marker>
+      );
+    });
 
   function Test({ location }) {
     const map = useMap();
     if (location) {
       map.flyTo(location, 18);
-      setFocusLocation(undefined);
     }
 
     return location ? (
@@ -218,6 +241,17 @@ export default function Map({
               </span>
             </Popup>
           </Marker>
+        )}
+        {showDonut && focusLocation && (
+          <>
+            <Circle
+              center={focusLocation}
+              radius={20}
+              color="red"
+              weight={3}
+              fillColor="yellow"
+            />
+          </>
         )}
         <SetBoundsRectangles />
       </MapContainer>

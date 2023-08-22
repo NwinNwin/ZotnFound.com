@@ -1,75 +1,75 @@
 import L from "leaflet";
-import headphone_red from "../../assets/logos/headphone_red.svg";
-import headphone_green from "../../assets/logos/headphone_green.svg";
+import headphone_lost from "../../assets/logos/Headphones_lost.png";
+import headphone_found from "../../assets/logos/Headphones_found.png";
 
-import phone_green from "../../assets/logos/phone_green.svg";
-import phone_red from "../../assets/logos/phone_red.svg";
+import phone_found from "../../assets/logos/Phone_found.png";
+import phone_lost from "../../assets/logos/Phone_lost.png";
 
-import wallet_green from "../../assets/logos/wallet_green.svg";
-import wallet_red from "../../assets/logos/wallet_red.svg";
+import wallet_found from "../../assets/logos/Wallet_found.png";
+import wallet_lost from "../../assets/logos/Wallet_lost.png";
 
-import key_green from "../../assets/logos/key_green.svg";
-import key_red from "../../assets/logos/key_red.svg";
+import key_found from "../../assets/logos/Key_found.png";
+import key_lost from "../../assets/logos/Key_lost.png";
 
-import others_red from "../../assets/logos/others_red.svg";
-import others_green from "../../assets/logos/others_green.svg";
+import others_lost from "../../assets/logos/Others_lost.png";
+import others_found from "../../assets/logos/Others_found.png";
 import others_black from "../../assets/logos/others_black.svg";
 
 import fly_img from "../../assets/images/fly_img.png";
 
 const headphoneLost = L.icon({
-  iconUrl: headphone_red,
-  iconSize: [40, 40],
+  iconUrl: headphone_lost,
+  iconSize: [60, 60],
 });
 
 const headphoneFound = L.icon({
-  iconUrl: headphone_green,
-  iconSize: [40, 40],
+  iconUrl: headphone_found,
+  iconSize: [60, 60],
 });
 
 const phoneLost = L.icon({
-  iconUrl: phone_red,
-  iconSize: [40, 40],
+  iconUrl: phone_lost,
+  iconSize: [60, 60],
 });
 
 const phoneFound = L.icon({
-  iconUrl: phone_green,
-  iconSize: [40, 40],
+  iconUrl: phone_found,
+  iconSize: [60, 60],
 });
 
 const keyLost = L.icon({
-  iconUrl: key_red,
-  iconSize: [40, 40],
+  iconUrl: key_lost,
+  iconSize: [60, 60],
 });
 
 const keyFound = L.icon({
-  iconUrl: key_green,
-  iconSize: [40, 40],
+  iconUrl: key_found,
+  iconSize: [60, 60],
 });
 
 const walletLost = L.icon({
-  iconUrl: wallet_red,
-  iconSize: [40, 40],
+  iconUrl: wallet_lost,
+  iconSize: [60, 60],
 });
 
 const walletFound = L.icon({
-  iconUrl: wallet_green,
-  iconSize: [40, 40],
+  iconUrl: wallet_found,
+  iconSize: [60, 60],
 });
 
 const othersLost = L.icon({
-  iconUrl: others_red,
-  iconSize: [40, 40],
+  iconUrl: others_lost,
+  iconSize: [60, 60],
 });
 
 const othersFound = L.icon({
-  iconUrl: others_green,
-  iconSize: [40, 40],
+  iconUrl: others_found,
+  iconSize: [60, 60],
 });
 
 export const othersDrag = L.icon({
   iconUrl: others_black,
-  iconSize: [40, 40],
+  iconSize: [60, 70],
 });
 
 export const flyImg = L.icon({
