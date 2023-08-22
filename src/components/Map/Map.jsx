@@ -73,6 +73,7 @@ export default function Map({
     }
   }, [focusLocation, setFocusLocation]);
 
+
   const allMarkers = data
     .filter((item) => {
       return (
@@ -122,7 +123,6 @@ export default function Map({
         const marker = markerRef.current;
         if (marker != null) {
           setPosition(marker.getLatLng());
-          console.log(position);
         }
       },
     }),
@@ -160,7 +160,15 @@ export default function Map({
         setData((prev) => [...prev, newItem]);
         setPosition(centerPosition);
         setFocusLocation(newItem.location);
-        console.log("success", item);
+        setNewAddedItem({
+          image: "",
+          type: "",
+          islost: true,
+          name: "",
+          description: "",
+          itemDate: "",
+        });
+        setIsCreate(!isCreate);
       })
       .catch((err) => console.log(err));
 
@@ -175,7 +183,6 @@ export default function Map({
       setLoading(false);
       handleSubmit();
       setIsEdit(!isEdit);
-      setIsCreate(!isCreate);
     }
   };
   const redColor = { color: "#880808", fillColor: "None" };

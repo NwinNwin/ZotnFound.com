@@ -16,11 +16,9 @@ export const AuthContextProvider = ({ children }) => {
       } else {
         setUser(null);
       }
-      console.log(res.user);
     });
   };
 
-  console.log("test", user);
 
   const logOut = () => {
     signOut(auth);

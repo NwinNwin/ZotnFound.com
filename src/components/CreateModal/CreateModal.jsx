@@ -17,6 +17,17 @@ import {
   FormHelperText,
   Select,
   Text,
+  Step,
+  StepDescription,
+  StepIcon,
+  StepIndicator,
+  StepNumber,
+  StepSeparator,
+  StepStatus,
+  StepTitle,
+  Stepper,
+  useSteps,
+  Box,
 } from "@chakra-ui/react";
 // import logo from "../../assets/images/small_logo.png";
 import upload from "../../assets/images/download.png";
@@ -24,6 +35,13 @@ import { storage } from "../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { UserAuth } from "../../context/AuthContext";
 import DataContext from "../../context/DataContext";
+import { MdDriveFileRenameOutline, MdOutlineDescription } from "react-icons/md";
+import { FaMagnifyingGlass } from "react-icons/fa6";
+import { SlCalender } from "react-icons/sl";
+import Calendar from "react-calendar";
+// import "react-calendar/dist/Calendar.css";
+import "./Calendar.css";
+import TypeSelector from "../TypeSelector/TypeSelector";
 
 export default function CreateModal({
   newAddedItem,
@@ -51,7 +69,6 @@ export default function CreateModal({
 
     uploadBytes(imageRef, newAddedItem.image).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((url) => {
-        console.log(url);
         if (
           url.includes(
             "https://firebasestorage.googleapis.com/v0/b/zotnfound2.appspot.com/o/zotnfound2%2Fimages%2FNaN"
@@ -65,6 +82,22 @@ export default function CreateModal({
       });
     });
   };
+
+  const [date, setDate] = useState(new Date());
+
+  const steps = [
+    { title: "First", description: "Enter Item Info" },
+    { title: "Second", description: "Select Item Type" },
+    { title: "Third", description: "Choose Date" },
+    { title: "Fourth", description: "File Upload" },
+    { title: "Fifth", description: "Check Info" },
+  ];
+
+  const { activeStep, setActiveStep } = useSteps({
+    index: 0,
+    count: steps.length,
+  });
+
   return (
     <>
       {isCreate ? (
@@ -103,7 +136,8 @@ export default function CreateModal({
           onClick={() => {
             setIsEdit(isEdit);
             setNewAddedItem((prev) => ({ ...prev, islost: true }));
-            setIsCreate(!isCreate);
+            setIsCreate(true);
+            setIsEdit(false);
             setPosition(centerPosition);
             setUploadImg("");
           }}
@@ -119,7 +153,327 @@ export default function CreateModal({
       >
         <ModalOverlay>
           <ModalContent>
-            <Flex width="100%" justifyContent="center" padding="10px">
+            <Flex padding={"2%"} flexDir={"column"}>
+              {/* stepper */}
+              <Stepper size="lg" index={activeStep} flex={1}>
+                {steps.map((step, index) => (
+                  <Step key={index} onClick={() => setActiveStep(index)}>
+                    <StepIndicator>
+                      <StepStatus
+                        complete={<StepIcon />}
+                        incomplete={<StepNumber />}
+                        active={<StepNumber />}
+                      />
+                    </StepIndicator>
+
+                    <Box flexShrink="0">
+                      <StepTitle>{step.title}</StepTitle>
+                      <StepDescription>{step.description}</StepDescription>
+                    </Box>
+
+                    <StepSeparator />
+                  </Step>
+                ))}
+              </Stepper>
+              {/* steppper */}
+              <Flex width="100%" justifyContent={"center"} mt="5%" mb="3%">
+                {/* first step */}
+                {activeStep === 0 && (
+                  <FormControl>
+                    <FormLabel py="10px">
+                      Enter your information below:{" "}
+                    </FormLabel>
+
+                    <Input
+                      variant="outline"
+                      placeholder="Item Name"
+                      mb="2"
+                      onChange={(e) =>
+                        setNewAddedItem((prev) => ({
+                          ...prev,
+                          name: e.target.value,
+                        }))
+                      }
+                    />
+                    <Input
+                      variant="outline"
+                      placeholder="Description of Item"
+                      mb="2"
+                      onChange={(e) =>
+                        setNewAddedItem((prev) => ({
+                          ...prev,
+                          description: e.target.value,
+                        }))
+                      }
+                    />
+                  </FormControl>
+                )}
+                {/* first step */}
+
+                {/* second step */}
+                {activeStep === 1 && (
+                  <Flex
+                    flexDir={"column"}
+                    w="100%"
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                  >
+                    <FormControl>
+                      <FormLabel>Select Item Type:</FormLabel>
+                    </FormControl>
+                    {/* <Select
+                        placeholder="Select option"
+                        onChange={(e) =>
+                          setNewAddedItem((prev) => ({
+                            ...prev,
+                            type: e.target.value,
+                          }))
+                        }
+                      >
+                        <option value="headphone">Headphones</option>
+                        <option value="wallet">Wallet</option>
+                        <option value="key">Keys</option>
+                        <option value="phone">Phone</option>
+                        <option value="others">Others</option>
+                      </Select> */}
+                    <TypeSelector setNewAddedItem={setNewAddedItem} />
+                    <FormControl>
+                      <Flex flexDir={"column"}>
+                        <FormLabel htmlFor="lost-item">
+                          Lost or Found Item?
+                        </FormLabel>
+
+                        <Flex alignItems={"center"} textAlign={"center"}>
+                          <Switch
+                            id="lost-switch"
+                            size="lg"
+                            colorScheme="red"
+                            mr="2%"
+                            onChange={() =>
+                              setNewAddedItem((prev) => ({
+                                ...prev,
+                                islost: !prev.islost,
+                              }))
+                            }
+                          />
+                          <FormHelperText
+                            fontSize="20px"
+                            textAlign={"center"}
+                            m="0"
+                          >
+                            {newAddedItem.islost ? "Lost" : "Found"}
+                          </FormHelperText>
+                        </Flex>
+                      </Flex>
+                    </FormControl>
+                  </Flex>
+                )}
+
+                {/* second step */}
+
+                {/* third step */}
+                {activeStep === 2 && (
+                  <FormControl>
+                    <FormLabel py="10px">
+                      {newAddedItem.islost ? "Lost Date:" : "Found Date:"}
+                    </FormLabel>
+                    {/* <Input
+                      variant="outline"
+                      mb="2"
+                      type="date"
+                      onChange={(e) =>
+                        setNewAddedItem((prev) => ({
+                          ...prev,
+                          itemDate: e.target.value,
+                        }))
+                      }
+                    /> */}
+                    <Flex
+                      w="100%"
+                      alignItems={"center"}
+                      justifyContent={"center"}
+                    >
+                      <Calendar
+                        className={"react-calendar"}
+                        calendarType="US"
+                        onChange={(e) => {
+                          setDate(e);
+                          setNewAddedItem((prev) => ({
+                            ...prev,
+                            itemDate: e.toISOString().split("T")[0],
+                          }));
+                        }}
+                        value={date}
+                      />
+                    </Flex>
+                  </FormControl>
+                )}
+                {/* third step */}
+
+                {/* fourth step */}
+                {activeStep === 3 && (
+                  <FormControl>
+                    <FormLabel>File Upload:</FormLabel>
+                    <Flex mb={3} alignItems="center" flexDirection="row">
+                      <Input
+                        type="file"
+                        placeholder="Image URL"
+                        onChange={(e) => {
+                          setNewAddedItem((prev) => ({
+                            ...prev,
+                            image: e.target.files[0],
+                          }));
+                        }}
+                      />
+                      <Button onClick={uploadFile}>Confirm</Button>
+                    </Flex>
+                  </FormControl>
+                )}
+                {/* fourth step */}
+
+                {/* fifth step */}
+                {activeStep === 4 && (
+                  <Flex gap={"5%"}>
+                    <Flex
+                      flexDir={"column"}
+                      flex={1}
+                      justifyContent={"center"}
+                      alignItems={"center"}
+                    >
+                      <Text as="b" fontSize={25}>
+                        Confirm & Submit
+                      </Text>
+                      <Image
+                        sizeBox="100%"
+                        src={newAddedItem.image === "" ? upload : uploadImg}
+                        width="25vw"
+                        height="25vh"
+                        borderRadius="15%"
+                        objectFit={"cover"}
+                      />
+                    </Flex>
+
+                    <Flex
+                      flex={1}
+                      backgroundColor={"#f9f9f9"}
+                      flexDir={"column"}
+                      borderRadius={"10%"}
+                      padding={"1vw"}
+                    >
+                      <Text textAlign={"center"} as="b" fontSize={23}>
+                        Item Information
+                      </Text>
+
+                      <Flex mb="10%" ml="1%">
+                        <MdDriveFileRenameOutline size={"1.3em"}/>
+                        <Text maxW="20vw" ml="2%" fontSize={15}>
+                          {newAddedItem.name}
+                          Lorem ipsum dolor sit amet consectetur adipisicing
+                          elit. Aut libero quis possimus numquam alias, ipsum
+                          perferendis animi laboriosam quasi minus eligendi
+                          culpa magnam nostrum non tenetur doloremque explicabo
+                          vitae porro?
+                        </Text>
+                      </Flex>
+
+                      <Flex mb="10%">
+                        <MdOutlineDescription size={"1.3em"}/>
+                        <Text maxW="20vw" ml="2%" fontSize={15}>
+                          {newAddedItem.description}
+                          Lorem ipsum dolor sit amet consectetur adipisicing
+                          elit. Exercitationem tempore sunt cupiditate quaerat
+                          blanditiis delectus natus culpa ad est aliquam nihil
+                          omnis ipsum incidunt, magnam beatae earum neque, sint
+                          nostrum?
+                        </Text>
+                      </Flex>
+
+                      <Flex mb="10%">
+                        <FaMagnifyingGlass size={"1.3em"}/>
+                        <Text maxW="20vw" ml="2%" fontSize={15}>
+                          {newAddedItem.islost ? "LOST" : "FOUND"}
+                          {", "}
+                          {newAddedItem.type}
+                        </Text>
+                      </Flex>
+
+                      <Flex mb="10%">
+                        <SlCalender size={"1.3em"}/>
+                        <Text maxW="20vw" ml="2%" fontSize={15}>
+                          {newAddedItem.itemDate}
+                        </Text>
+                      </Flex>
+                    </Flex>
+                  </Flex>
+                )}
+                {/* fifth step */}
+              </Flex>
+
+              <Flex justifyContent={"center"} gap="3%">
+                {activeStep > 0 ? (
+                  <Button
+                    variant={"solid"}
+                    colorScheme="blue"
+                    size="lg"
+                    onClick={() => {
+                      setActiveStep((prevStep) => prevStep - 1);
+                    }}
+                  >
+                    Back
+                  </Button>
+                ) : (
+                  <Button
+                    colorScheme="red"
+                    size="lg"
+                    onClick={() => {
+                      setIsEdit(!isEdit);
+                      setNewAddedItem((prev) => ({
+                        ...prev,
+                        islost: true,
+                      }));
+                      setUploadImg("");
+                      onClose();
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                )}
+                {activeStep < 4 ? (
+                  <Button
+                    variant={"solid"}
+                    colorScheme="blue"
+                    size="lg"
+                    onClick={() => {
+                      setActiveStep((prevStep) => prevStep + 1);
+                    }}
+                  >
+                    Continue
+                  </Button>
+                ) : (
+                  <Button
+                    isDisabled={
+                      uploadImg === upload ||
+                      newAddedItem.image === "" ||
+                      newAddedItem.type === "" ||
+                      newAddedItem.name === "" ||
+                      newAddedItem.description === ""
+                    }
+                    variant={"solid"}
+                    type="submit"
+                    colorScheme="green"
+                    size="lg"
+                    onClick={() => {
+                      onClose();
+                      setActiveStep(0);
+                      setIsCreate(false);
+                    }}
+                  >
+                    Continue
+                  </Button>
+                )}
+              </Flex>
+            </Flex>
+            {/* <Flex width="100%" justifyContent="center" padding="10px">
               <Stack minH={"70vh"} direction={{ base: "column", md: "row" }}>
                 <Flex align={"center"} justify={"center"} ml={10}>
                   <Flex
@@ -292,7 +646,7 @@ export default function CreateModal({
                 </Flex>
                 <Flex flex={1}></Flex>
               </Stack>
-            </Flex>
+            </Flex> */}
           </ModalContent>
         </ModalOverlay>
       </Modal>
