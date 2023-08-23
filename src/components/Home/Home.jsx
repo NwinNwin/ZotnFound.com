@@ -35,13 +35,12 @@ import {
 } from "@chakra-ui/react";
 import { SettingsIcon, ChevronDownIcon, StarIcon } from "@chakra-ui/icons";
 import logo from "../../assets/images/small_logo.png";
+import upload from "../../assets/images/download.png";
 
 import logout from "../../assets/logos/logout.svg";
 import userlogo from "../../assets/logos/userlogo.svg";
 import yourposts from "../../assets/logos/yourposts.svg";
 import axios from "axios";
-
-
 
 export default function Home() {
   const [search, setSearch] = useState("");
@@ -103,6 +102,7 @@ export default function Home() {
   const [position, setPosition] = useState(centerPosition);
   const [focusLocation, setFocusLocation] = useState();
   const [screenWidth, setScreenWidth] = useState(window.screen.width);
+  const [uploadImg, setUploadImg] = useState("");
 
   // LOGIN MODAL
   const {
@@ -142,7 +142,6 @@ export default function Home() {
     };
     getData();
   }, []);
-
 
   window.onresize = () => {
     setScreenWidth(window.screen.width);
@@ -318,6 +317,9 @@ export default function Home() {
               centerPosition={centerPosition}
               newAddedItem={newAddedItem}
               setNewAddedItem={setNewAddedItem}
+              setUploadImg={setUploadImg}
+              uploadImg={uploadImg}
+              upload={upload}
             />
           </Flex>
         </Flex>
@@ -468,6 +470,9 @@ export default function Home() {
             setPosition={setPosition}
             focusLocation={focusLocation}
             setFocusLocation={setFocusLocation}
+            setUploadImg={setUploadImg}
+            uploadImg={uploadImg}
+            upload={upload}
           />
         </Flex>
         <Flex
