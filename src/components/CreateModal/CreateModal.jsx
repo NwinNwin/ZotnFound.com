@@ -73,7 +73,7 @@ export default function CreateModal({
             "https://firebasestorage.googleapis.com/v0/b/zotnfound2.appspot.com/o/zotnfound2%2Fimages%2FNaN"
           )
         ) {
-          setUploadImg(upload);
+          setUploadImg("");
         } else {
           setUploadImg(url);
           setNewAddedItem((prev) => ({ ...prev, image: url }));
