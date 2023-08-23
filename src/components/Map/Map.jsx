@@ -39,6 +39,9 @@ export default function Map({
   setPosition,
   focusLocation,
   setFocusLocation,
+  setUploadImg,
+  uploadImg,
+  upload
 }) {
   const { user } = UserAuth();
   const { data, setLoading } = useContext(DataContext);
@@ -126,7 +129,7 @@ export default function Map({
         }
       },
     }),
-    [position, setPosition]
+    [setPosition]
   );
 
   async function handleSubmit() {
@@ -169,6 +172,7 @@ export default function Map({
           itemDate: "",
         });
         setIsCreate(!isCreate);
+        setUploadImg("")
       })
       .catch((err) => console.log(err));
 

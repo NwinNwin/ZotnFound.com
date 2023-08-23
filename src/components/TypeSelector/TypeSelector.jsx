@@ -1,22 +1,20 @@
 import { React, useState } from "react";
-import { Flex } from "@chakra-ui/react";
+import { Flex} from "@chakra-ui/react";
 import TypeCard from "../Type/TypeCard";
 import { iconsMap } from "../Map/MapIcons";
-import logo from "../../assets/images/small_logo.png";
 
 export default function TypeSelector(props) {
   const [pressed, setPressed] = useState("");
-
   const types = {
-    headphone: iconsMap["headphone"][true],
-    phone: iconsMap["phone"][true],
-    wallet: iconsMap["wallet"][true],
-    key: iconsMap["key"][true],
-    others: iconsMap["others"][true],
+    headphone: iconsMap["headphone"][props.newAddedItem.islost].options.iconUrl,
+    phone: iconsMap["phone"][props.newAddedItem.islost].options.iconUrl,
+    wallet: iconsMap["wallet"][props.newAddedItem.islost].options.iconUrl,
+    key: iconsMap["key"][props.newAddedItem.islost].options.iconUrl,
+    others: iconsMap["others"][props.newAddedItem.islost].options.iconUrl,
   };
 
   const typeContainers = Object.keys(types).map((type) => (
-    <TypeCard key={type} type={type} icon={logo} pressed={pressed} setPressed={setPressed} setNewAddedItem={props.setNewAddedItem}/>
+    <TypeCard key={type} type={type} icon={types[type]} newAddedItem={props.newAddedItem} setNewAddedItem={props.setNewAddedItem}/>
   ));
 
   return (

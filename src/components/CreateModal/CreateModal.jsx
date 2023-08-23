@@ -2,8 +2,6 @@ import * as React from "react";
 import { useState, useContext } from "react";
 import {
   Image,
-  Stack,
-  Heading,
   Button,
   Flex,
   FormLabel,
@@ -15,7 +13,6 @@ import {
   ModalContent,
   FormControl,
   FormHelperText,
-  Select,
   Text,
   Step,
   StepDescription,
@@ -28,9 +25,9 @@ import {
   Stepper,
   useSteps,
   Box,
+  ModalCloseButton,
 } from "@chakra-ui/react";
 // import logo from "../../assets/images/small_logo.png";
-import upload from "../../assets/images/download.png";
 import { storage } from "../../firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { UserAuth } from "../../context/AuthContext";
@@ -52,11 +49,16 @@ export default function CreateModal({
   setIsEdit,
   setPosition,
   centerPosition,
+  setUploadImg,
+  uploadImg,
+  upload,
 }) {
   const { user } = UserAuth();
   const { onLoginModalOpen } = useContext(DataContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [uploadImg, setUploadImg] = useState(upload);
+
+  console.log("up", uploadImg);
+  console.log("item", newAddedItem);
 
   const uploadFile = () => {
     if (!newAddedItem.image) return;
@@ -147,7 +149,18 @@ export default function CreateModal({
       )}
       <Modal
         isOpen={isOpen}
-        onClose={onClose}
+        onClose={() => {
+          setNewAddedItem({
+            image: "",
+            type: "",
+            islost: true,
+            name: "",
+            description: "",
+            itemDate: "",
+          });
+          setUploadImg("");
+          onClose();
+        }}
         size="5xl"
         closeOnOverlayClick={false}
       >
@@ -157,7 +170,7 @@ export default function CreateModal({
               {/* stepper */}
               <Stepper size="lg" index={activeStep} flex={1}>
                 {steps.map((step, index) => (
-                  <Step key={index} onClick={() => setActiveStep(index)}>
+                  <Step key={index}>
                     <StepIndicator>
                       <StepStatus
                         complete={<StepIcon />}
@@ -175,6 +188,7 @@ export default function CreateModal({
                   </Step>
                 ))}
               </Stepper>
+              <ModalCloseButton color={"#c43232"} />
               {/* steppper */}
               <Flex width="100%" justifyContent={"center"} mt="5%" mb="3%">
                 {/* first step */}
@@ -188,6 +202,7 @@ export default function CreateModal({
                       variant="outline"
                       placeholder="Item Name"
                       mb="2"
+                      value={newAddedItem.name}
                       onChange={(e) =>
                         setNewAddedItem((prev) => ({
                           ...prev,
@@ -199,6 +214,7 @@ export default function CreateModal({
                       variant="outline"
                       placeholder="Description of Item"
                       mb="2"
+                      value={newAddedItem.description}
                       onChange={(e) =>
                         setNewAddedItem((prev) => ({
                           ...prev,
@@ -236,7 +252,10 @@ export default function CreateModal({
                         <option value="phone">Phone</option>
                         <option value="others">Others</option>
                       </Select> */}
-                    <TypeSelector setNewAddedItem={setNewAddedItem} />
+                    <TypeSelector
+                      setNewAddedItem={setNewAddedItem}
+                      newAddedItem={newAddedItem}
+                    />
                     <FormControl>
                       <Flex flexDir={"column"}>
                         <FormLabel htmlFor="lost-item">
@@ -249,6 +268,7 @@ export default function CreateModal({
                             size="lg"
                             colorScheme="red"
                             mr="2%"
+                            isChecked={newAddedItem.islost}
                             onChange={() =>
                               setNewAddedItem((prev) => ({
                                 ...prev,
@@ -365,40 +385,30 @@ export default function CreateModal({
                       </Text>
 
                       <Flex mb="10%" ml="1%">
-                        <MdDriveFileRenameOutline size={"1.3em"}/>
+                        <MdDriveFileRenameOutline size={"1.3em"} />
                         <Text maxW="20vw" ml="2%" fontSize={15}>
                           {newAddedItem.name}
-                          Lorem ipsum dolor sit amet consectetur adipisicing
-                          elit. Aut libero quis possimus numquam alias, ipsum
-                          perferendis animi laboriosam quasi minus eligendi
-                          culpa magnam nostrum non tenetur doloremque explicabo
-                          vitae porro?
                         </Text>
                       </Flex>
 
                       <Flex mb="10%">
-                        <MdOutlineDescription size={"1.3em"}/>
+                        <MdOutlineDescription size={"1.3em"} />
                         <Text maxW="20vw" ml="2%" fontSize={15}>
                           {newAddedItem.description}
-                          Lorem ipsum dolor sit amet consectetur adipisicing
-                          elit. Exercitationem tempore sunt cupiditate quaerat
-                          blanditiis delectus natus culpa ad est aliquam nihil
-                          omnis ipsum incidunt, magnam beatae earum neque, sint
-                          nostrum?
                         </Text>
                       </Flex>
 
                       <Flex mb="10%">
-                        <FaMagnifyingGlass size={"1.3em"}/>
+                        <FaMagnifyingGlass size={"1.3em"} />
                         <Text maxW="20vw" ml="2%" fontSize={15}>
                           {newAddedItem.islost ? "LOST" : "FOUND"}
                           {", "}
-                          {newAddedItem.type}
+                          {newAddedItem.type.toUpperCase()}
                         </Text>
                       </Flex>
 
                       <Flex mb="10%">
-                        <SlCalender size={"1.3em"}/>
+                        <SlCalender size={"1.3em"} />
                         <Text maxW="20vw" ml="2%" fontSize={15}>
                           {newAddedItem.itemDate}
                         </Text>
@@ -440,6 +450,13 @@ export default function CreateModal({
                 )}
                 {activeStep < 4 ? (
                   <Button
+                    isDisabled={
+                      (activeStep === 0 && newAddedItem.name === "") ||
+                      newAddedItem.description === "" ||
+                      (activeStep === 1 && newAddedItem.type === "") ||
+                      (activeStep === 2 && newAddedItem.itemDate === "") ||
+                      (activeStep === 3 && uploadImg === "")
+                    }
                     variant={"solid"}
                     colorScheme="blue"
                     size="lg"
