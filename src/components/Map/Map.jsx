@@ -48,8 +48,7 @@ export default function Map({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [itemData, setItemData] = useState({});
   const [showDonut, setShowDonut] = useState(false);
-  console.log(showDonut);
-  console.log(focusLocation);
+
   const allowedBounds = [
     [33.656487295651, -117.85412222020983],
     [33.65580858123096, -117.82236486775658],
@@ -94,6 +93,7 @@ export default function Map({
     .map((item) => {
       return (
         <Marker
+          key={item.location}
           position={item.location}
           eventHandlers={{
             click: () => {

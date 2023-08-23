@@ -57,9 +57,6 @@ export default function CreateModal({
   const { onLoginModalOpen } = useContext(DataContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  console.log("up", uploadImg);
-  console.log("item", newAddedItem);
-
   const uploadFile = () => {
     if (!newAddedItem.image) return;
 
@@ -159,6 +156,9 @@ export default function CreateModal({
             itemDate: "",
           });
           setUploadImg("");
+          setActiveStep(0);
+          setIsCreate(true);
+          setIsEdit(false);
           onClose();
         }}
         size="5xl"
