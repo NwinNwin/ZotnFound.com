@@ -1,5 +1,5 @@
 import { React } from "react";
-import { Flex} from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import TypeCard from "../Type/TypeCard";
 import { iconsMap } from "../Map/MapIcons";
 
@@ -13,7 +13,13 @@ export default function TypeSelector(props) {
   };
 
   const typeContainers = Object.keys(types).map((type) => (
-    <TypeCard key={type} type={type} icon={types[type]} newAddedItem={props.newAddedItem} setNewAddedItem={props.setNewAddedItem}/>
+    <TypeCard
+      key={type}
+      type={type}
+      icon={types[type]}
+      newAddedItem={props.newAddedItem}
+      setNewAddedItem={props.setNewAddedItem}
+    />
   ));
 
   return (
@@ -22,6 +28,8 @@ export default function TypeSelector(props) {
       flexWrap={"wrap"}
       alignItems={"center"}
       justifyContent={"center"}
+      paddingX="20%"
+      gap={10}
       m={0}
     >
       {typeContainers}
