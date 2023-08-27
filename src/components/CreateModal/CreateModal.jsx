@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import {
   Image,
   Button,
@@ -27,6 +27,7 @@ import {
   Box,
   ModalCloseButton,
   Textarea,
+  Spinner,
 } from "@chakra-ui/react";
 // import logo from "../../assets/images/small_logo.png";
 import { storage } from "../../firebase";
@@ -39,6 +40,7 @@ import { SlCalender } from "react-icons/sl";
 import Calendar from "react-calendar";
 // import "react-calendar/dist/Calendar.css";
 import "./Calendar.css";
+import img_placeholder from "../../assets/images/img_placeholder.jpeg";
 import TypeSelector from "../TypeSelector/TypeSelector";
 
 export default function CreateModal({
@@ -58,6 +60,7 @@ export default function CreateModal({
   const { user } = UserAuth();
   const { onLoginModalOpen } = useContext(DataContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isLoading, setIsLoading] = useState(false);
 
   const uploadFile = () => {
     if (!newAddedItem.image) return;
@@ -79,10 +82,18 @@ export default function CreateModal({
         } else {
           setUploadImg(url);
           setNewAddedItem((prev) => ({ ...prev, image: url }));
+          setIsLoading(false);
         }
       });
     });
   };
+
+  useEffect(() => {
+    if (newAddedItem.image && typeof newAddedItem.image !== "string") {
+      setIsLoading(true);
+      uploadFile();
+    }
+  }, [newAddedItem.image]);
 
   const [date, setDate] = useState(new Date());
 
@@ -313,7 +324,6 @@ export default function CreateModal({
                 {/* fourth step */}
                 {activeStep === 3 && (
                   <FormControl>
-                    <FormLabel>File Upload:</FormLabel>
                     <Flex
                       gap={5}
                       alignItems="center"
@@ -324,7 +334,7 @@ export default function CreateModal({
                         <Input
                           type="file"
                           multiple
-                          width="60%"
+                          width="38%"
                           sx={{
                             "::file-selector-button": {
                               height: 10,
@@ -343,9 +353,33 @@ export default function CreateModal({
                           }}
                         />
 
-                        <Button onClick={uploadFile}>Confirm</Button>
+                        {/* <Button onClick={uploadFile}>Confirm</Button> */}
                       </Flex>
-                      <Image width="40%" src={uploadImg} />
+
+                      {isLoading ? (
+                        <Flex
+                          width="10vw"
+                          height="10vw"
+                          bg="gray"
+                          opacity="0.8"
+                          justifyContent="center"
+                          alignItems="center"
+                          zIndex={1000000000}
+                        >
+                          <Spinner
+                            thickness="4px"
+                            speed="0.65s"
+                            emptyColor="yellow"
+                            color="blue"
+                            size="xl"
+                          />
+                        </Flex>
+                      ) : (
+                        <Image
+                          width="40%"
+                          src={uploadImg == "" ? img_placeholder : uploadImg}
+                        />
+                      )}
                     </Flex>
                   </FormControl>
                 )}

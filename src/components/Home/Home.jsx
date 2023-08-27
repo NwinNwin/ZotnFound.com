@@ -73,18 +73,6 @@ export default function Home() {
     );
   }
 
-  // function formatDate() {
-  //   var d = new Date(),
-  //     month = "" + (d.getMonth() + 1),
-  //     day = "" + d.getDate(),
-  //     year = d.getFullYear();
-
-  //   if (month.length < 2) month = "0" + month;
-  //   if (day.length < 2) day = "0" + day;
-
-  //   return [year, month, day].join("-");
-  // }
-
   const [loading, setLoading] = useState(false);
 
   const [newAddedItem, setNewAddedItem] = useState({
@@ -103,6 +91,7 @@ export default function Home() {
   const [focusLocation, setFocusLocation] = useState();
   const [screenWidth, setScreenWidth] = useState(window.screen.width);
   const [uploadImg, setUploadImg] = useState("");
+  console.log("In parent, setUploadImg type:", typeof setUploadImg);
 
   // LOGIN MODAL
   const {
@@ -503,6 +492,9 @@ export default function Home() {
             centerPosition={centerPosition}
             newAddedItem={newAddedItem}
             setNewAddedItem={setNewAddedItem}
+            setUploadImg={setUploadImg}
+            uploadImg={uploadImg}
+            upload={upload}
           />
         </Box>
       </Flex>
