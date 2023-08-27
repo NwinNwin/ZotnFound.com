@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useCallback } from "react";
 import {
   Image,
   Button,
@@ -56,13 +56,12 @@ export default function CreateModal({
   uploadImg,
   upload,
 }) {
-  const oldNewAddedItem = newAddedItem;
   const { user } = UserAuth();
   const { onLoginModalOpen } = useContext(DataContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isLoading, setIsLoading] = useState(false);
 
-  const uploadFile = () => {
+  const uploadFile = useCallback(() => {
     if (!newAddedItem.image) return;
 
     const time = new Date().getTime();
@@ -86,14 +85,14 @@ export default function CreateModal({
         }
       });
     });
-  };
+  }, [newAddedItem.image, setUploadImg, setNewAddedItem, setIsLoading]);
 
   useEffect(() => {
     if (newAddedItem.image && typeof newAddedItem.image !== "string") {
       setIsLoading(true);
       uploadFile();
     }
-  }, [newAddedItem.image]);
+  }, [newAddedItem.image, uploadFile]);
 
   const [date, setDate] = useState(new Date());
 
@@ -377,7 +376,7 @@ export default function CreateModal({
                       ) : (
                         <Image
                           width="40%"
-                          src={uploadImg == "" ? img_placeholder : uploadImg}
+                          src={uploadImg === "" ? img_placeholder : uploadImg}
                         />
                       )}
                     </Flex>

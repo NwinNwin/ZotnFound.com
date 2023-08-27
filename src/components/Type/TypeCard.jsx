@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, Image, Text, Button } from "@chakra-ui/react";
+import { Image, Text, Button } from "@chakra-ui/react";
 
 export default function TypeCard({
   type,
