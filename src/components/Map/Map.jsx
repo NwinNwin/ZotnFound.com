@@ -15,6 +15,7 @@ import {
   useMap,
   Rectangle,
   Circle,
+  useMapEvents,
 } from "react-leaflet";
 import { useDisclosure } from "@chakra-ui/react";
 import InfoModal from "../InfoModal/InfoModal";
@@ -41,7 +42,7 @@ export default function Map({
   setFocusLocation,
   setUploadImg,
   uploadImg,
-  upload
+  upload,
 }) {
   const { user } = UserAuth();
   const { data, setLoading } = useContext(DataContext);
@@ -74,7 +75,6 @@ export default function Map({
       handleFocus();
     }
   }, [focusLocation, setFocusLocation]);
-
 
   const allMarkers = data
     .filter((item) => {
@@ -172,7 +172,7 @@ export default function Map({
           itemDate: "",
         });
         setIsCreate(!isCreate);
-        setUploadImg("")
+        setUploadImg("");
       })
       .catch((err) => console.log(err));
 
@@ -214,6 +214,33 @@ export default function Map({
     );
   }
 
+  const NewItemMarker = () => {
+    const map = useMapEvents({
+      click(event) {
+        const { lat, lng } = event.latlng;
+        setPosition([lat, lng]);
+      },
+    });
+
+    return position[0] !== centerPosition[0] &&
+      position[1] !== centerPosition[1] ? (
+      <Marker
+        className="marker"
+        draggable={true}
+        eventHandlers={eventHandlers}
+        position={position}
+        ref={markerRef}
+        icon={othersDrag}
+      >
+        <Popup minWidth={90} closeButton={false}>
+          <span className="popup" onClick={() => toggleDraggable()}>
+            Click to Confirm Location 🤔
+          </span>
+        </Popup>
+      </Marker>
+    ) : null;
+  };
+
   return (
     <div>
       <MapContainer
@@ -230,7 +257,7 @@ export default function Map({
         {!isEdit && <Test location={focusLocation} search={search} />}
         {!isEdit}
         {!isEdit && allMarkers}
-        {isEdit && (
+        {/* {isEdit && (
           <Marker
             className="marker"
             draggable={true}
@@ -245,7 +272,8 @@ export default function Map({
               </span>
             </Popup>
           </Marker>
-        )}
+        )} */}
+        {isEdit && <NewItemMarker />}
         {showDonut && focusLocation && (
           <>
             <Circle
