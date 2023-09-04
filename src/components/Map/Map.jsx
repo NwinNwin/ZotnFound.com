@@ -189,7 +189,7 @@ export default function Map({
       setIsEdit(!isEdit);
     }
   };
-  const redColor = { color: "#880808", fillColor: "None" };
+  const transparentColor = { color: "#ffffff00", fillColor: "None" };
 
   function SetBoundsRectangles() {
     const map = useMap();
@@ -208,7 +208,7 @@ export default function Map({
         <Rectangle
           bounds={bounds}
           eventHandlers={outerHandlers}
-          pathOptions={redColor}
+          pathOptions={transparentColor}
         />
       </>
     );
