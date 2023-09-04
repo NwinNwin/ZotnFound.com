@@ -215,15 +215,14 @@ export default function Map({
   }
 
   const NewItemMarker = () => {
-    useMapEvents({
+    const map = useMapEvents({
       click(event) {
-        const { lat, lng } = event.latlng;
-        setPosition([lat, lng]);
+        setPosition(event.latlng);
       },
     });
 
-    return position[0] !== centerPosition[0] &&
-      position[1] !== centerPosition[1] ? (
+    return (position.lat !== centerPosition[0] &&
+      position.lng !== centerPosition[1]) ? (
       <Marker
         className="marker"
         draggable={true}
