@@ -20,8 +20,6 @@ import locate from "../../assets/logos/locate.svg";
 export default function ResultCard({ props, setData, onResultsBarClose }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {id} = useParams();
-  console.log("id", id == true)
-  console.log(props)
 
   const formattedDate = formatDate(new Date(props.date));
   return (
