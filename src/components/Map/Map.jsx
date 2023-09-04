@@ -215,7 +215,7 @@ export default function Map({
   }
 
   const NewItemMarker = () => {
-    const map = useMapEvents({
+    useMapEvents({
       click(event) {
         const { lat, lng } = event.latlng;
         setPosition([lat, lng]);

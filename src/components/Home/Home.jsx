@@ -35,7 +35,6 @@ import {
   Alert,
   AlertIcon,
   AlertTitle,
-  AlertDescription,
 } from "@chakra-ui/react";
 import { SettingsIcon, ChevronDownIcon, StarIcon } from "@chakra-ui/icons";
 import logo from "../../assets/images/small_logo.png";

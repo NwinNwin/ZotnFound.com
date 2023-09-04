@@ -79,12 +79,12 @@ export default function ResultCard({ props, setData, onResultsBarClose }) {
           </Flex>
         </CardFooter>
       </Card>
-      {isOpen || id && (
+      {(isOpen || id) && (
         <InfoModal
           props={props}
           onOpen={onOpen}
           onClose={onClose}
-          isOpen={id == props.id ? true: isOpen}
+          isOpen={id === props.id.toString() ? true: isOpen}
           setData={setData}
         />
       )}
