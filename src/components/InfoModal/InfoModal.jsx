@@ -1,4 +1,5 @@
 import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -25,6 +26,7 @@ export default function InfoModal({ setData, isOpen, onClose, props }) {
   const { onLoginModalOpen } = useContext(DataContext);
   const { setLoading } = useContext(DataContext);
   const { user } = UserAuth();
+  const navigate = useNavigate();
   const currentEmail = user?.email;
 
   // function viewEmail() {
@@ -52,7 +54,14 @@ export default function InfoModal({ setData, isOpen, onClose, props }) {
   const formattedDate = formatDate(new Date(props.date));
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size={{ base: "full", md: "md" }}>
+    <Modal
+      isOpen={isOpen}
+      onClose={() => {
+        onClose();
+        navigate("/");
+      }}
+      size={{ base: "full", md: "md" }}
+    >
       <ModalOverlay />
       <ModalContent>
         <ModalCloseButton size="lg" />

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useParams } from "react-router-dom";
 import {
   Card,
   CardBody,
@@ -18,6 +19,9 @@ import locate from "../../assets/logos/locate.svg";
 
 export default function ResultCard({ props, setData, onResultsBarClose }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {id} = useParams();
+  console.log("id", id == true)
+  console.log(props)
 
   const formattedDate = formatDate(new Date(props.date));
   return (
@@ -77,12 +81,12 @@ export default function ResultCard({ props, setData, onResultsBarClose }) {
           </Flex>
         </CardFooter>
       </Card>
-      {isOpen && (
+      {isOpen || id && (
         <InfoModal
           props={props}
           onOpen={onOpen}
           onClose={onClose}
-          isOpen={isOpen}
+          isOpen={id == props.id ? true: isOpen}
           setData={setData}
         />
       )}

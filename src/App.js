@@ -20,6 +20,7 @@ function App() {
             <Route path="/update" element={<UpdatePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/" element={<Home />} />
+            <Route path="/:id" element={<Home />} />
             <Route path="/login" element={<Login />} />
           </Routes>
         </div>
