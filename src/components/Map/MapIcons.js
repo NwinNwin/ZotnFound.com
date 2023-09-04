@@ -79,8 +79,8 @@ const othersFound = L.icon({
 
 export const othersDrag = L.icon({
   iconUrl: others_black,
-  iconSize: [60, 60],
-  iconAnchor: [30, 50],
+  iconSize: [50, 50],
+  iconAnchor: [25, 30],
 });
 
 export const flyImg = L.icon({

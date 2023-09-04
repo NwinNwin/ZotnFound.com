@@ -32,6 +32,10 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
 } from "@chakra-ui/react";
 import { SettingsIcon, ChevronDownIcon, StarIcon } from "@chakra-ui/icons";
 import logo from "../../assets/images/small_logo.png";
@@ -91,7 +95,6 @@ export default function Home() {
   const [focusLocation, setFocusLocation] = useState();
   const [screenWidth, setScreenWidth] = useState(window.screen.width);
   const [uploadImg, setUploadImg] = useState("");
-  console.log("In parent, setUploadImg type:", typeof setUploadImg);
 
   // LOGIN MODAL
   const {
@@ -333,6 +336,7 @@ export default function Home() {
           </InputGroup>
         </Flex>
       </Flex>
+
       <Flex
         position="relative"
         marginTop={{ base: "1vh", md: "2%" }}
@@ -347,100 +351,120 @@ export default function Home() {
           flexDirection="row"
           justifyContent="space-between"
         >
-          <Button
-            backgroundColor="#a881af"
-            boxShadow="2xl"
-            color="white"
-            onClick={onOpen}
-            fontSize={{ base: "xl", md: "2xl" }}
-            size="lg"
-            gap={2}
-          >
-            <SettingsIcon />
-            Filter
-          </Button>
-          <Filter
-            setFindFilter={setFindFilter}
-            findFilter={findFilter}
-            onOpen={onOpen}
-            isOpen={isOpen}
-            onClose={onClose}
-          />
-          <Button
-            display={{ md: "none" }}
-            colorScheme="blue"
-            onClick={onResultsBarOpen}
-            fontSize="2xl"
-            boxShadow="2xl"
-            size="lg"
-            gap={2}
-          >
-            <StarIcon />
-          </Button>
+          {isEdit ? (
+            <Flex>
+              <Alert
+                status="warning"
+                textAlign="center"
+                alignItems="center"
+                justifyContent="center"
+                height="80px"
+                border="3px red solid"
+                borderRadius="20px"
+                boxShadow="xl"
+              >
+                <AlertIcon />
+                <AlertTitle>Click on the Map to place your item 📍</AlertTitle>
+              </Alert>
+            </Flex>
+          ) : (
+            <>
+              <Button
+                backgroundColor="#a881af"
+                boxShadow="2xl"
+                color="white"
+                onClick={onOpen}
+                fontSize={{ base: "xl", md: "2xl" }}
+                size="lg"
+                gap={2}
+              >
+                <SettingsIcon />
+                Filter
+              </Button>
+              <Filter
+                setFindFilter={setFindFilter}
+                findFilter={findFilter}
+                onOpen={onOpen}
+                isOpen={isOpen}
+                onClose={onClose}
+              />
+              <Button
+                display={{ md: "none" }}
+                colorScheme="blue"
+                onClick={onResultsBarOpen}
+                fontSize="2xl"
+                boxShadow="2xl"
+                size="lg"
+                gap={2}
+              >
+                <StarIcon />
+              </Button>
 
-          <Drawer
-            isOpen={isResultsBarOpen}
-            placement="right"
-            onClose={onResultsBarClose}
-            size="full"
-          >
-            <DrawerOverlay />
-            <DrawerContent>
-              <DrawerCloseButton size="lg" />
-              <DrawerHeader>
-                {isFilterOff() ? (
-                  <Text fontSize="2xl">All Posts</Text>
-                ) : (
-                  <Flex alignItems="center" gap={1}>
-                    <Text fontSize="2xl" color="green">
-                      Filter: ON
-                    </Text>
-                    <SettingsIcon color="green" />
-                  </Flex>
-                )}
-              </DrawerHeader>
-              <DrawerBody overflow="hidden">
-                <Flex width="100%" flexDir="column">
-                  <Flex>
-                    <InputGroup
-                      mb="1%"
-                      width="90%"
-                      mx="auto"
-                      size={{ base: "md", md: "lg" }}
-                    >
-                      <InputLeftAddon children="🔎" />
-                      <Input
-                        type="teal"
-                        value={search}
-                        placeholder="Search Items ..."
-                        isDisabled={!loading}
-                        onChange={(e) => setSearch(e.target.value)}
+              <Drawer
+                isOpen={isResultsBarOpen}
+                placement="right"
+                onClose={onResultsBarClose}
+                size="full"
+              >
+                <DrawerOverlay />
+                <DrawerContent>
+                  <DrawerCloseButton size="lg" />
+                  <DrawerHeader>
+                    {isFilterOff() ? (
+                      <Text fontSize="2xl">All Posts</Text>
+                    ) : (
+                      <Flex alignItems="center" gap={1}>
+                        <Text fontSize="2xl" color="green">
+                          Filter: ON
+                        </Text>
+                        <SettingsIcon color="green" />
+                      </Flex>
+                    )}
+                  </DrawerHeader>
+                  <DrawerBody overflow="hidden">
+                    <Flex width="100%" flexDir="column">
+                      <Flex>
+                        <InputGroup
+                          mb="1%"
+                          width="90%"
+                          mx="auto"
+                          size={{ base: "md", md: "lg" }}
+                        >
+                          <InputLeftAddon children="🔎" />
+                          <Input
+                            type="teal"
+                            value={search}
+                            placeholder="Search Items ..."
+                            isDisabled={!loading}
+                            onChange={(e) => setSearch(e.target.value)}
+                          />
+                        </InputGroup>
+
+                        <Button
+                          colorScheme="green"
+                          size="md"
+                          fontSize="xl"
+                          mr={3}
+                          onClick={onOpen}
+                        >
+                          <SettingsIcon />
+                        </Button>
+                      </Flex>
+
+                      <ResultsBar
+                        search={search}
+                        findFilter={findFilter}
+                        setData={setData}
+                        setFocusLocation={setFocusLocation}
+                        onResultsBarClose={onResultsBarClose}
                       />
-                    </InputGroup>
-
-                    <Button
-                      colorScheme="green"
-                      size="md"
-                      fontSize="xl"
-                      mr={3}
-                      onClick={onOpen}
-                    >
-                      <SettingsIcon />
-                    </Button>
-                  </Flex>
-
-                  <ResultsBar
-                    search={search}
-                    findFilter={findFilter}
-                    setData={setData}
-                    setFocusLocation={setFocusLocation}
-                    onResultsBarClose={onResultsBarClose}
-                  />
-                </Flex>
-              </DrawerBody>
-              <DrawerFooter></DrawerFooter>
-            </DrawerContent>
-          </Drawer>
+                    </Flex>
+                  </DrawerBody>
+                  <DrawerFooter></DrawerFooter>
+                </DrawerContent>
+              </Drawer>
+            </>
+          )}
         </Flex>
         <Flex position="absolute">
           <Map
