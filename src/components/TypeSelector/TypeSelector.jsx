@@ -24,12 +24,12 @@ export default function TypeSelector(props) {
 
   return (
     <Flex
-      w="50vw"
+      w={{ md: "50vw", base: "100%" }}
       flexWrap={"wrap"}
       alignItems={"center"}
       justifyContent={"center"}
-      paddingX="20%"
-      gap={10}
+      paddingX={{ md: "20%", base: "0%" }}
+      gap={{ md: 10, base: 4 }}
       m={0}
     >
       {typeContainers}

@@ -6,13 +6,11 @@ import {
   Flex,
   FormLabel,
   Input,
-  Switch,
   useDisclosure,
   Modal,
   ModalOverlay,
   ModalContent,
   FormControl,
-  FormHelperText,
   Text,
   Step,
   StepDescription,
@@ -42,6 +40,7 @@ import Calendar from "react-calendar";
 import "./Calendar.css";
 import img_placeholder from "../../assets/images/img_placeholder.jpeg";
 import TypeSelector from "../TypeSelector/TypeSelector";
+import LostFoundSwitch from "./LostFoundSwitch";
 
 export default function CreateModal({
   newAddedItem,
@@ -145,12 +144,21 @@ export default function CreateModal({
           fontWeight="bold"
           borderRadius={20}
           onClick={() => {
-            setIsEdit(isEdit);
-            setNewAddedItem((prev) => ({ ...prev, islost: true }));
-            setIsCreate(true);
-            setIsEdit(false);
-            setPosition(centerPosition);
-            setUploadImg("");
+            {
+              setNewAddedItem({
+                image: "",
+                type: "",
+                islost: true,
+                name: "",
+                description: "",
+                itemDate: "",
+              });
+              setUploadImg("");
+              setActiveStep(0);
+              setIsCreate(true);
+              setIsEdit(false);
+              onClose();
+            }
           }}
         >
           Cancel
@@ -173,14 +181,19 @@ export default function CreateModal({
           setIsEdit(false);
           onClose();
         }}
-        size="4xl"
+        size={"4xl"}
         closeOnOverlayClick={false}
       >
         <ModalOverlay>
           <ModalContent minHeight="50vh">
             <Flex padding={"2%"} flexDir={"column"}>
               {/* stepper */}
-              <Stepper size="lg" index={activeStep} flex={1}>
+              <Stepper
+                size="lg"
+                index={activeStep}
+                flex={1}
+                display={{ md: "flex", base: "none" }}
+              >
                 {steps.map((step, index) => (
                   <Step key={index}>
                     <StepIndicator>
@@ -202,17 +215,24 @@ export default function CreateModal({
               </Stepper>
               <ModalCloseButton color={"#c43232"} />
               {/* steppper */}
-              <Flex width="100%" justifyContent={"center"} mt="5%" mb="3%">
+              <Flex
+                width="100%"
+                justifyContent={"center"}
+                mt="5%"
+                mb={{ md: "3%", base: "10%" }}
+              >
                 {/* first step */}
                 {activeStep === 0 && (
-                  <Flex width="50%">
+                  <Flex width={{ md: "50%", base: "90%" }}>
                     <FormControl>
-                      <FormLabel>Enter your item below: </FormLabel>
+                      <FormLabel fontSize="2xl">🔑 Item Name:</FormLabel>
 
                       <Input
                         variant="outline"
-                        placeholder="Item Name"
-                        mb="10px"
+                        placeholder="Ex: Airpods Pro, ..."
+                        size="lg"
+                        mb={5}
+                        border="2px solid gray"
                         value={newAddedItem.name}
                         onChange={(e) =>
                           setNewAddedItem((prev) => ({
@@ -221,10 +241,15 @@ export default function CreateModal({
                           }))
                         }
                       />
+                      <FormLabel fontSize="2xl">
+                        📝Description of Item:
+                      </FormLabel>
+
                       <Textarea
                         variant="outline"
-                        placeholder="Description of Item"
-                        mb="2"
+                        placeholder="Ex: Lost in ICS 31 Lec, ..."
+                        size="lg"
+                        border="2px solid gray"
                         value={newAddedItem.description}
                         onChange={(e) =>
                           setNewAddedItem((prev) => ({
@@ -248,7 +273,14 @@ export default function CreateModal({
                     alignItems={"center"}
                   >
                     <FormControl>
-                      <FormLabel fontSize="xl">Select Item Type:</FormLabel>
+                      <FormLabel
+                        ml={5}
+                        fontSize="2xl"
+                        mb={8}
+                        textAlign={"center"}
+                      >
+                        ❓ Select Item Type:
+                      </FormLabel>
                     </FormControl>
 
                     <TypeSelector
@@ -257,31 +289,26 @@ export default function CreateModal({
                     />
                     <FormControl>
                       <Flex flexDir={"column"}>
-                        <FormLabel htmlFor="lost-item" fontSize="xl">
-                          Lost or Found Item?
+                        <FormLabel
+                          htmlFor="lost-item"
+                          ml={5}
+                          fontSize="2xl"
+                          my={8}
+                          textAlign={"center"}
+                        >
+                          🤔 Lost or Found Item?
                         </FormLabel>
 
-                        <Flex alignItems={"center"} textAlign={"center"}>
-                          <Switch
-                            id="lost-switch"
-                            size="lg"
-                            colorScheme="red"
-                            mr="2%"
-                            isChecked={newAddedItem.islost}
-                            onChange={() =>
-                              setNewAddedItem((prev) => ({
-                                ...prev,
-                                islost: !prev.islost,
-                              }))
-                            }
+                        <Flex
+                          alignItems={"center"}
+                          textAlign={"center"}
+                          justify={"center"}
+                          mb={"5%"}
+                        >
+                          <LostFoundSwitch
+                            setNewAddedItem={setNewAddedItem}
+                            newAddedItem={newAddedItem}
                           />
-                          <FormHelperText
-                            fontSize="20px"
-                            textAlign={"center"}
-                            m="0"
-                          >
-                            {newAddedItem.islost ? "Lost" : "Found"}
-                          </FormHelperText>
                         </Flex>
                       </Flex>
                     </FormControl>
@@ -293,15 +320,20 @@ export default function CreateModal({
                 {/* third step */}
                 {activeStep === 2 && (
                   <FormControl>
-                    <FormLabel px="10%" fontSize="xl">
-                      {newAddedItem.islost ? "Lost Date:" : "Found Date:"}
+                    <FormLabel
+                      px="10%"
+                      fontSize="xl"
+                      textAlign={"center"}
+                      mb={"5%"}
+                    >
+                      {newAddedItem.islost ? "📅 Lost Date:" : "📅 Found Date:"}
                     </FormLabel>
 
                     <Flex
                       w="100%"
                       alignItems={"center"}
                       justifyContent={"center"}
-                      px="10%"
+                      px={{ md: "10%", base: "3%" }}
                     >
                       <Calendar
                         className={"react-calendar"}
@@ -357,8 +389,8 @@ export default function CreateModal({
 
                       {isLoading ? (
                         <Flex
-                          width="10vw"
-                          height="10vw"
+                          width={{ md: "10vw", base: "10vh" }}
+                          height={{ md: "10vw", base: "10vh" }}
                           bg="gray"
                           opacity="0.8"
                           justifyContent="center"
@@ -375,7 +407,7 @@ export default function CreateModal({
                         </Flex>
                       ) : (
                         <Image
-                          width="40%"
+                          width={{ md: "40%", base: "80%" }}
                           src={uploadImg === "" ? img_placeholder : uploadImg}
                         />
                       )}
@@ -386,7 +418,7 @@ export default function CreateModal({
 
                 {/* fifth step */}
                 {activeStep === 4 && (
-                  <Flex gap={"5%"}>
+                  <Flex gap={"5%"} flexDir={{ md: "row", base: "column" }}>
                     <Flex
                       flexDir={"column"}
                       flex={1}
@@ -399,8 +431,8 @@ export default function CreateModal({
                       <Image
                         sizeBox="100%"
                         src={newAddedItem.image === "" ? upload : uploadImg}
-                        width="25vw"
-                        height="25vh"
+                        width={{ md: "25vw", base: "20vh" }}
+                        maxHeight={{ md: "25vw", base: "20vh" }}
                         borderRadius="15%"
                         objectFit={"cover"}
                       />
@@ -412,37 +444,75 @@ export default function CreateModal({
                       flexDir={"column"}
                       borderRadius={"10%"}
                       padding={"1vw"}
+                      maxW={{ md: "70%", base: "80vw" }}
+                      mb={3}
+                      alignItems={{ base: "center", md: "start" }}
                     >
-                      <Text textAlign={"center"} as="b" fontSize={23}>
-                        Item Information
+                      <Text
+                        ml="1%"
+                        textAlign={"center"}
+                        as="b"
+                        fontSize={"2xl"}
+                        mb={5}
+                      >
+                        Item Information:
                       </Text>
 
-                      <Flex mb="10%" ml="1%">
+                      <Flex
+                        mb="5%"
+                        ml="1%"
+                        padding={2}
+                        gap={3}
+                        flexDir={{ base: "column", md: "row" }}
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                      >
                         <MdDriveFileRenameOutline size={"1.3em"} />
-                        <Text maxW="20vw" ml="2%" fontSize={15}>
+                        <Text w={"100%"} ml="2%" fontSize={15}>
                           {newAddedItem.name}
                         </Text>
                       </Flex>
 
-                      <Flex mb="10%">
+                      <Flex
+                        mb="5%"
+                        padding={2}
+                        gap={3}
+                        flexDir={{ base: "column", md: "row" }}
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                      >
                         <MdOutlineDescription size={"1.3em"} />
-                        <Text maxW="20vw" ml="2%" fontSize={15}>
+                        <Text ml="2%" fontSize={15} w={"100%"}>
                           {newAddedItem.description}
                         </Text>
                       </Flex>
 
-                      <Flex mb="10%">
+                      <Flex
+                        mb="5%"
+                        padding={2}
+                        gap={3}
+                        flexDir={{ base: "column", md: "row" }}
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                      >
                         <FaMagnifyingGlass size={"1.3em"} />
-                        <Text maxW="20vw" ml="2%" fontSize={15}>
+                        <Text ml="2%" fontSize={15} w={"100%"}>
                           {newAddedItem.islost ? "LOST" : "FOUND"}
                           {", "}
                           {newAddedItem.type.toUpperCase()}
                         </Text>
                       </Flex>
 
-                      <Flex mb="10%">
+                      <Flex
+                        mb="5%"
+                        padding={2}
+                        gap={3}
+                        flexDir={{ base: "column", md: "row" }}
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                      >
                         <SlCalender size={"1.3em"} />
-                        <Text maxW="20vw" ml="2%" fontSize={15}>
+                        <Text ml="2%" fontSize={15} w={"100%"}>
                           {newAddedItem.itemDate}
                         </Text>
                       </Flex>
