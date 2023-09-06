@@ -144,21 +144,19 @@ export default function CreateModal({
           fontWeight="bold"
           borderRadius={20}
           onClick={() => {
-            {
-              setNewAddedItem({
-                image: "",
-                type: "",
-                islost: true,
-                name: "",
-                description: "",
-                itemDate: "",
-              });
-              setUploadImg("");
-              setActiveStep(0);
-              setIsCreate(true);
-              setIsEdit(false);
-              onClose();
-            }
+            setNewAddedItem({
+              image: "",
+              type: "",
+              islost: true,
+              name: "",
+              description: "",
+              itemDate: "",
+            });
+            setUploadImg("");
+            setActiveStep(0);
+            setIsCreate(true);
+            setIsEdit(false);
+            onClose();
           }}
         >
           Cancel
