@@ -85,6 +85,8 @@ export default function Home() {
     name: "",
     description: "",
     itemDate: "",
+    isResolved: false,
+    isHelped: null
   });
 
   const [isEdit, setIsEdit] = useState(false);
@@ -133,7 +135,8 @@ export default function Home() {
     };
     getData();
   }, []);
-
+  console.log("data", data)
+  
   window.onresize = () => {
     setScreenWidth(window.screen.width);
   };
