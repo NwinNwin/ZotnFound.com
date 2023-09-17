@@ -133,6 +133,7 @@ export default function Map({
   );
 
   async function handleSubmit() {
+    console.log("submitted")
     const date = new Date();
 
     axios
@@ -146,6 +147,8 @@ export default function Map({
         location: [position.lat, position.lng],
         itemDate: newAddedItem.itemDate,
         date: date.toISOString(),
+        isResolved: newAddedItem.isResolved,
+        isHelped: newAddedItem.isHelped,
       })
       .then((item) => {
         const newItem = {
@@ -159,6 +162,8 @@ export default function Map({
           date: date.toISOString(),
           itemDate: newAddedItem.itemDate,
           id: item.data.id,
+          isResolved: newAddedItem.isResolved,
+          isHelped: newAddedItem.isHelped,
         };
         setData((prev) => [...prev, newItem]);
         setPosition(centerPosition);
@@ -170,6 +175,8 @@ export default function Map({
           name: "",
           description: "",
           itemDate: "",
+          isResolved: false,
+          isHelped: null,
         });
         setIsCreate(!isCreate);
         setUploadImg("");
@@ -221,8 +228,8 @@ export default function Map({
       },
     });
 
-    return (position.lat !== centerPosition[0] &&
-      position.lng !== centerPosition[1]) ? (
+    return position.lat !== centerPosition[0] &&
+      position.lng !== centerPosition[1] ? (
       <Marker
         className="marker"
         draggable={true}

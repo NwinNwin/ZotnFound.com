@@ -151,6 +151,8 @@ export default function CreateModal({
               name: "",
               description: "",
               itemDate: "",
+              isResolved: false,
+              isHelped: null,
             });
             setUploadImg("");
             setActiveStep(0);
@@ -172,6 +174,8 @@ export default function CreateModal({
             name: "",
             description: "",
             itemDate: "",
+            isResolved: false,
+            isHelped: null,
           });
           setUploadImg("");
           setActiveStep(0);
@@ -545,6 +549,8 @@ export default function CreateModal({
                         name: "",
                         description: "",
                         itemDate: "",
+                        isResolved: false,
+                        isHelped: null,
                       });
                       setUploadImg("");
                       onClose();
