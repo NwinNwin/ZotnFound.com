@@ -135,7 +135,6 @@ export default function Home() {
     };
     getData();
   }, []);
-  console.log("data", data)
   
   window.onresize = () => {
     setScreenWidth(window.screen.width);

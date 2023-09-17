@@ -151,7 +151,6 @@ export default function Map({
         isHelped: newAddedItem.isHelped,
       })
       .then((item) => {
-        console.log("item", item)
         const newItem = {
           image: newAddedItem.image,
           type: newAddedItem.type,

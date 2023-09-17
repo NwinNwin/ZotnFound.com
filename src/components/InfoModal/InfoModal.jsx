@@ -8,7 +8,6 @@ import {
   Text,
   Stack,
   useColorModeValue,
-  Image,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -20,6 +19,7 @@ import { formatDate } from "../../utils";
 import { UserAuth } from "../../context/AuthContext";
 import DataContext from "../../context/DataContext";
 import axios from "axios";
+import ImageContainer from "../ImageContainer/ImageContainer";
 
 export default function InfoModal({ setData, isOpen, onClose, props }) {
   const [showEmail, setShowEmail] = useState(false);
@@ -52,7 +52,6 @@ export default function InfoModal({ setData, isOpen, onClose, props }) {
   }
 
   const formattedDate = formatDate(new Date(props.date));
-
   return (
     <Modal
       isOpen={isOpen}
@@ -109,13 +108,24 @@ export default function InfoModal({ setData, isOpen, onClose, props }) {
                 {props.name}
               </Heading>
 
-              <Image
-                rounded={"lg"}
-                height={230}
-                width={282}
-                objectFit={"cover"}
-                src={props.image}
-              />
+            
+              <ImageContainer image={props.image} isresolved={props.isresolved}/>
+              {/* <Flex>
+                <Flex
+                  backgroundColor={"rgba(245, 44, 44, 0.5)"}
+                  float={"left"}
+                  position={"absolute"}
+                >
+                  <Text>RESOLVED</Text>
+                </Flex>
+                <Image
+                  rounded={"lg"}
+                  height={230}
+                  width={282}
+                  objectFit={"cover"}
+                  src={props.image}
+                />
+              </Flex> */}
 
               <Text
                 textAlign="center"
