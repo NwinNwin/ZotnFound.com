@@ -82,9 +82,9 @@ export default function ResultCard({ props, setData, onResultsBarClose }) {
       {(isOpen || id) && (
         <InfoModal
           props={props}
-          onOpen={onOpen}
-          onClose={onClose}
-          isOpen={id === props.id.toString() ? true: isOpen}
+          infoOnOpen={onOpen}
+          infoOnClose={onClose}
+          infoIsOpen={id === props.id.toString() ? true: isOpen}
           setData={setData}
         />
       )}
