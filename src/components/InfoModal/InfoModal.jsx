@@ -14,7 +14,7 @@ import {
   ModalCloseButton,
   Flex,
   Tag,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
 import { formatDate } from "../../utils";
 import { UserAuth } from "../../context/AuthContext";
@@ -22,14 +22,21 @@ import DataContext from "../../context/DataContext";
 import axios from "axios";
 import ImageContainer from "../ImageContainer/ImageContainer";
 import FeedbackModal from "../FeedbackModal/FeedbackModal";
+import { LinkIcon, EmailIcon, CloseIcon, PhoneIcon } from "@chakra-ui/icons";
 
-export default function InfoModal({ setData, infoIsOpen, infoOnClose, infoOnOpen, props }) {
+export default function InfoModal({
+  setData,
+  infoIsOpen,
+  infoOnClose,
+  infoOnOpen,
+  props,
+}) {
   const [showEmail, setShowEmail] = useState(false);
   const { onLoginModalOpen } = useContext(DataContext);
   const { setLoading } = useContext(DataContext);
   const { user } = UserAuth();
   const navigate = useNavigate();
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const currentEmail = user?.email;
 
   // function viewEmail() {
@@ -39,7 +46,8 @@ export default function InfoModal({ setData, infoIsOpen, infoOnClose, infoOnOpen
   // }
 
   async function handleDelete() {
-    infoOnClose();
+    // infoOnClose();
+    onOpen();
     // setLoading(false);
     // axios
     //   .delete(`${process.env.REACT_APP_AWS_BACKEND_URL}/items/${props.id}`)
@@ -63,89 +71,92 @@ export default function InfoModal({ setData, infoIsOpen, infoOnClose, infoOnOpen
           infoOnClose();
           navigate("/");
         }}
-        size={{ base: "full", md: "md" }}
+        size={{ base: "full", md: "5xl" }}
       >
         <ModalOverlay />
         <ModalContent>
           <ModalCloseButton size="lg" />
-          <Center py={6}>
-            <Box
-              role={"group"}
-              p={10}
-              maxW={"400px"}
-              maxH={"800px"}
-              w={"full"}
-              bg={useColorModeValue("white", "gray.800")}
-              // boxShadow={"2xl"}
-              rounded={"lg"}
-              pos={"relative"}
-              zIndex={1}
-              marginTop={"28px"}
-              pt={"0"}
+
+          <Flex
+            justifyContent={{ base: "center", md: "space-around" }}
+            alignItems={"center"}
+            paddingX={"2%"}
+            paddingY={"5%"}
+            width={"100%"}
+            flexDir={{ base: "column", md: "row" }}
+          >
+            <ImageContainer image={props.image} isresolved={props.isresolved} />
+            <Flex
+              flexDir={"column"}
+              w={{ base: "90%", md: "40%" }}
+              gap={5}
+              mt={{ md: 0, base: 5 }}
             >
-              <Stack align={"center"} justifyContent={"center"} gap={"3px"}>
-                {currentEmail === props.email ? (
-                  <Flex align="center" justifyContent="center">
-                    <Tag colorScheme="blue" variant="solid">
-                      Owner
-                    </Tag>
-                  </Flex>
-                ) : props.islost ? (
-                  <Flex align="center" justifyContent="center">
-                    <Tag colorScheme="red" variant="solid">
-                      Lost
-                    </Tag>
-                  </Flex>
-                ) : (
-                  <Flex align="center" justifyContent="center">
-                    <Tag colorScheme="green" variant="solid">
-                      Found
-                    </Tag>
-                  </Flex>
-                )}
+              {/* HEADING */}
+              <Flex flexDir={"column"} gap={2}>
                 <Heading
                   // mt="20px"
-                  fontSize={"3xl"}
+                  fontSize="4xl"
                   fontFamily={"body"}
                   fontWeight={"bold"}
                 >
                   {props.name}
                 </Heading>
 
-                <ImageContainer
-                  image={props.image}
-                  isresolved={props.isresolved}
-                />
-                {/* <Flex>
-                <Flex
-                backgroundColor={"rgba(245, 44, 44, 0.5)"}
-                float={"left"}
-                position={"absolute"}
-                >
-                <Text>RESOLVED</Text>
+                <Flex gap={2}>
+                  {currentEmail === props.email ? (
+                    <Flex>
+                      <Tag colorScheme="blue" variant="solid">
+                        Owner
+                      </Tag>
+                    </Flex>
+                  ) : props.islost ? (
+                    <Flex>
+                      <Tag colorScheme="red" variant="solid">
+                        Lost
+                      </Tag>
+                    </Flex>
+                  ) : (
+                    <Flex>
+                      <Tag colorScheme="green" variant="solid">
+                        Found
+                      </Tag>
+                    </Flex>
+                  )}
+                  <Text color={"gray.500"}>Posted: {formattedDate}</Text>
                 </Flex>
-                <Image
-                rounded={"lg"}
-                height={230}
-                width={282}
-                objectFit={"cover"}
-                src={props.image}
-                />
-              </Flex> */}
+              </Flex>
 
+              <hr />
+
+              {/* DESCRIPTION */}
+              <Flex flexDir={"column"}>
+                <Text as={"b"} fontSize={"xl"}>
+                  Description:
+                </Text>
+                {props.islost ? (
+                  <Text color={"gray.500"}>Lost on {props.itemDate}</Text>
+                ) : (
+                  <Text color={"gray.500"}> Found on {props.itemDate}</Text>
+                )}
                 <Text
-                  textAlign="center"
-                  color={"gray.500"}
                   fontSize={"md"}
+                  mt={3}
                   overflowY={"auto"}
                   maxHeight={"200"}
                 >
                   {props.description}
                 </Text>
+              </Flex>
+              <hr />
+              <Flex gap={5} justifyContent={"center"} alignItems={"center"}>
                 {currentEmail !== props.email &&
                   (!showEmail ? (
                     <Button
                       colorScheme="blue"
+                      size={"lg"}
+                      gap={2}
+                      isDisabled={props.isresolved && true}
                       onClick={() => {
                         if (user) {
                           setShowEmail(true);
@@ -154,35 +165,37 @@ export default function InfoModal({ setData, infoIsOpen, infoOnClose, infoOnOpen
                         }
                       }}
                     >
-                      View Contact
+                      <PhoneIcon /> View Contact
                     </Button>
                   ) : (
-                    <Tag
-                      size="lg"
-                      padding="10px"
-                      variant="outline"
-                      colorScheme="blue"
-                    >
+                    <Button size="lg" variant="outline" colorScheme="blue">
                       {props.email}
-                    </Tag>
+                    </Button>
                   ))}
                 {currentEmail === props.email && (
-                  <Button colorScheme="red" px="36px" onClick={onOpen}>
-                    Delete
+                  <Button
+                    colorScheme="red"
+                    size={"lg"}
+                    gap={2}
+                    onClick={handleDelete}
+                  >
+                    <CloseIcon /> Delete
                   </Button>
                 )}
-                {props.islost ? (
-                  <Text as="b">Lost on {props.itemDate}</Text>
-                ) : (
-                  <Text as="b">Found on {props.itemDate}</Text>
-                )}
-                <Text color={"gray.500"}>Posted on {formattedDate}</Text>
-              </Stack>
-            </Box>
-          </Center>
+                <Button
+                  colorScheme="blue"
+                  size={"lg"}
+                  variant={"outline"}
+                  gap={2}
+                >
+                  <LinkIcon /> Share
+                </Button>
+              </Flex>
+            </Flex>
+          </Flex>
         </ModalContent>
       </Modal>
-      <FeedbackModal feedbackIsOpen={isOpen} feedbackOnClose={onClose}/>
+      <FeedbackModal infoOnClose={infoOnClose} feedbackIsOpen={isOpen} feedbackOnClose={onClose} />
     </>
   );
 }
