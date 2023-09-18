@@ -8,9 +8,12 @@ import {
   Button
 } from "@chakra-ui/react";
 
-export default function FeedbackModal({feedbackIsOpen, feedbackOnClose}) {
+export default function FeedbackModal({infoOnClose, feedbackIsOpen, feedbackOnClose}) {
   return (
-    <Modal isOpen={feedbackIsOpen} onClose={feedbackOnClose}>
+    <Modal isOpen={feedbackIsOpen} onClose={() => {
+        feedbackOnClose();
+        infoOnClose();
+    }}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Modal Title</ModalHeader>
