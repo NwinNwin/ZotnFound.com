@@ -1,13 +1,9 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Box,
   Button,
-  Center,
   Heading,
   Text,
-  Stack,
-  useColorModeValue,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -20,7 +16,7 @@ import { UserAuth } from "../../context/AuthContext";
 import DataContext from "../../context/DataContext";
 import axios from "axios";
 import ImageContainer from "../ImageContainer/ImageContainer";
-import { LinkIcon, EmailIcon, CloseIcon, PhoneIcon } from "@chakra-ui/icons";
+import { LinkIcon, EmailIcon, CloseIcon } from "@chakra-ui/icons";
 
 export default function InfoModal({ setData, isOpen, onClose, props }) {
   const [showEmail, setShowEmail] = useState(false);
@@ -149,7 +145,7 @@ export default function InfoModal({ setData, isOpen, onClose, props }) {
                       }
                     }}
                   >
-                    <PhoneIcon /> View Contact
+                    <EmailIcon /> View Contact
                   </Button>
                 ) : (
                   <Button size="lg" variant="outline" colorScheme="blue">
