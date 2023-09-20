@@ -17,7 +17,7 @@ import { UserAuth } from "../../context/AuthContext";
 import DataContext from "../../context/DataContext";
 import ImageContainer from "../ImageContainer/ImageContainer";
 import FeedbackModal from "../FeedbackModal/FeedbackModal";
-import { LinkIcon, CheckIcon, PhoneIcon } from "@chakra-ui/icons";
+import { LinkIcon, CheckIcon, EmailIcon, PhoneIcon } from "@chakra-ui/icons";
 
 export default function InfoModal({ setData, isOpen, onClose, onOpen, props }) {
   const [showEmail, setShowEmail] = useState(false);
@@ -155,7 +155,7 @@ export default function InfoModal({ setData, isOpen, onClose, onOpen, props }) {
                     onClick={handleDelete}
                     isDisabled={props.isresolved ? true : false}
                   >
-                    <CheckIcon /> Resolve
+                      {currentEmail === props.email ? <CheckIcon /> Resolve : <EmailIcon /> View Contact}
                   </Button>
                 )}
                 <Button
