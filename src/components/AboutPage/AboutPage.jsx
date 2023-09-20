@@ -15,6 +15,9 @@ export default function AboutPage() {
   const navigate = useNavigate();
   const [screenWidth, setScreenWidth] = useState(window.screen.width);
   const [data, setData] = useState([]);
+  const [leaderboard, setLeaderboard] = useState([]);
+  console.log("leaderboard", leaderboard);
+  console.log("data", data);
 
   window.onresize = () => {
     setScreenWidth(window.screen.width);
@@ -27,8 +30,13 @@ export default function AboutPage() {
   useEffect(() => {
     const getData = async () => {
       axios
-        .get("http://localhost:3001/items")
+        .get(`${process.env.REACT_APP_AWS_BACKEND_URL}/items/`)
         .then((data) => setData(data.data))
+        .catch((err) => console.log(err));
+
+      axios
+        .get(`${process.env.REACT_APP_AWS_BACKEND_URL}/leaderboard/`)
+        .then((leaderboardData) => setLeaderboard(leaderboardData.data))
         .catch((err) => console.log(err));
     };
     getData();
@@ -97,7 +105,7 @@ export default function AboutPage() {
         </Flex>
         <Flex direction={"column"} m={"1%"}>
           <Text fontWeight={600} fontSize={{ base: "1.3rem", md: "2.4rem" }}>
-            0
+            {data.filter((item) => item.isresolved).length}
           </Text>
           <Text fontSize={{ base: "0.8rem", md: "1.2rem" }}>
             Successful Returns
@@ -105,7 +113,7 @@ export default function AboutPage() {
         </Flex>
         <Flex direction={"column"} m={"1%"}>
           <Text fontWeight={600} fontSize={{ base: "1.3rem", md: "2.4rem" }}>
-            {data.length}
+            {leaderboard.length}
           </Text>
           <Text fontSize={{ base: "0.8rem", md: "1.2rem" }}>Active Users</Text>
         </Flex>
