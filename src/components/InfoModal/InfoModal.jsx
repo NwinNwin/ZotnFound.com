@@ -19,21 +19,21 @@ import ImageContainer from "../ImageContainer/ImageContainer";
 import FeedbackModal from "../FeedbackModal/FeedbackModal";
 import { LinkIcon, CheckIcon, EmailIcon, PhoneIcon } from "@chakra-ui/icons";
 
-export default function InfoModal({ setData, isOpen, onClose, onOpen, props }) {
+export default function InfoModal({ setData, isOpen, onClose, props }) {
   const [showEmail, setShowEmail] = useState(false);
   const { onLoginModalOpen } = useContext(DataContext);
   const { user } = UserAuth();
   const navigate = useNavigate();
   const feedbackModalDisclosure = useDisclosure();
   const currentEmail = user?.email;
-  
+
   // function viewEmail() {
   //   if (user) {
   //     setShowEmail(true);
   //   }
   // }
 
-  async function handleDelete() {
+  async function handleResolve() {
     feedbackModalDisclosure.onOpen();
   }
 
@@ -140,7 +140,7 @@ export default function InfoModal({ setData, isOpen, onClose, onOpen, props }) {
                         }
                       }}
                     >
-                      <PhoneIcon /> View Contact
+                      <EmailIcon /> View Contact
                     </Button>
                   ) : (
                     <Button size="lg" variant="outline" colorScheme="blue">
@@ -152,10 +152,10 @@ export default function InfoModal({ setData, isOpen, onClose, onOpen, props }) {
                     colorScheme="green"
                     size={"lg"}
                     gap={2}
-                    onClick={handleDelete}
+                    onClick={handleResolve}
                     isDisabled={props.isresolved ? true : false}
                   >
-                      {currentEmail === props.email ? <CheckIcon /> Resolve : <EmailIcon /> View Contact}
+                    <CheckIcon /> Resolve
                   </Button>
                 )}
                 <Button
