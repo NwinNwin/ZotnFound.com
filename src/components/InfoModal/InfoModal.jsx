@@ -19,26 +19,18 @@ import {
 import { formatDate } from "../../utils";
 import { UserAuth } from "../../context/AuthContext";
 import DataContext from "../../context/DataContext";
-import axios from "axios";
 import ImageContainer from "../ImageContainer/ImageContainer";
 import FeedbackModal from "../FeedbackModal/FeedbackModal";
-import { LinkIcon, EmailIcon, CloseIcon, PhoneIcon } from "@chakra-ui/icons";
+import { LinkIcon, EmailIcon, CheckIcon, PhoneIcon } from "@chakra-ui/icons";
 
-export default function InfoModal({
-  setData,
-  infoIsOpen,
-  infoOnClose,
-  infoOnOpen,
-  props,
-}) {
+export default function InfoModal({ setData, isOpen, onClose, onOpen, props }) {
   const [showEmail, setShowEmail] = useState(false);
   const { onLoginModalOpen } = useContext(DataContext);
-  const { setLoading } = useContext(DataContext);
   const { user } = UserAuth();
   const navigate = useNavigate();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const feedbackModalDisclosure = useDisclosure();
   const currentEmail = user?.email;
-
+  
   // function viewEmail() {
   //   if (user) {
   //     setShowEmail(true);
@@ -46,29 +38,16 @@ export default function InfoModal({
   // }
 
   async function handleDelete() {
-    // infoOnClose();
-    onOpen();
-    // setLoading(false);
-    // axios
-    //   .delete(`${process.env.REACT_APP_AWS_BACKEND_URL}/items/${props.id}`)
-    //   .then(() => console.log("Success"))
-    //   .catch((err) => console.log(err));
-    // setData((prevItems) => {
-    //   if (prevItems && prevItems.length > 0) {
-    //     return prevItems.filter((item) => item.id !== props.id);
-    //   }
-    //   return prevItems;
-    // });
-    // setLoading(true);
+    feedbackModalDisclosure.onOpen();
   }
 
   const formattedDate = formatDate(new Date(props.date));
   return (
     <>
       <Modal
-        isOpen={infoIsOpen}
+        isOpen={isOpen}
         onClose={() => {
-          infoOnClose();
+          onClose();
           navigate("/");
         }}
         size={{ base: "full", md: "5xl" }}
@@ -174,12 +153,13 @@ export default function InfoModal({
                   ))}
                 {currentEmail === props.email && (
                   <Button
-                    colorScheme="red"
+                    colorScheme="green"
                     size={"lg"}
                     gap={2}
                     onClick={handleDelete}
+                    isDisabled={props.isresolved ? true : false}
                   >
-                    <CloseIcon /> Delete
+                    <CheckIcon /> Resolve
                   </Button>
                 )}
                 <Button
@@ -195,7 +175,13 @@ export default function InfoModal({
           </Flex>
         </ModalContent>
       </Modal>
-      <FeedbackModal infoOnClose={infoOnClose} feedbackIsOpen={isOpen} feedbackOnClose={onClose} />
+      <FeedbackModal
+        infoOnClose={onClose}
+        isOpen={feedbackModalDisclosure.isOpen}
+        onClose={feedbackModalDisclosure.onClose}
+        props={props}
+        setData={setData}
+      />
     </>
   );
 }

@@ -18,7 +18,7 @@ import { formatDate } from "../../utils.js";
 import locate from "../../assets/logos/locate.svg";
 
 export default function ResultCard({ props, setData, onResultsBarClose }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const infoModalDisclosure = useDisclosure();
   const {id} = useParams();
 
   const formattedDate = formatDate(new Date(props.date));
@@ -47,7 +47,7 @@ export default function ResultCard({ props, setData, onResultsBarClose }) {
               leftIcon={<InfoIcon />}
               size="md"
               w="20"
-              onClick={onOpen}
+              onClick={infoModalDisclosure.onOpen}
             >
               View
             </Button>
@@ -79,12 +79,12 @@ export default function ResultCard({ props, setData, onResultsBarClose }) {
           </Flex>
         </CardFooter>
       </Card>
-      {(isOpen || id) && (
+      {(infoModalDisclosure.isOpen || id) && (
         <InfoModal
           props={props}
-          infoOnOpen={onOpen}
-          infoOnClose={onClose}
-          infoIsOpen={id === props.id.toString() ? true: isOpen}
+          onOpen={infoModalDisclosure.onOpen}
+          onClose={infoModalDisclosure.onClose}
+          isOpen={id === props.id.toString() ? true: infoModalDisclosure.isOpen}
           setData={setData}
         />
       )}

@@ -97,6 +97,8 @@ export default function Home() {
   const [screenWidth, setScreenWidth] = useState(window.screen.width);
   const [uploadImg, setUploadImg] = useState("");
 
+  console.log(data)
+
   // LOGIN MODAL
   const {
     isOpen: isLoginModalOpen,
