@@ -26,7 +26,7 @@ export default function InfoModal({ setData, isOpen, onClose, props }) {
   const navigate = useNavigate();
   const feedbackModalDisclosure = useDisclosure();
   const currentEmail = user?.email;
-  
+
   // function viewEmail() {
   //   if (user) {
   //     setShowEmail(true);
@@ -140,7 +140,7 @@ export default function InfoModal({ setData, isOpen, onClose, props }) {
                         }
                       }}
                     >
-                      <PhoneIcon /> View Contact
+                      <EmailIcon /> View Contact
                     </Button>
                   ) : (
                     <Button size="lg" variant="outline" colorScheme="blue">
@@ -155,7 +155,7 @@ export default function InfoModal({ setData, isOpen, onClose, props }) {
                     onClick={handleResolve}
                     isDisabled={props.isresolved ? true : false}
                   >
-                      {currentEmail === props.email ? <CheckIcon /> Resolve : <EmailIcon /> View Contact}
+                    <CheckIcon /> Resolve
                   </Button>
                 )}
                 <Button
