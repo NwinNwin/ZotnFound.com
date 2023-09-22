@@ -377,13 +377,16 @@ export default function Home() {
           ) : (
             <>
               <Button
-                backgroundColor="#a881af"
-                boxShadow="2xl"
-                color="white"
+                backgroundColor="white"
+                variant="outline"
+                boxShadow="7px 7px 14px #666666,
+                -7px -7px 14px #ffffff;"
+                color="#74a2fa"
                 onClick={onOpen}
                 fontSize={{ base: "xl", md: "2xl" }}
                 size="lg"
                 gap={2}
+                borderRadius={"lg"}
               >
                 <SettingsIcon />
                 Filter
@@ -400,9 +403,12 @@ export default function Home() {
                 colorScheme="blue"
                 onClick={onResultsBarOpen}
                 fontSize="2xl"
-                boxShadow="2xl"
+                boxShadow="12px 12px 24px #a8a8a8,
+                -12px -12px 24px #ffffff;"
                 size="lg"
                 gap={2}
+                justifyContent={"center"}
+                alignItems={"center"}
               >
                 <StarIcon />
               </Button>

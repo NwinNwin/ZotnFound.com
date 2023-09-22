@@ -112,15 +112,17 @@ export default function CreateModal({
     <>
       {isCreate ? (
         <Button
-          h={{ base: "10vh", md: "7vh" }}
-          w={{ base: "40vw", md: "8vw" }}
+          // h={{ base: "10vh", md: "7vh" }}
+          // w={{ base: "40vw", md: "" }}
           boxShadow="xl"
           _hover={{ bg: "#b4dbd9" }}
           backgroundColor="#33b249"
           color="white"
           fontSize="xl"
           fontWeight="bold"
-          borderRadius={20}
+          borderRadius={30}
+          size={"lg"}
+          paddingY={{ base: 10, md: 8 }}
           onClick={() => {
             if (user) {
               onOpen();
