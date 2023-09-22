@@ -112,15 +112,17 @@ export default function CreateModal({
     <>
       {isCreate ? (
         <Button
-          h={{ base: "10vh", md: "7vh" }}
-          w={{ base: "40vw", md: "8vw" }}
+          // h={{ base: "10vh", md: "7vh" }}
+          // w={{ base: "40vw", md: "" }}
           boxShadow="xl"
           _hover={{ bg: "#b4dbd9" }}
           backgroundColor="#33b249"
           color="white"
           fontSize="xl"
           fontWeight="bold"
-          borderRadius={20}
+          borderRadius={30}
+          size={"lg"}
+          paddingY={{ base: 10, md: 8 }}
           onClick={() => {
             if (user) {
               onOpen();
@@ -150,9 +152,9 @@ export default function CreateModal({
               islost: true,
               name: "",
               description: "",
-              itemDate: "",
-              isResolved: false,
-              isHelped: null,
+              itemdate: "",
+              isresolved: false,
+              ishelped: null,
             });
             setUploadImg("");
             setActiveStep(0);
@@ -173,9 +175,9 @@ export default function CreateModal({
             islost: true,
             name: "",
             description: "",
-            itemDate: "",
-            isResolved: false,
-            isHelped: null,
+            itemdate: "",
+            isresolved: false,
+            ishelped: null,
           });
           setUploadImg("");
           setActiveStep(0);
@@ -344,7 +346,7 @@ export default function CreateModal({
                           setDate(e);
                           setNewAddedItem((prev) => ({
                             ...prev,
-                            itemDate: e.toISOString().split("T")[0],
+                            itemdate: e.toISOString().split("T")[0],
                           }));
                         }}
                         value={date}
@@ -515,7 +517,7 @@ export default function CreateModal({
                       >
                         <SlCalender size={"1.3em"} />
                         <Text ml="2%" fontSize={15} w={"100%"}>
-                          {newAddedItem.itemDate}
+                          {newAddedItem.itemdate}
                         </Text>
                       </Flex>
                     </Flex>
@@ -548,9 +550,9 @@ export default function CreateModal({
                         islost: true,
                         name: "",
                         description: "",
-                        itemDate: "",
-                        isResolved: false,
-                        isHelped: null,
+                        itemdate: "",
+                        isresolved: false,
+                        ishelped: null,
                       });
                       setUploadImg("");
                       onClose();
@@ -565,7 +567,7 @@ export default function CreateModal({
                       (activeStep === 0 && newAddedItem.name === "") ||
                       newAddedItem.description === "" ||
                       (activeStep === 1 && newAddedItem.type === "") ||
-                      (activeStep === 2 && newAddedItem.itemDate === "") ||
+                      (activeStep === 2 && newAddedItem.itemdate === "") ||
                       (activeStep === 3 && uploadImg === "")
                     }
                     variant={"solid"}

@@ -19,14 +19,34 @@ import locate from "../../assets/logos/locate.svg";
 
 export default function ResultCard({ props, setData, onResultsBarClose }) {
   const infoModalDisclosure = useDisclosure();
-  const {id} = useParams();
+  const { id } = useParams();
 
   const formattedDate = formatDate(new Date(props.date));
   return (
     <>
       <Card maxW="lg" align={"center"} mb="10px">
         <CardBody>
-          <Image src={props.image} alt="Car key" borderRadius="lg" />
+          <Flex justifyContent={"center"} alignItems={"center"}>
+            {props.isresolved && (
+              <Flex
+                backgroundColor={"rgba(255, 123, 0, 0.9)"}
+                position={"absolute"}
+                justifyContent={"center"}
+                alignItems={"center"}
+                marginTop={30}
+                flexDir={"column"}
+                w={450}
+              >
+                <Text fontSize={18} as="b" color={"white"}>
+                  RETURNED
+                </Text>
+                <Text fontSize={15} color={"white"}>
+                  This item has been returned.
+                </Text>
+              </Flex>
+            )}
+            <Image rounded={"lg"} src={props.image} />
+          </Flex>
           <Stack mt="6" spacing="3">
             <Flex justifyContent={"space-between"}>
               <Text color="blue.600" fontSize="md" fontWeight="bold">
@@ -83,7 +103,9 @@ export default function ResultCard({ props, setData, onResultsBarClose }) {
         <InfoModal
           props={props}
           onClose={infoModalDisclosure.onClose}
-          isOpen={id === props.id.toString() ? true: infoModalDisclosure.isOpen}
+          isOpen={
+            id === props.id.toString() ? true : infoModalDisclosure.isOpen
+          }
           setData={setData}
         />
       )}

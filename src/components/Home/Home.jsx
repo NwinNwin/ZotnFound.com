@@ -84,9 +84,9 @@ export default function Home() {
     islost: true,
     name: "",
     description: "",
-    itemDate: "",
-    isResolved: false,
-    isHelped: null
+    itemdate: "",
+    isresolved: false,
+    ishelped: null,
   });
 
   const [isEdit, setIsEdit] = useState(false);
@@ -97,7 +97,7 @@ export default function Home() {
   const [screenWidth, setScreenWidth] = useState(window.screen.width);
   const [uploadImg, setUploadImg] = useState("");
 
-  console.log(data)
+  console.log(data);
 
   // LOGIN MODAL
   const {
@@ -137,10 +137,11 @@ export default function Home() {
     };
     getData();
   }, []);
-  
+
   window.onresize = () => {
     setScreenWidth(window.screen.width);
   };
+  console.log(data);
 
   return (
     <DataContext.Provider
@@ -239,55 +240,58 @@ export default function Home() {
 
         <Flex alignItems="center" justifyContent="space-between" mr={7} gap={5}>
           {user ? (
-            <Menu>
-              <MenuButton>
-                <Image
-                  src={user?.photoURL}
-                  h={{ base: "50px", md: "80px" }}
-                  w={{ base: "50px", md: "80px" }}
-                  borderRadius="100%"
-                />
-              </MenuButton>
+            <>
+              <Text>Leaderboard</Text>
+              <Menu>
+                <MenuButton>
+                  <Image
+                    src={user?.photoURL}
+                    h={{ base: "50px", md: "80px" }}
+                    w={{ base: "50px", md: "80px" }}
+                    borderRadius="100%"
+                  />
+                </MenuButton>
 
-              <MenuList zIndex={10000}>
-                <MenuItem _focus={{ bg: "white" }}>
-                  <Image
-                    boxSize="1.2rem"
-                    src={userlogo}
-                    alt="logoutbutton"
-                    mr="12px"
-                  />
-                  {user?.email}
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    setFindFilter((prev) => ({
-                      ...prev,
-                      isYourPosts: !prev.isYourPosts,
-                    }));
-                    onOpen();
-                  }}
-                >
-                  <Image
-                    boxSize="1.2rem"
-                    src={yourposts}
-                    alt="logoutbutton"
-                    mr="12px"
-                  />
-                  Your Posts
-                </MenuItem>
+                <MenuList zIndex={10000}>
+                  <MenuItem _focus={{ bg: "white" }}>
+                    <Image
+                      boxSize="1.2rem"
+                      src={userlogo}
+                      alt="logoutbutton"
+                      mr="12px"
+                    />
+                    {user?.email}
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      setFindFilter((prev) => ({
+                        ...prev,
+                        isYourPosts: !prev.isYourPosts,
+                      }));
+                      onOpen();
+                    }}
+                  >
+                    <Image
+                      boxSize="1.2rem"
+                      src={yourposts}
+                      alt="logoutbutton"
+                      mr="12px"
+                    />
+                    Your Posts
+                  </MenuItem>
 
-                <MenuItem onClick={handleLogout}>
-                  <Image
-                    boxSize="1.2rem"
-                    src={logout}
-                    alt="logoutbutton"
-                    mr="12px"
-                  />
-                  Logout
-                </MenuItem>
-              </MenuList>
-            </Menu>
+                  <MenuItem onClick={handleLogout}>
+                    <Image
+                      boxSize="1.2rem"
+                      src={logout}
+                      alt="logoutbutton"
+                      mr="12px"
+                    />
+                    Logout
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            </>
           ) : (
             <Button
               h={{ base: "6vh", md: "7vh" }}
@@ -373,13 +377,16 @@ export default function Home() {
           ) : (
             <>
               <Button
-                backgroundColor="#a881af"
-                boxShadow="2xl"
-                color="white"
+                backgroundColor="white"
+                variant="outline"
+                boxShadow="7px 7px 14px #666666,
+                -7px -7px 14px #ffffff;"
+                color="#74a2fa"
                 onClick={onOpen}
                 fontSize={{ base: "xl", md: "2xl" }}
                 size="lg"
                 gap={2}
+                borderRadius={"lg"}
               >
                 <SettingsIcon />
                 Filter
@@ -396,9 +403,12 @@ export default function Home() {
                 colorScheme="blue"
                 onClick={onResultsBarOpen}
                 fontSize="2xl"
-                boxShadow="2xl"
+                boxShadow="12px 12px 24px #a8a8a8,
+                -12px -12px 24px #ffffff;"
                 size="lg"
                 gap={2}
+                justifyContent={"center"}
+                alignItems={"center"}
               >
                 <StarIcon />
               </Button>
