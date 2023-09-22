@@ -150,9 +150,9 @@ export default function CreateModal({
               islost: true,
               name: "",
               description: "",
-              itemDate: "",
-              isResolved: false,
-              isHelped: null,
+              itemdate: "",
+              isresolved: false,
+              ishelped: null,
             });
             setUploadImg("");
             setActiveStep(0);
@@ -173,9 +173,9 @@ export default function CreateModal({
             islost: true,
             name: "",
             description: "",
-            itemDate: "",
-            isResolved: false,
-            isHelped: null,
+            itemdate: "",
+            isresolved: false,
+            ishelped: null,
           });
           setUploadImg("");
           setActiveStep(0);
@@ -344,7 +344,7 @@ export default function CreateModal({
                           setDate(e);
                           setNewAddedItem((prev) => ({
                             ...prev,
-                            itemDate: e.toISOString().split("T")[0],
+                            itemdate: e.toISOString().split("T")[0],
                           }));
                         }}
                         value={date}
@@ -515,7 +515,7 @@ export default function CreateModal({
                       >
                         <SlCalender size={"1.3em"} />
                         <Text ml="2%" fontSize={15} w={"100%"}>
-                          {newAddedItem.itemDate}
+                          {newAddedItem.itemdate}
                         </Text>
                       </Flex>
                     </Flex>
@@ -548,9 +548,9 @@ export default function CreateModal({
                         islost: true,
                         name: "",
                         description: "",
-                        itemDate: "",
-                        isResolved: false,
-                        isHelped: null,
+                        itemdate: "",
+                        isresolved: false,
+                        ishelped: null,
                       });
                       setUploadImg("");
                       onClose();
@@ -565,7 +565,7 @@ export default function CreateModal({
                       (activeStep === 0 && newAddedItem.name === "") ||
                       newAddedItem.description === "" ||
                       (activeStep === 1 && newAddedItem.type === "") ||
-                      (activeStep === 2 && newAddedItem.itemDate === "") ||
+                      (activeStep === 2 && newAddedItem.itemdate === "") ||
                       (activeStep === 3 && uploadImg === "")
                     }
                     variant={"solid"}

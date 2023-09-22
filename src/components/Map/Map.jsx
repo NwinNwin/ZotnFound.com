@@ -76,6 +76,7 @@ export default function Map({
     }
   }, [focusLocation, setFocusLocation]);
 
+  console.log(findFilter);
   const allMarkers = data
     .filter((item) => {
       return (
@@ -85,7 +86,7 @@ export default function Map({
           findFilter.isFound === !item.islost) &&
         (findFilter.type === "everything" || findFilter.type === item.type) &&
         (findFilter.uploadDate === "" ||
-          item.itemDate.includes(findFilter.uploadDate)) &&
+          (item.itemdate && item.itemdate.includes(findFilter.uploadDate))) &&
         (!findFilter.isYourPosts ||
           (findFilter.isYourPosts && item.email === user.email))
       );
@@ -102,7 +103,11 @@ export default function Map({
               setFocusLocation(item.location);
             },
           }}
-          icon={(iconsMap[item.type] || iconsMap["others"])[item.islost]}
+          icon={
+            item.isresolved
+              ? iconsMap["resolved"][item.islost]
+              : (iconsMap[item.type] || iconsMap["others"])[item.islost]
+          }
         ></Marker>
       );
     });
@@ -133,7 +138,7 @@ export default function Map({
   );
 
   async function handleSubmit() {
-    console.log("submitted")
+    console.log("submitted");
     const date = new Date();
 
     axios
@@ -145,10 +150,10 @@ export default function Map({
         description: newAddedItem.description,
         email: user.email,
         location: [position.lat, position.lng],
-        itemDate: newAddedItem.itemDate,
+        itemdate: newAddedItem.itemdate,
         date: date.toISOString(),
-        isResolved: newAddedItem.isResolved,
-        isHelped: newAddedItem.isHelped,
+        isresolved: newAddedItem.isresolved,
+        ishelped: newAddedItem.ishelped,
       })
       .then((item) => {
         const newItem = {
@@ -160,10 +165,10 @@ export default function Map({
           email: user.email,
           location: [position.lat, position.lng],
           date: date.toISOString(),
-          itemDate: newAddedItem.itemDate,
+          itemdate: newAddedItem.itemdate,
           id: item.data.id,
-          isResolved: newAddedItem.isResolved,
-          isHelped: newAddedItem.isHelped,
+          isresolved: newAddedItem.isresolved,
+          ishelped: newAddedItem.ishelped,
         };
         setData((prev) => [...prev, newItem]);
         setPosition(centerPosition);
@@ -174,9 +179,9 @@ export default function Map({
           islost: true,
           name: "",
           description: "",
-          itemDate: "",
-          isResolved: false,
-          isHelped: null,
+          itemdate: "",
+          isresolved: false,
+          ishelped: null,
         });
         setIsCreate(!isCreate);
         setUploadImg("");

@@ -23,7 +23,8 @@ export default function ResultsBar({
           findFilter.isFound === !item.islost) &&
         (findFilter.type === "everything" || findFilter.type === item.type) &&
         (findFilter.uploadDate === "" ||
-          item.itemDate.includes(findFilter.uploadDate)) &&
+          !item.itemdate ||
+          (item.itemdate && item.itemdate.includes(findFilter.uploadDate))) &&
         (!findFilter.isYourPosts ||
           (findFilter.isYourPosts && item.email === user.email))
       );

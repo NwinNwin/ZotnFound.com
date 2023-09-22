@@ -27,7 +27,9 @@ export default function FeedbackModal({
     setLoading(false);
     axios
       .put(`${process.env.REACT_APP_AWS_BACKEND_URL}/items/${props.id}`, {
-        isHelped: feedbackHelped,
+        ...props,
+        isresolved: true,
+        ishelped: feedbackHelped,
       })
       .then(() => console.log("Success"))
       .catch((err) => console.log(err));
@@ -37,7 +39,7 @@ export default function FeedbackModal({
         return prevItems.map((item) => {
           if (item.id === props.id) {
             item.isresolved = true;
-            item.isHelped = feedbackHelped;
+            item.ishelped = feedbackHelped;
           }
           return item;
         });

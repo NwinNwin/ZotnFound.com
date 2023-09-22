@@ -10,12 +10,19 @@ import wallet_lost from "../../assets/logos/Wallet_lost.png";
 
 import key_found from "../../assets/logos/Key_found.png";
 import key_lost from "../../assets/logos/Key_lost.png";
+import resolved from "../../assets/logos/resolved.png";
 
 import others_lost from "../../assets/logos/Others_lost.png";
 import others_found from "../../assets/logos/Others_found.png";
 import others_black from "../../assets/logos/others_black.svg";
 
 import fly_img from "../../assets/images/fly_img.png";
+
+const resolvedIcon = L.icon({
+  iconUrl: resolved,
+  iconSize: [50, 50],
+  iconAnchor: [25, 40],
+});
 
 const headphoneLost = L.icon({
   iconUrl: headphone_lost,
@@ -108,5 +115,9 @@ export const iconsMap = {
   others: {
     true: othersLost,
     false: othersFound,
+  },
+  resolved: {
+    true: resolvedIcon,
+    false: resolvedIcon,
   },
 };
