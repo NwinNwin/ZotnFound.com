@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Map from "../Map/Map";
 import "./Home.css";
 import Filter from "../Filter/Filter";
 import ResultsBar from "../ResultsBar/ResultsBar";
 import CreateModal from "../CreateModal/CreateModal";
 import LoginModal from "../LoginModal/LoginModal";
+import Leaderboard from "./Leaderboard";
 
 import instagram from "../../assets/logos/instagram.svg";
 import { UserAuth } from "../../context/AuthContext";
@@ -43,18 +44,27 @@ import upload from "../../assets/images/download.png";
 import logout from "../../assets/logos/logout.svg";
 import userlogo from "../../assets/logos/userlogo.svg";
 import yourposts from "../../assets/logos/yourposts.svg";
+import cookie from "../../assets/images/cookie.svg";
+
 import axios from "axios";
 
 export default function Home() {
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
   const { user, logOut } = UserAuth();
+  const btnRef = useRef();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: isResultsBarOpen,
     onOpen: onResultsBarOpen,
     onClose: onResultsBarClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isLeaderboardOpen,
+    onOpen: onLeaderboardOpen,
+    onClose: onLeaderboardClose,
   } = useDisclosure();
 
   const [findFilter, setFindFilter] = useState({
@@ -238,10 +248,33 @@ export default function Home() {
           </InputGroup>
         </HStack>
 
-        <Flex alignItems="center" justifyContent="space-between" mr={7} gap={5}>
+        <Flex
+          alignItems="center"
+          justifyContent="space-between"
+          mr={7}
+          gap={{ base: 3, md: 5 }}
+        >
           {user ? (
             <>
-              <Text>Leaderboard</Text>
+              <Flex
+                alignItems={"center"}
+                gap={{ base: 1, md: 1.5 }}
+                justifyContent={"center"}
+                background={"#74a2fa"}
+                padding={{ base: "6px", md: 1.5 }}
+                borderRadius={"xl"}
+                onClick={onLeaderboardOpen}
+              >
+                <Image
+                  ref={btnRef}
+                  src={cookie}
+                  h={{ base: "20px", md: "20px" }}
+                  w={{ base: "25px", md: "25px" }}
+                />
+                <Text as={"b"} fontSize={"lg"} color={"white"}>
+                  2
+                </Text>
+              </Flex>
               <Menu>
                 <MenuButton>
                   <Image
@@ -555,6 +588,12 @@ export default function Home() {
         </Flex>
       )}
       <LoginModal />
+      <Leaderboard
+        onOpen={onLeaderboardOpen}
+        isOpen={isLeaderboardOpen}
+        onClose={onLeaderboardClose}
+        btnRef={btnRef}
+      />
     </DataContext.Provider>
   );
 }
