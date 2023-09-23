@@ -400,11 +400,11 @@ export default function Home() {
               />
               <Button
                 display={{ md: "none" }}
-                colorScheme="blue"
+                background={"#74a2fa"}
+                color={"white"}
                 onClick={onResultsBarOpen}
                 fontSize="2xl"
-                boxShadow="12px 12px 24px #a8a8a8,
-                -12px -12px 24px #ffffff;"
+                boxShadow="7px 7px 14px #666666"
                 size="lg"
                 gap={2}
                 justifyContent={"center"}
