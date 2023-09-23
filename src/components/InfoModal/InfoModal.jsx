@@ -17,7 +17,7 @@ import { UserAuth } from "../../context/AuthContext";
 import DataContext from "../../context/DataContext";
 import ImageContainer from "../ImageContainer/ImageContainer";
 import FeedbackModal from "../FeedbackModal/FeedbackModal";
-import { LinkIcon, CheckIcon, EmailIcon} from "@chakra-ui/icons";
+import { LinkIcon, CheckIcon, EmailIcon } from "@chakra-ui/icons";
 
 export default function InfoModal({ setData, isOpen, onClose, props }) {
   const [showEmail, setShowEmail] = useState(false);
@@ -59,6 +59,7 @@ export default function InfoModal({ setData, isOpen, onClose, props }) {
             paddingY={"5%"}
             width={"100%"}
             flexDir={{ base: "column", md: "row" }}
+            overflowX={"hidden"}
           >
             <ImageContainer image={props.image} isresolved={props.isresolved} />
             <Flex

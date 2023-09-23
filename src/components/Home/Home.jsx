@@ -51,6 +51,7 @@ import axios from "axios";
 export default function Home() {
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
+  const [leaderboard, setLeaderboard] = useState([]);
   const { user, logOut } = UserAuth();
   const btnRef = useRef();
 
@@ -148,10 +149,59 @@ export default function Home() {
     getData();
   }, []);
 
+  //stevenz9@uci.edu
+  //sd@uci.edu
+  //test2@uci.edu
+  //test@gmail.com
+  //dangnn1@uci.edu
+  //LEADERBOARD GET INFO
+  useEffect(() => {
+    const getLeaderboard = async () => {
+      try {
+        const { data: leaderboardData } = await axios.get(
+          `${process.env.REACT_APP_AWS_BACKEND_URL}/leaderboard/`
+        );
+        setLeaderboard(
+          leaderboardData.map((item) => ({ ...item, id: item.id }))
+        );
+
+        // Check if the current user's email exists in the leaderboard
+        const userEmailExists = leaderboardData.some(
+          (entry) => entry.email === user?.email
+        );
+
+        // If it does not exist, add the user to the leaderboard
+        if (!userEmailExists) {
+          await axios.post(
+            `${process.env.REACT_APP_AWS_BACKEND_URL}/leaderboard/`,
+            {
+              email: user.email,
+              points: 5, // You can modify this as per your requirements
+            }
+          );
+
+          // Fetch the leaderboard again after insertion
+          const { data: updatedLeaderboardData } = await axios.get(
+            `${process.env.REACT_APP_AWS_BACKEND_URL}/leaderboard/`
+          );
+          setLeaderboard(
+            updatedLeaderboardData.map((item) => ({ ...item, id: item.id }))
+          );
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(true);
+      }
+    };
+
+    getLeaderboard();
+  }, [user]);
+
+  console.log(leaderboard);
   window.onresize = () => {
     setScreenWidth(window.screen.width);
   };
-  console.log(data);
 
   return (
     <DataContext.Provider
@@ -263,6 +313,13 @@ export default function Home() {
                 background={"#74a2fa"}
                 padding={{ base: "6px", md: 1.5 }}
                 borderRadius={"xl"}
+                _hover={{
+                  background: "#365fad",
+                }}
+                _active={{
+                  background: "#365fad",
+                }}
+                cursor={"pointer"}
                 onClick={onLeaderboardOpen}
               >
                 <Image
@@ -272,7 +329,9 @@ export default function Home() {
                   w={{ base: "25px", md: "25px" }}
                 />
                 <Text as={"b"} fontSize={"lg"} color={"white"}>
-                  2
+                  {user
+                    ? leaderboard.find((u) => u.email === user.email)?.points
+                    : 0}
                 </Text>
               </Flex>
               <Menu>
@@ -593,6 +652,8 @@ export default function Home() {
         isOpen={isLeaderboardOpen}
         onClose={onLeaderboardClose}
         btnRef={btnRef}
+        leaderboard={leaderboard}
+        user={user}
       />
     </DataContext.Provider>
   );

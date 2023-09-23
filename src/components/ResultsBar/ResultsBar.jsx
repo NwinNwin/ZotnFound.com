@@ -55,6 +55,7 @@ export default function ResultsBar({
       width={{ base: "90vw", md: "21vw" }}
       height="80vh"
       overflowY="scroll"
+      overflowX={"hidden"}
     >
       {allResults.length > 0 ? (
         allResults
