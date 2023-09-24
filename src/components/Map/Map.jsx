@@ -41,8 +41,7 @@ export default function Map({
   focusLocation,
   setFocusLocation,
   setUploadImg,
-  uploadImg,
-  upload,
+  setLeaderboard,
 }) {
   const { user } = UserAuth();
   const { data, setLoading } = useContext(DataContext);
@@ -76,7 +75,6 @@ export default function Map({
     }
   }, [focusLocation, setFocusLocation]);
 
-  console.log(findFilter);
   const allMarkers = data
     .filter((item) => {
       return (
@@ -138,7 +136,6 @@ export default function Map({
   );
 
   async function handleSubmit() {
-    console.log("submitted");
     const date = new Date();
 
     axios
@@ -185,6 +182,22 @@ export default function Map({
         });
         setIsCreate(!isCreate);
         setUploadImg("");
+
+        // Update the leaderboard
+        const pointsToAdd = newAddedItem.islost ? 1 : 3;
+
+        axios.put(`${process.env.REACT_APP_AWS_BACKEND_URL}/leaderboard`, {
+          email: user.email,
+          pointsToAdd: pointsToAdd,
+        });
+
+        setLeaderboard((prev) =>
+          prev.map((u) =>
+            u.email === user.email
+              ? { ...u, points: (u.points || 0) + pointsToAdd }
+              : u
+          )
+        );
       })
       .catch((err) => console.log(err));
 
@@ -268,22 +281,7 @@ export default function Map({
         {!isEdit && <Test location={focusLocation} search={search} />}
         {!isEdit}
         {!isEdit && allMarkers}
-        {/* {isEdit && (
-          <Marker
-            className="marker"
-            draggable={true}
-            eventHandlers={eventHandlers}
-            position={position}
-            ref={markerRef}
-            icon={othersDrag}
-          >
-            <Popup minWidth={90} closeButton={false}>
-              <span className="popup" onClick={() => toggleDraggable()}>
-                Click to Confirm Location 🤔
-              </span>
-            </Popup>
-          </Marker>
-        )} */}
+
         {isEdit && <NewItemMarker />}
         {showDonut && focusLocation && (
           <>
@@ -305,6 +303,7 @@ export default function Map({
           onClose={onClose}
           isOpen={isOpen}
           setData={setData}
+          setLeaderboard={setLeaderboard}
         />
       )}
     </div>

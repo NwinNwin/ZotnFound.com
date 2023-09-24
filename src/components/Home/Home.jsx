@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Map from "../Map/Map";
 import "./Home.css";
 import Filter from "../Filter/Filter";
 import ResultsBar from "../ResultsBar/ResultsBar";
 import CreateModal from "../CreateModal/CreateModal";
 import LoginModal from "../LoginModal/LoginModal";
+import Leaderboard from "./Leaderboard";
 
 import instagram from "../../assets/logos/instagram.svg";
 import { UserAuth } from "../../context/AuthContext";
@@ -43,18 +44,28 @@ import upload from "../../assets/images/download.png";
 import logout from "../../assets/logos/logout.svg";
 import userlogo from "../../assets/logos/userlogo.svg";
 import yourposts from "../../assets/logos/yourposts.svg";
+import cookie from "../../assets/images/cookie.svg";
+
 import axios from "axios";
 
 export default function Home() {
   const [search, setSearch] = useState("");
   const [data, setData] = useState([]);
+  const [leaderboard, setLeaderboard] = useState([]);
   const { user, logOut } = UserAuth();
+  const btnRef = useRef();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: isResultsBarOpen,
     onOpen: onResultsBarOpen,
     onClose: onResultsBarClose,
+  } = useDisclosure();
+
+  const {
+    isOpen: isLeaderboardOpen,
+    onOpen: onLeaderboardOpen,
+    onClose: onLeaderboardClose,
   } = useDisclosure();
 
   const [findFilter, setFindFilter] = useState({
@@ -97,8 +108,6 @@ export default function Home() {
   const [screenWidth, setScreenWidth] = useState(window.screen.width);
   const [uploadImg, setUploadImg] = useState("");
 
-  console.log(data);
-
   // LOGIN MODAL
   const {
     isOpen: isLoginModalOpen,
@@ -138,10 +147,53 @@ export default function Home() {
     getData();
   }, []);
 
+  //LEADERBOARD GET INFO
+  useEffect(() => {
+    const getLeaderboard = async () => {
+      try {
+        const { data: leaderboardData } = await axios.get(
+          `${process.env.REACT_APP_AWS_BACKEND_URL}/leaderboard/`
+        );
+        setLeaderboard(
+          leaderboardData.map((item) => ({ ...item, id: item.id }))
+        );
+
+        // Check if the current user's email exists in the leaderboard
+        const userEmailExists = leaderboardData.some(
+          (entry) => entry.email === user?.email
+        );
+
+        // If it does not exist, add the user to the leaderboard
+        if (!userEmailExists) {
+          await axios.post(
+            `${process.env.REACT_APP_AWS_BACKEND_URL}/leaderboard/`,
+            {
+              email: user.email,
+              points: 5, // You can modify this as per your requirements
+            }
+          );
+
+          // Fetch the leaderboard again after insertion
+          const { data: updatedLeaderboardData } = await axios.get(
+            `${process.env.REACT_APP_AWS_BACKEND_URL}/leaderboard/`
+          );
+          setLeaderboard(
+            updatedLeaderboardData.map((item) => ({ ...item, id: item.id }))
+          );
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(true);
+      }
+    };
+
+    getLeaderboard();
+  }, [user]);
+
   window.onresize = () => {
     setScreenWidth(window.screen.width);
   };
-  console.log(data);
 
   return (
     <DataContext.Provider
@@ -238,10 +290,42 @@ export default function Home() {
           </InputGroup>
         </HStack>
 
-        <Flex alignItems="center" justifyContent="space-between" mr={7} gap={5}>
+        <Flex
+          alignItems="center"
+          justifyContent="space-between"
+          mr={7}
+          gap={{ base: 3, md: 5 }}
+        >
           {user ? (
             <>
-              <Text>Leaderboard</Text>
+              <Flex
+                alignItems={"center"}
+                gap={{ base: 1, md: 1.5 }}
+                justifyContent={"center"}
+                background={"#74a2fa"}
+                padding={{ base: "6px", md: 1.5 }}
+                borderRadius={"xl"}
+                _hover={{
+                  background: "#365fad",
+                }}
+                _active={{
+                  background: "#365fad",
+                }}
+                cursor={"pointer"}
+                onClick={onLeaderboardOpen}
+              >
+                <Image
+                  ref={btnRef}
+                  src={cookie}
+                  h={{ base: "20px", md: "20px" }}
+                  w={{ base: "25px", md: "25px" }}
+                />
+                <Text as={"b"} fontSize={"lg"} color={"white"}>
+                  {user
+                    ? leaderboard.find((u) => u.email === user.email)?.points
+                    : 0}
+                </Text>
+              </Flex>
               <Menu>
                 <MenuButton>
                   <Image
@@ -400,11 +484,11 @@ export default function Home() {
               />
               <Button
                 display={{ md: "none" }}
-                colorScheme="blue"
+                background={"#74a2fa"}
+                color={"white"}
                 onClick={onResultsBarOpen}
                 fontSize="2xl"
-                boxShadow="12px 12px 24px #a8a8a8,
-                -12px -12px 24px #ffffff;"
+                boxShadow="7px 7px 14px #666666"
                 size="lg"
                 gap={2}
                 justifyContent={"center"}
@@ -470,6 +554,7 @@ export default function Home() {
                         setData={setData}
                         setFocusLocation={setFocusLocation}
                         onResultsBarClose={onResultsBarClose}
+                        setLeaderboard={setLeaderboard}
                       />
                     </Flex>
                   </DrawerBody>
@@ -499,6 +584,7 @@ export default function Home() {
             setUploadImg={setUploadImg}
             uploadImg={uploadImg}
             upload={upload}
+            setLeaderboard={setLeaderboard}
           />
         </Flex>
         <Flex
@@ -512,6 +598,7 @@ export default function Home() {
             findFilter={findFilter}
             setData={setData}
             setFocusLocation={setFocusLocation}
+            setLeaderboard={setLeaderboard}
           />
         </Flex>
         <Box
@@ -555,6 +642,14 @@ export default function Home() {
         </Flex>
       )}
       <LoginModal />
+      <Leaderboard
+        onOpen={onLeaderboardOpen}
+        isOpen={isLeaderboardOpen}
+        onClose={onLeaderboardClose}
+        btnRef={btnRef}
+        leaderboard={leaderboard}
+        user={user}
+      />
     </DataContext.Provider>
   );
 }

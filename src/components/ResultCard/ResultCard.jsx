@@ -17,7 +17,12 @@ import InfoModal from "../InfoModal/InfoModal.jsx";
 import { formatDate } from "../../utils.js";
 import locate from "../../assets/logos/locate.svg";
 
-export default function ResultCard({ props, setData, onResultsBarClose }) {
+export default function ResultCard({
+  props,
+  setData,
+  onResultsBarClose,
+  setLeaderboard,
+}) {
   const infoModalDisclosure = useDisclosure();
   const { id } = useParams();
 
@@ -107,6 +112,7 @@ export default function ResultCard({ props, setData, onResultsBarClose }) {
             id === props.id.toString() ? true : infoModalDisclosure.isOpen
           }
           setData={setData}
+          setLeaderboard={setLeaderboard}
         />
       )}
     </>
