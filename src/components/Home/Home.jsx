@@ -53,6 +53,7 @@ export default function Home() {
   const [data, setData] = useState([]);
   const [leaderboard, setLeaderboard] = useState([]);
   const { user, logOut } = UserAuth();
+  const [token, setToken] = useState("");
   const btnRef = useRef();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -157,12 +158,10 @@ export default function Home() {
         setLeaderboard(
           leaderboardData.map((item) => ({ ...item, id: item.id }))
         );
-
         // Check if the current user's email exists in the leaderboard
         const userEmailExists = leaderboardData.some(
           (entry) => entry.email === user?.email
         );
-
         // If it does not exist, add the user to the leaderboard
         if (!userEmailExists) {
           await axios.post(
@@ -172,7 +171,6 @@ export default function Home() {
               points: 5, // You can modify this as per your requirements
             }
           );
-
           // Fetch the leaderboard again after insertion
           const { data: updatedLeaderboardData } = await axios.get(
             `${process.env.REACT_APP_AWS_BACKEND_URL}/leaderboard/`
@@ -191,6 +189,13 @@ export default function Home() {
     getLeaderboard();
   }, [user]);
 
+  // set token to auth
+  useEffect(() => {
+    if (user) {
+      setToken(user.accessToken);
+    }
+  }, [user]);
+
   window.onresize = () => {
     setScreenWidth(window.screen.width);
   };
@@ -199,6 +204,7 @@ export default function Home() {
     <DataContext.Provider
       value={{
         data: data,
+        token: token,
         setLoading: setLoading,
         isLoginModalOpen: isLoginModalOpen,
         onLoginModalClose: onLoginModalClose,

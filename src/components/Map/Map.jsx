@@ -44,10 +44,11 @@ export default function Map({
   setLeaderboard,
 }) {
   const { user } = UserAuth();
-  const { data, setLoading } = useContext(DataContext);
+  const { data, setLoading, token } = useContext(DataContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [itemData, setItemData] = useState({});
   const [showDonut, setShowDonut] = useState(false);
+  console.log(data);
 
   const allowedBounds = [
     [33.656487295651, -117.85412222020983],
@@ -134,24 +135,34 @@ export default function Map({
     }),
     [setPosition]
   );
-
   async function handleSubmit() {
     const date = new Date();
 
+    if (!token) {
+      return;
+    }
     axios
-      .post(`${process.env.REACT_APP_AWS_BACKEND_URL}/items`, {
-        image: newAddedItem.image,
-        type: newAddedItem.type,
-        islost: newAddedItem.islost,
-        name: newAddedItem.name,
-        description: newAddedItem.description,
-        email: user.email,
-        location: [position.lat, position.lng],
-        itemdate: newAddedItem.itemdate,
-        date: date.toISOString(),
-        isresolved: newAddedItem.isresolved,
-        ishelped: newAddedItem.ishelped,
-      })
+      .post(
+        `${process.env.REACT_APP_AWS_BACKEND_URL}/items`,
+        {
+          image: newAddedItem.image,
+          type: newAddedItem.type,
+          islost: newAddedItem.islost,
+          name: newAddedItem.name,
+          description: newAddedItem.description,
+          email: user.email,
+          location: [position.lat, position.lng],
+          itemdate: newAddedItem.itemdate,
+          date: date.toISOString(),
+          isresolved: newAddedItem.isresolved,
+          ishelped: newAddedItem.ishelped,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // verify auth
+          },
+        }
+      )
       .then((item) => {
         const newItem = {
           image: newAddedItem.image,
