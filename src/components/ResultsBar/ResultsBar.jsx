@@ -10,6 +10,7 @@ export default function ResultsBar({
   setData,
   setFocusLocation,
   onResultsBarClose,
+  setLeaderboard,
 }) {
   const { data } = useContext(DataContext);
   const { user } = UserAuth();
@@ -44,6 +45,7 @@ export default function ResultsBar({
             props={item}
             setData={setData}
             onResultsBarClose={onResultsBarClose}
+            setLeaderboard={setLeaderboard}
           />
         </Box>
       );

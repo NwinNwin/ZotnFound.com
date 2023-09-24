@@ -82,14 +82,14 @@ export default function Leaderboard({
                     <Text as={"b"} fontSize={"4xl"}>
                       1
                     </Text>
-                    <Text as={"b"} fontSize={"xl"}>
+                    <Text as={"b"} fontSize={"lg"}>
                       {leaderboard[0]?.email}
                     </Text>
                   </Flex>
 
                   <Flex>
                     <Text as={"b"} fontSize={"4xl"}>
-                      {leaderboard[0].points}
+                      {leaderboard[0]?.points}
                     </Text>
                     <Image
                       class="gold-medal"
@@ -113,14 +113,14 @@ export default function Leaderboard({
                     <Text as={"b"} fontSize={"4xl"}>
                       2
                     </Text>
-                    <Text as={"b"} fontSize={"xl"}>
+                    <Text as={"b"} fontSize={"lg"}>
                       {leaderboard[0]?.email}
                     </Text>
                   </Flex>
 
                   <Flex>
                     <Text as={"b"} fontSize={"4xl"}>
-                      {leaderboard[0].points} 🍪
+                      {leaderboard[0]?.points} 🍪
                     </Text>
                   </Flex>
                 </Flex>
@@ -139,14 +139,14 @@ export default function Leaderboard({
                     <Text as={"b"} fontSize={"4xl"}>
                       3
                     </Text>
-                    <Text as={"b"} fontSize={"xl"}>
+                    <Text as={"b"} fontSize={"lg"}>
                       {leaderboard[0]?.email}
                     </Text>
                   </Flex>
 
                   <Flex>
                     <Text as={"b"} fontSize={"4xl"}>
-                      {leaderboard[0].points} 🍪
+                      {leaderboard[0]?.points} 🍪
                     </Text>
                   </Flex>
                 </Flex>

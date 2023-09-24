@@ -108,8 +108,6 @@ export default function Home() {
   const [screenWidth, setScreenWidth] = useState(window.screen.width);
   const [uploadImg, setUploadImg] = useState("");
 
-  console.log(data);
-
   // LOGIN MODAL
   const {
     isOpen: isLoginModalOpen,
@@ -149,11 +147,6 @@ export default function Home() {
     getData();
   }, []);
 
-  //stevenz9@uci.edu
-  //sd@uci.edu
-  //test2@uci.edu
-  //test@gmail.com
-  //dangnn1@uci.edu
   //LEADERBOARD GET INFO
   useEffect(() => {
     const getLeaderboard = async () => {
@@ -198,7 +191,6 @@ export default function Home() {
     getLeaderboard();
   }, [user]);
 
-  console.log(leaderboard);
   window.onresize = () => {
     setScreenWidth(window.screen.width);
   };
@@ -562,6 +554,7 @@ export default function Home() {
                         setData={setData}
                         setFocusLocation={setFocusLocation}
                         onResultsBarClose={onResultsBarClose}
+                        setLeaderboard={setLeaderboard}
                       />
                     </Flex>
                   </DrawerBody>
@@ -591,6 +584,7 @@ export default function Home() {
             setUploadImg={setUploadImg}
             uploadImg={uploadImg}
             upload={upload}
+            setLeaderboard={setLeaderboard}
           />
         </Flex>
         <Flex
@@ -604,6 +598,7 @@ export default function Home() {
             findFilter={findFilter}
             setData={setData}
             setFocusLocation={setFocusLocation}
+            setLeaderboard={setLeaderboard}
           />
         </Flex>
         <Box

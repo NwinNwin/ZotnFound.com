@@ -19,10 +19,11 @@ export default function FeedbackModal({
   isOpen,
   onClose,
   props,
+  setLeaderboard,
+  email,
 }) {
   const [feedbackHelped, setFeedbackHelped] = useState(null);
   const { setLoading } = useContext(DataContext);
-
   async function handleFeedback() {
     setLoading(false);
     axios
@@ -46,6 +47,21 @@ export default function FeedbackModal({
       }
       return prevItems;
     });
+
+    // Update the leaderboard
+    const pointsToAdd = props.islost ? 2 : 5;
+
+    axios.put(`${process.env.REACT_APP_AWS_BACKEND_URL}/leaderboard`, {
+      email: email,
+      pointsToAdd: pointsToAdd,
+    });
+
+    setLeaderboard((prev) =>
+      prev.map((u) =>
+        u.email === email ? { ...u, points: (u.points || 0) + pointsToAdd } : u
+      )
+    );
+
     setLoading(true);
   }
 
