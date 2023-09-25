@@ -18,6 +18,7 @@ import DataContext from "../../context/DataContext";
 import ImageContainer from "../ImageContainer/ImageContainer";
 import FeedbackModal from "../FeedbackModal/FeedbackModal";
 import { LinkIcon, CheckIcon, EmailIcon } from "@chakra-ui/icons";
+import axios from "axios";
 
 export default function InfoModal({
   setData,
@@ -28,20 +29,37 @@ export default function InfoModal({
 }) {
   const [showEmail, setShowEmail] = useState(false);
   const [isShared, setIsShared] = useState(false);
-  const { onLoginModalOpen } = useContext(DataContext);
+  const { onLoginModalOpen, token, setLoading } = useContext(DataContext);
   const { user } = UserAuth();
   const navigate = useNavigate();
   const feedbackModalDisclosure = useDisclosure();
   const currentEmail = user?.email;
 
-  // function viewEmail() {
-  //   if (user) {
-  //     setShowEmail(true);
-  //   }
-  // }
-
   async function handleResolve() {
     feedbackModalDisclosure.onOpen();
+  }
+
+  async function handleDelete() {
+    onClose();
+    setLoading(false);
+    if (!currentEmail) {
+      return;
+    }
+    axios
+      .delete(`${process.env.REACT_APP_AWS_BACKEND_URL}/items/${props.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // verify auth
+        },
+      })
+      .then(() => console.log("Success"))
+      .catch((err) => console.log(err));
+    setData((prevItems) => {
+      if (prevItems && prevItems.length > 0) {
+        return prevItems.filter((item) => item.id !== props.id);
+      }
+      return prevItems;
+    });
+    setLoading(true);
   }
 
   const formattedDate = formatDate(new Date(props.date));
@@ -168,6 +186,21 @@ export default function InfoModal({
                     isDisabled={props.isresolved ? true : false}
                   >
                     <CheckIcon /> Resolve
+                  </Button>
+                )}
+
+                {[
+                  "dangnn1@uci.edu",
+                  "stevenz9@uci.edu",
+                  "katyh1@uci.edu",
+                ].includes(currentEmail) && (
+                  <Button
+                    colorScheme="red"
+                    size={"lg"}
+                    gap={2}
+                    onClick={handleDelete}
+                  >
+                    <CheckIcon /> Delete
                   </Button>
                 )}
                 <Button
