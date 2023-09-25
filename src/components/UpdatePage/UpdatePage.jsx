@@ -8,10 +8,12 @@ import {
   ListItem,
   ListIcon,
   Icon,
+  Image,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { ChevronRightIcon, ArrowBackIcon } from "@chakra-ui/icons";
 import { SiInstagram } from "react-icons/si";
+import updatepage from "../../assets/images/updatepage.png";
 
 export default function UpdatePage() {
   const navigate = useNavigate();
@@ -20,7 +22,6 @@ export default function UpdatePage() {
   const handleClick = () => {
     navigate("/");
   };
-
 
   window.onresize = () => {
     setScreenWidth(window.screen.width);
@@ -87,26 +88,15 @@ export default function UpdatePage() {
             marginTop={"2.5"}
             gap="15px"
           >
-            <Text as="b">7/16/2023</Text>
+            <Text as="b">9/25/2023</Text>
             <List>
               <ListItem textAlign="left" marginBottom={"2%"}>
                 <ListIcon as={ChevronRightIcon} color="gray" />
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat
-                exercitationem vitae esse rem similique nesciunt voluptatem
-                doloremque nihil? A consequuntur voluptatum provident minima
-                illo labore et quam totam dolorum aliquid. Lorem ipsum dolor sit
-                amet consectetur adipisicing elit. Facilis mollitia, illo iure
-                placeat aliquam nostrum temporibus quisquam eligendi doloribus
-                dolorem accusantium doloremque molestiae amet, ea dolorum culpa
-                voluptatum impedit nam. Lorem ipsum dolor sit amet, consectetur
-                adipisicing elit. Animi aspernatur consequuntur inventore, illum
-                cupiditate officia dolorem commodi deserunt debitis, tempore,
-                neque vitae maxime. Dicta, fugit. Dolores voluptate reiciendis
-                enim nulla?
+                <Image w={"100vw"} src={updatepage} />
               </ListItem>
               <ListItem textAlign="left">
                 <ListIcon as={ChevronRightIcon} color="gray" />
-                New and improved map
+                WEBSITE IS LIVE!
               </ListItem>
             </List>
           </Flex>

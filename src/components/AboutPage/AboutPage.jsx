@@ -7,8 +7,15 @@ import { Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import logo from "../../assets/images/small_logo.png";
+import zotnfound_win from "../../assets/images/zotnfound_win.png";
+import zotnfound_ig from "../../assets/images/zotnfound_ig.png";
+import small_logo from "../../assets/images/small_logo.png";
 import login_page from "../../assets/images/login_page.jpg";
+import about1 from "../../assets/images/about1.png";
+import about2 from "../../assets/images/about2.png";
+import about3 from "../../assets/images/about3.png";
+import about4 from "../../assets/images/about4.png";
+
 import axios from "axios";
 
 export default function AboutPage() {
@@ -16,7 +23,6 @@ export default function AboutPage() {
   const [screenWidth, setScreenWidth] = useState(window.screen.width);
   const [data, setData] = useState([]);
   const [leaderboard, setLeaderboard] = useState([]);
-
 
   window.onresize = () => {
     setScreenWidth(window.screen.width);
@@ -64,9 +70,12 @@ export default function AboutPage() {
             Return Home{" "}
           </Button>
         </Flex>
-        <Text fontSize={{ base: "2rem", md: "3rem" }} as="b" width={"10em"}>
-          We are ZotnFound
-        </Text>
+        <Flex alignItems={"center"} flexDir={{ md: "row", base: "column" }}>
+          <Text fontSize={{ base: "2rem", md: "3rem" }} as="b" width={"10em"}>
+            We are ZotnFound
+          </Text>
+          <Image w={"70px"} h={"70px"} src={small_logo} />
+        </Flex>
         <Flex>
           <Button onClick={handleClick} marginRight={{ lg: 10 }}>
             <Icon as={ArrowBackIcon} marginRight={"2%"} />
@@ -78,7 +87,7 @@ export default function AboutPage() {
         fontSize={{ base: "1rem", md: "1.5rem" }}
         width={{ base: "20em", md: "40em" }}
       >
-        Lost & Found Made Easy: Inspire Connections @ ZotnFound!
+        @ZotnFound!
       </Text>
       <Flex
         direction={"row"}
@@ -118,80 +127,6 @@ export default function AboutPage() {
         </Flex>
       </Flex>
       <Flex
-        w="80vw"
-        flexWrap={{ base: "none", md: "wrap" }}
-        justifyContent={"space-between"}
-        direction={{ base: "column", md: "row" }}
-        h="100%"
-        mb="3%"
-      >
-        <Flex
-          flexBasis={"50%"}
-          alignItems={"center"}
-          justifyContent={"center"}
-          direction={"column"}
-        >
-          <Text fontWeight={500} fontSize={{ base: "1.3rem", md: "1.6rem" }}>
-            Origin of ZotnFound
-          </Text>
-          <Text fontSize={{ base: "0.8rem", md: "1rem" }}>
-            Many people are constantly losing their belongings, whether that be
-            their phones, keys, or watter bottles. This is especially true for
-            UCI students on the UCI subreddit, where there are countless posts
-            being created about lost and found items. Due to this problem, we
-            decided to take matters into our own hands and created an Instagram
-            account to help lost items return back to their original owners. We
-            have so far helped over 10 people and gained over 300+ followers.
-            The process on Instagram was very time consuming due to us having to
-            manually go through each message and create a post on each
-            individual item that was sent. Due to these restraints, we decided
-            to create a platform that will allow people to post items that they
-            found and lost. These posts had descriptions on the item and where
-            they were last seen.
-          </Text>
-        </Flex>
-        <Flex flexBasis={"50%"} justifyContent={"center"} alignItems={"center"}>
-          <Image src={logo} w="15em" h="15em" />
-        </Flex>
-        <Flex
-          flexBasis={"50%"}
-          justifyContent={"center"}
-          alignItems={"center"}
-          display={{ base: "none", md: "block" }}
-          mt={"5%"}
-        >
-          <Image src={logo} w="15em" h="15em" />
-        </Flex>
-        <Flex
-          flexBasis={"50%"}
-          alignItems={"center"}
-          justifyContent={"center"}
-          direction={"column"}
-          mt={"5%"}
-        >
-          <Text fontWeight={500} fontSize={{ base: "1.3rem", md: "1.6rem" }}>
-            What makes ZotnFound special?
-          </Text>
-          <Text fontSize={{ base: "0.8rem", md: "1rem" }}>
-            ZotnFound is an interactive lost and found website designed
-            exclusively for students and faculty on campus. With its
-            user-friendly platform, searchable databases, photo uploads, and
-            communication protocols, finding lost belongings becomes stress-free
-            and efficient. It's more than just a website; it fosters a sense of
-            community and inspires connections between students through the
-            shared experience of reuniting with their lost items.
-          </Text>
-        </Flex>
-        <Flex
-          flexBasis={"50%"}
-          justifyContent={"center"}
-          alignItems={"center"}
-          display={{ base: "block", md: "none" }}
-        >
-          <Image src={logo} w="15em" h="15em" />
-        </Flex>
-      </Flex>
-      <Flex
         flexBasis={"100%"}
         alignItems={"center"}
         justifyContent={"center"}
@@ -201,13 +136,13 @@ export default function AboutPage() {
       >
         <Text
           fontWeight={500}
-          fontSize={{ base: "1.3rem", md: "1.6rem" }}
-          mb={"1%"}
+          fontSize={{ base: "4xl", md: "4xl" }}
+          mb={5}
           mt={"1%"}
         >
           Explore how ZotnFound works
         </Text>
-        <Flex width={"60em"} height={"40em"}>
+        <Flex width={{ base: "100%", md: "60em" }} mb={10}>
           <Swiper
             spaceBetween={10}
             slidesPerView={1}
@@ -221,7 +156,7 @@ export default function AboutPage() {
                 justifyContent={"center"}
                 alignItems={"center"}
               >
-                <Image src={login_page} />
+                <Image src={about1} />
                 <Text
                   fontWeight={500}
                   fontSize={{ base: "1.3rem", md: "1.6rem" }}
@@ -245,7 +180,7 @@ export default function AboutPage() {
                 justifyContent={"center"}
                 alignItems={"center"}
               >
-                <Image src={login_page} />
+                <Image src={about2} />
                 <Text
                   fontWeight={500}
                   fontSize={{ base: "1.3rem", md: "1.6rem" }}
@@ -270,7 +205,7 @@ export default function AboutPage() {
                 justifyContent={"center"}
                 alignItems={"center"}
               >
-                <Image src={login_page} />
+                <Image src={about3} />
                 <Text
                   fontWeight={500}
                   fontSize={{ base: "1.3rem", md: "1.6rem" }}
@@ -295,7 +230,7 @@ export default function AboutPage() {
                 justifyContent={"center"}
                 alignItems={"center"}
               >
-                <Image src={login_page} />
+                <Image src={about4} />
                 <Text
                   fontWeight={500}
                   fontSize={{ base: "1.3rem", md: "1.6rem" }}
@@ -339,6 +274,97 @@ export default function AboutPage() {
               </Flex>
             </SwiperSlide>
           </Swiper>
+        </Flex>
+      </Flex>
+      <Flex
+        w={{ base: "80vw", md: "60vw" }}
+        flexWrap={{ base: "none", md: "wrap" }}
+        justifyContent={"space-between"}
+        direction={{ base: "column", md: "row" }}
+        h="100%"
+        mb="3%"
+      >
+        <Flex
+          flexBasis={"50%"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          direction={"column"}
+          mb={5}
+        >
+          <Text fontWeight={500} fontSize={{ base: "3xl", md: "4xl" }} mb={5}>
+            Origin of ZotnFound
+          </Text>
+          <Text textAlign={"left"} fontSize={{ base: "0.8rem", md: "1rem" }}>
+            Many people are constantly losing their belongings, whether that be
+            their phones, keys, or watter bottles. This is especially true for
+            UCI students on the UCI subreddit, where there are countless posts
+            being created about lost and found items. Due to this problem, we
+            decided to take matters into our own hands and created an Instagram
+            account to help lost items return back to their original owners. We
+            have so far helped over 10 people and gained over 300+ followers.
+            The process on Instagram was very time consuming due to us having to
+            manually go through each message and create a post on each
+            individual item that was sent. Due to these restraints, we decided
+            to create a platform that will allow people to post items that they
+            found and lost. These posts had descriptions on the item and where
+            they were last seen.
+          </Text>
+        </Flex>
+        <Flex flexBasis={"50%"} justifyContent={"center"} alignItems={"center"}>
+          <Image
+            src={zotnfound_ig}
+            minW="15em"
+            h="15em"
+            borderRadius={"2xl"}
+            boxShadow={"2xl"}
+          />
+        </Flex>
+        <Flex
+          flexBasis={"50%"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          display={{ base: "none", md: "block" }}
+          mt={"5%"}
+        >
+          <Image
+            src={zotnfound_win}
+            minW="15em"
+            h="15em"
+            borderRadius={"2xl"}
+            boxShadow={"2xl"}
+          />
+        </Flex>
+        <Flex
+          flexBasis={"50%"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          direction={"column"}
+          mt={"5%"}
+        >
+          <Text fontWeight={500} fontSize={{ base: "3xl", md: "4xl" }} mb={5}>
+            What makes ZotnFound special?
+          </Text>
+          <Text
+            textAlign={"left"}
+            fontSize={{ base: "0.8rem", md: "1rem" }}
+            mb={5}
+          >
+            ZotnFound is an interactive lost and found website designed
+            exclusively for students and faculty on campus. With its
+            user-friendly platform, searchable databases, photo uploads, and
+            communication protocols, finding lost belongings becomes stress-free
+            and efficient. It's more than just a website; it fosters a sense of
+            community and inspires connections between students through the
+            shared experience of reuniting with their lost items.
+          </Text>
+        </Flex>
+        <Flex
+          flexBasis={"50%"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          display={{ base: "block", md: "none" }}
+        >
+          <Image src={zotnfound_win} borderRadius={"2xl"} boxShadow={"2xl"} />
         </Flex>
       </Flex>
     </Flex>
