@@ -12,6 +12,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { ChevronRightIcon, ArrowBackIcon } from "@chakra-ui/icons";
 import { SiInstagram } from "react-icons/si";
+import ReactGA from "react-ga";
 
 export default function UpdatePage() {
   const navigate = useNavigate();
@@ -20,6 +21,10 @@ export default function UpdatePage() {
   const handleClick = () => {
     navigate("/");
   };
+
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname);
+  }, []);
 
   window.onresize = () => {
     setScreenWidth(window.screen.width);

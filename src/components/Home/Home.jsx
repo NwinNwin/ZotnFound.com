@@ -196,7 +196,7 @@ export default function Home() {
     };
 
     getLeaderboard();
-  }, [user]);
+  }, [user, token]);
 
   // set token to auth
   useEffect(() => {
