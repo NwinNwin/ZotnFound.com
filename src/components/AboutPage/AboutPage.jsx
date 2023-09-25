@@ -121,7 +121,7 @@ export default function AboutPage() {
         </Flex>
         <Flex direction={"column"} m={"1%"}>
           <Text fontWeight={600} fontSize={{ base: "1.3rem", md: "2.4rem" }}>
-            {leaderboard.length}
+            {10 + leaderboard.length}
           </Text>
           <Text fontSize={{ base: "0.8rem", md: "1.2rem" }}>Active Users</Text>
         </Flex>
