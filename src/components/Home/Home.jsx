@@ -75,6 +75,7 @@ export default function Home() {
     islost: true,
     uploadDate: "",
     isYourPosts: false,
+    isShowReturned: true,
   });
 
   function isFilterOff() {
@@ -84,7 +85,8 @@ export default function Home() {
       findFilter.islost === true &&
       findFilter.uploadDate === "" &&
       search === "" &&
-      !findFilter.isYourPosts
+      !findFilter.isYourPosts &&
+      findFilter.isShowReturned === true
     );
   }
 

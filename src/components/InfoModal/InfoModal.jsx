@@ -57,7 +57,11 @@ export default function InfoModal({
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalCloseButton size="lg" />
+          <ModalCloseButton
+            size="lg"
+            border={"4px green solid"}
+            background={"white"}
+          />
 
           <Flex
             justifyContent={{ base: "center", md: "space-around" }}
@@ -118,9 +122,9 @@ export default function InfoModal({
                   Description:
                 </Text>
                 {props.islost ? (
-                  <Text color={"gray.500"}>Lost on {props.itemDate}</Text>
+                  <Text color={"gray.500"}>Lost on {props.itemdate}</Text>
                 ) : (
-                  <Text color={"gray.500"}> Found on {props.itemDate}</Text>
+                  <Text color={"gray.500"}> Found on {props.itemdate}</Text>
                 )}
                 <Text
                   fontSize={"md"}

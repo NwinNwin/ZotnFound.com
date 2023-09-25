@@ -87,7 +87,8 @@ export default function Map({
         (findFilter.uploadDate === "" ||
           (item.itemdate && item.itemdate.includes(findFilter.uploadDate))) &&
         (!findFilter.isYourPosts ||
-          (findFilter.isYourPosts && item.email === user.email))
+          (findFilter.isYourPosts && item.email === user.email)) &&
+        (findFilter.isShowReturned || !item.isresolved)
       );
     })
     .map((item) => {
