@@ -18,9 +18,11 @@ import {
   Button,
 } from "@chakra-ui/react";
 import "./Filter.css";
+import { UserAuth } from "../../context/AuthContext";
 
 export default function Filter({ findFilter, setFindFilter, onClose, isOpen }) {
   const [value, setValue] = useState("everything");
+  const { user } = UserAuth();
 
   useEffect(() => {
     /* eslint-disable react-hooks/exhaustive-deps */
@@ -70,12 +72,29 @@ export default function Filter({ findFilter, setFindFilter, onClose, isOpen }) {
                     Found
                   </Text>
                 </Flex>
+                <Flex mb="20px">
+                  <Switch
+                    colorScheme="yellow"
+                    size="lg"
+                    onChange={() => {
+                      setFindFilter((prev) => ({
+                        ...prev,
+                        isShowReturned: !prev.isShowReturned,
+                      }));
+                    }}
+                    defaultChecked={findFilter.isShowReturned}
+                  />
+                  <Text mb="0px" ml="50px" fontSize="xl">
+                    Returned
+                  </Text>
+                </Flex>
 
                 <Flex mb="15px">
                   <Switch
                     colorScheme="blue"
                     size="lg"
                     defaultChecked={findFilter.isYourPosts}
+                    isDisabled={!user}
                     onChange={() => {
                       setFindFilter((prev) => ({
                         ...prev,
@@ -83,7 +102,12 @@ export default function Filter({ findFilter, setFindFilter, onClose, isOpen }) {
                       }));
                     }}
                   />
-                  <Text mb="0px" ml="50px" fontSize="xl">
+                  <Text
+                    mb="0px"
+                    ml="50px"
+                    fontSize="xl"
+                    color={!user && "gray"}
+                  >
                     Your Posts
                   </Text>
                 </Flex>
@@ -124,6 +148,9 @@ export default function Filter({ findFilter, setFindFilter, onClose, isOpen }) {
                     </Stack>
                   </RadioGroup>
                 </Box>
+                <Text fontSize="xl" fontWeight="bold" mt="15px">
+                  Found/Lost Date:
+                </Text>
                 <Input
                   onChange={(e) => {
                     setFindFilter((prev) => ({
@@ -149,6 +176,8 @@ export default function Filter({ findFilter, setFindFilter, onClose, isOpen }) {
                   isFound: true,
                   islost: true,
                   uploadDate: "",
+                  isYourPosts: false,
+                  isShowReturned: true,
                 });
                 onClose();
               }}

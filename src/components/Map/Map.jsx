@@ -22,6 +22,7 @@ import InfoModal from "../InfoModal/InfoModal";
 
 import DataContext from "../../context/DataContext";
 import { UserAuth } from "../../context/AuthContext";
+import ReactGA from "react-ga";
 
 import axios from "axios";
 
@@ -44,10 +45,11 @@ export default function Map({
   setLeaderboard,
 }) {
   const { user } = UserAuth();
-  const { data, setLoading } = useContext(DataContext);
+  const { data, setLoading, token } = useContext(DataContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [itemData, setItemData] = useState({});
   const [showDonut, setShowDonut] = useState(false);
+  console.log(data);
 
   const allowedBounds = [
     [33.656487295651, -117.85412222020983],
@@ -63,6 +65,10 @@ export default function Map({
 
     setShowDonut(false);
   };
+
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname);
+  }, []);
 
   useEffect(() => {
     const handleFocus = async () => {
@@ -86,7 +92,8 @@ export default function Map({
         (findFilter.uploadDate === "" ||
           (item.itemdate && item.itemdate.includes(findFilter.uploadDate))) &&
         (!findFilter.isYourPosts ||
-          (findFilter.isYourPosts && item.email === user.email))
+          (findFilter.isYourPosts && item.email === user.email)) &&
+        (findFilter.isShowReturned || !item.isresolved)
       );
     })
     .map((item) => {
@@ -99,6 +106,10 @@ export default function Map({
               onOpen();
               setItemData(item);
               setFocusLocation(item.location);
+              ReactGA.event({
+                category: item.name,
+                action: "click on item",
+              });
             },
           }}
           icon={
@@ -134,24 +145,34 @@ export default function Map({
     }),
     [setPosition]
   );
-
   async function handleSubmit() {
     const date = new Date();
 
+    if (!token) {
+      return;
+    }
     axios
-      .post(`${process.env.REACT_APP_AWS_BACKEND_URL}/items`, {
-        image: newAddedItem.image,
-        type: newAddedItem.type,
-        islost: newAddedItem.islost,
-        name: newAddedItem.name,
-        description: newAddedItem.description,
-        email: user.email,
-        location: [position.lat, position.lng],
-        itemdate: newAddedItem.itemdate,
-        date: date.toISOString(),
-        isresolved: newAddedItem.isresolved,
-        ishelped: newAddedItem.ishelped,
-      })
+      .post(
+        `${process.env.REACT_APP_AWS_BACKEND_URL}/items`,
+        {
+          image: newAddedItem.image,
+          type: newAddedItem.type,
+          islost: newAddedItem.islost,
+          name: newAddedItem.name,
+          description: newAddedItem.description,
+          email: user.email,
+          location: [position.lat, position.lng],
+          itemdate: newAddedItem.itemdate,
+          date: date.toISOString(),
+          isresolved: newAddedItem.isresolved,
+          ishelped: newAddedItem.ishelped,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // verify auth
+          },
+        }
+      )
       .then((item) => {
         const newItem = {
           image: newAddedItem.image,
@@ -186,10 +207,18 @@ export default function Map({
         // Update the leaderboard
         const pointsToAdd = newAddedItem.islost ? 1 : 3;
 
-        axios.put(`${process.env.REACT_APP_AWS_BACKEND_URL}/leaderboard`, {
-          email: user.email,
-          pointsToAdd: pointsToAdd,
-        });
+        axios.put(
+          `${process.env.REACT_APP_AWS_BACKEND_URL}/leaderboard`,
+          {
+            email: user.email,
+            pointsToAdd: pointsToAdd,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, // verify auth
+            },
+          }
+        );
 
         setLeaderboard((prev) =>
           prev.map((u) =>

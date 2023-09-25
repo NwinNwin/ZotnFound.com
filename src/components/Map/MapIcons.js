@@ -20,74 +20,74 @@ import fly_img from "../../assets/images/fly_img.png";
 
 const resolvedIcon = L.icon({
   iconUrl: resolved,
-  iconSize: [50, 50],
-  iconAnchor: [25, 40],
+  iconSize: [40, 40],
+  iconAnchor: [20, 30],
 });
 
 const headphoneLost = L.icon({
   iconUrl: headphone_lost,
-  iconSize: [60, 60],
-  iconAnchor: [30, 50],
+  iconSize: [50, 50],
+  iconAnchor: [25, 40],
 });
 
 const headphoneFound = L.icon({
   iconUrl: headphone_found,
-  iconSize: [60, 60],
-  iconAnchor: [30, 50],
+  iconSize: [50, 50],
+  iconAnchor: [25, 40],
 });
 
 const phoneLost = L.icon({
   iconUrl: phone_lost,
-  iconSize: [60, 60],
-  iconAnchor: [30, 50],
+  iconSize: [50, 50],
+  iconAnchor: [25, 40],
 });
 
 const phoneFound = L.icon({
   iconUrl: phone_found,
-  iconSize: [60, 60],
-  iconAnchor: [30, 50],
+  iconSize: [50, 50],
+  iconAnchor: [25, 40],
 });
 
 const keyLost = L.icon({
   iconUrl: key_lost,
-  iconSize: [60, 60],
-  iconAnchor: [30, 50],
+  iconSize: [50, 50],
+  iconAnchor: [25, 40],
 });
 
 const keyFound = L.icon({
   iconUrl: key_found,
-  iconSize: [60, 60],
-  iconAnchor: [30, 50],
+  iconSize: [50, 50],
+  iconAnchor: [25, 40],
 });
 
 const walletLost = L.icon({
   iconUrl: wallet_lost,
-  iconSize: [60, 60],
-  iconAnchor: [30, 50],
+  iconSize: [50, 50],
+  iconAnchor: [25, 40],
 });
 
 const walletFound = L.icon({
   iconUrl: wallet_found,
-  iconSize: [60, 60],
-  iconAnchor: [30, 50],
+  iconSize: [50, 50],
+  iconAnchor: [25, 40],
 });
 
 const othersLost = L.icon({
   iconUrl: others_lost,
-  iconSize: [60, 60],
-  iconAnchor: [30, 50],
+  iconSize: [50, 50],
+  iconAnchor: [25, 40],
 });
 
 const othersFound = L.icon({
   iconUrl: others_found,
-  iconSize: [60, 60],
-  iconAnchor: [30, 50],
+  iconSize: [50, 50],
+  iconAnchor: [25, 40],
 });
 
 export const othersDrag = L.icon({
   iconUrl: others_black,
-  iconSize: [50, 50],
-  iconAnchor: [25, 30],
+  iconSize: [40, 40],
+  iconAnchor: [25, 25],
 });
 
 export const flyImg = L.icon({

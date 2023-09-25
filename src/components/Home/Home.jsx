@@ -53,6 +53,7 @@ export default function Home() {
   const [data, setData] = useState([]);
   const [leaderboard, setLeaderboard] = useState([]);
   const { user, logOut } = UserAuth();
+  const [token, setToken] = useState("");
   const btnRef = useRef();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -74,6 +75,7 @@ export default function Home() {
     islost: true,
     uploadDate: "",
     isYourPosts: false,
+    isShowReturned: true,
   });
 
   function isFilterOff() {
@@ -83,9 +85,12 @@ export default function Home() {
       findFilter.islost === true &&
       findFilter.uploadDate === "" &&
       search === "" &&
-      !findFilter.isYourPosts
+      !findFilter.isYourPosts &&
+      findFilter.isShowReturned === true
     );
   }
+
+  console.log(token);
 
   const [loading, setLoading] = useState(false);
 
@@ -157,12 +162,10 @@ export default function Home() {
         setLeaderboard(
           leaderboardData.map((item) => ({ ...item, id: item.id }))
         );
-
         // Check if the current user's email exists in the leaderboard
         const userEmailExists = leaderboardData.some(
           (entry) => entry.email === user?.email
         );
-
         // If it does not exist, add the user to the leaderboard
         if (!userEmailExists) {
           await axios.post(
@@ -170,9 +173,13 @@ export default function Home() {
             {
               email: user.email,
               points: 5, // You can modify this as per your requirements
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`, // verify auth
+              },
             }
           );
-
           // Fetch the leaderboard again after insertion
           const { data: updatedLeaderboardData } = await axios.get(
             `${process.env.REACT_APP_AWS_BACKEND_URL}/leaderboard/`
@@ -189,6 +196,13 @@ export default function Home() {
     };
 
     getLeaderboard();
+  }, [user, token]);
+
+  // set token to auth
+  useEffect(() => {
+    if (user) {
+      setToken(user.accessToken);
+    }
   }, [user]);
 
   window.onresize = () => {
@@ -199,6 +213,7 @@ export default function Home() {
     <DataContext.Provider
       value={{
         data: data,
+        token: token,
         setLoading: setLoading,
         isLoginModalOpen: isLoginModalOpen,
         onLoginModalClose: onLoginModalClose,
@@ -303,7 +318,7 @@ export default function Home() {
                 gap={{ base: 1, md: 1.5 }}
                 justifyContent={"center"}
                 background={"#74a2fa"}
-                padding={{ base: "6px", md: 1.5 }}
+                padding={{ base: "5px", md: 1.5 }}
                 borderRadius={"xl"}
                 _hover={{
                   background: "#365fad",
@@ -317,10 +332,14 @@ export default function Home() {
                 <Image
                   ref={btnRef}
                   src={cookie}
-                  h={{ base: "20px", md: "20px" }}
-                  w={{ base: "25px", md: "25px" }}
+                  h={{ base: "15px", md: "20px" }}
+                  w={{ base: "15px", md: "25px" }}
                 />
-                <Text as={"b"} fontSize={"lg"} color={"white"}>
+                <Text
+                  as={"b"}
+                  fontSize={{ base: "sm", md: "lg" }}
+                  color={"white"}
+                >
                   {user
                     ? leaderboard.find((u) => u.email === user.email)?.points
                     : 0}
