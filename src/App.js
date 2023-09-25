@@ -11,9 +11,18 @@ import "leaflet/dist/leaflet.css";
 import { AuthContextProvider } from "./context/AuthContext";
 import AboutPage from "./components/AboutPage/AboutPage";
 import ReactGA from "react-ga4";
+import { useEffect } from "react";
 
-ReactGA.initialize("G-T3M3PZTJPN");
+ReactGA.initialize("G-7TSV14ZJ11");
 function App() {
+  useEffect(() => {
+    ReactGA.send({
+      hitType: "pageview",
+      page: window.location.pathname + window.location.search,
+      title: "Home",
+    });
+  }, []);
+
   return (
     <AuthContextProvider>
       <ChakraProvider>

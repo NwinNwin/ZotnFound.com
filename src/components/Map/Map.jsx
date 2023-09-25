@@ -22,7 +22,6 @@ import InfoModal from "../InfoModal/InfoModal";
 
 import DataContext from "../../context/DataContext";
 import { UserAuth } from "../../context/AuthContext";
-import ReactGA from "react-ga";
 
 import axios from "axios";
 
@@ -67,10 +66,6 @@ export default function Map({
   };
 
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname);
-  }, []);
-
-  useEffect(() => {
     const handleFocus = async () => {
       await handleMarkerSelect();
       setFocusLocation(undefined);
@@ -106,10 +101,6 @@ export default function Map({
               onOpen();
               setItemData(item);
               setFocusLocation(item.location);
-              ReactGA.event({
-                category: item.name,
-                action: "click on item",
-              });
             },
           }}
           icon={

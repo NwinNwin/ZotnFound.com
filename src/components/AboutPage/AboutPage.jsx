@@ -10,7 +10,6 @@ import "swiper/css/navigation";
 import logo from "../../assets/images/small_logo.png";
 import login_page from "../../assets/images/login_page.jpg";
 import axios from "axios";
-import ReactGA from "react-ga";
 
 export default function AboutPage() {
   const navigate = useNavigate();
@@ -18,9 +17,6 @@ export default function AboutPage() {
   const [data, setData] = useState([]);
   const [leaderboard, setLeaderboard] = useState([]);
 
-  useEffect(() => {
-    ReactGA.pageview(window.location.pathname);
-  }, []);
 
   window.onresize = () => {
     setScreenWidth(window.screen.width);
