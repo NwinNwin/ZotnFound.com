@@ -69,7 +69,7 @@ export default function Leaderboard({
                 <Flex
                   w={{ base: "100%", md: "500px" }}
                   padding={5}
-                  px={5}
+                  px={{ base: 3, md: 5 }}
                   background={"#5c5be5"}
                   color={"white"}
                   alignItems={"center"}
@@ -81,26 +81,27 @@ export default function Leaderboard({
                     <Text as={"b"} fontSize={"4xl"}>
                       1
                     </Text>
-                    <Text as={"b"} fontSize={"lg"}>
+                    <Text as={"b"} fontSize={{ base: "sm", md: "lg" }}>
                       {leaderboard[0]?.email}
                     </Text>
                   </Flex>
 
-                  <Flex>
-                    <Text as={"b"} fontSize={"4xl"}>
+                  <Flex alignItems={"center"}>
+                    <Text as={"b"} fontSize={{ base: "3xl", md: "4xl" }}>
                       {leaderboard[0]?.points}
                     </Text>
                     <Image
                       class="gold-medal"
                       src={goldmedal}
                       alt="gold medal"
+                      w={"5vh"}
+                      h={"5vh"}
                     />
                   </Flex>
                 </Flex>
                 <Flex
                   w={{ base: "100%", md: "500px" }}
-                  padding={5}
-                  px={5}
+                  p={{ base: 3, md: 5 }}
                   background={"white"}
                   color={"black"}
                   alignItems={"center"}
@@ -112,21 +113,20 @@ export default function Leaderboard({
                     <Text as={"b"} fontSize={"4xl"}>
                       2
                     </Text>
-                    <Text as={"b"} fontSize={"lg"}>
-                      {leaderboard[0]?.email}
+                    <Text as={"b"} fontSize={{ base: "sm", md: "lg" }}>
+                      {leaderboard[1]?.email}
                     </Text>
                   </Flex>
 
                   <Flex>
-                    <Text as={"b"} fontSize={"4xl"}>
-                      {leaderboard[0]?.points} 🍪
+                    <Text as={"b"} fontSize={{ base: "3xl", md: "4xl" }}>
+                      {leaderboard[1]?.points} 🍪
                     </Text>
                   </Flex>
                 </Flex>
                 <Flex
                   w={{ base: "100%", md: "500px" }}
-                  padding={5}
-                  px={5}
+                  p={{ base: 3, md: 5 }}
                   background={"white"}
                   color={"black"}
                   alignItems={"center"}
@@ -138,14 +138,14 @@ export default function Leaderboard({
                     <Text as={"b"} fontSize={"4xl"}>
                       3
                     </Text>
-                    <Text as={"b"} fontSize={"lg"}>
-                      {leaderboard[0]?.email}
+                    <Text as={"b"} fontSize={{ base: "sm", md: "lg" }}>
+                      {leaderboard[2]?.email}
                     </Text>
                   </Flex>
 
                   <Flex>
-                    <Text as={"b"} fontSize={"4xl"}>
-                      {leaderboard[0]?.points} 🍪
+                    <Text as={"b"} fontSize={{ base: "3xl", md: "4xl" }}>
+                      {leaderboard[2]?.points} 🍪
                     </Text>
                   </Flex>
                 </Flex>

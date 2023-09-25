@@ -23,15 +23,26 @@ export default function FeedbackModal({
   email,
 }) {
   const [feedbackHelped, setFeedbackHelped] = useState(null);
-  const { setLoading } = useContext(DataContext);
+  const { setLoading, token } = useContext(DataContext);
   async function handleFeedback() {
+    if (!token) {
+      return;
+    }
     setLoading(false);
     axios
-      .put(`${process.env.REACT_APP_AWS_BACKEND_URL}/items/${props.id}`, {
-        ...props,
-        isresolved: true,
-        ishelped: feedbackHelped,
-      })
+      .put(
+        `${process.env.REACT_APP_AWS_BACKEND_URL}/items/${props.id}`,
+        {
+          ...props,
+          isresolved: true,
+          ishelped: feedbackHelped,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // verify auth
+          },
+        }
+      )
       .then(() => console.log("Success"))
       .catch((err) => console.log(err));
 
@@ -51,10 +62,18 @@ export default function FeedbackModal({
     // Update the leaderboard
     const pointsToAdd = props.islost ? 2 : 5;
 
-    axios.put(`${process.env.REACT_APP_AWS_BACKEND_URL}/leaderboard`, {
-      email: email,
-      pointsToAdd: pointsToAdd,
-    });
+    axios.put(
+      `${process.env.REACT_APP_AWS_BACKEND_URL}/leaderboard`,
+      {
+        email: email,
+        pointsToAdd: pointsToAdd,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // verify auth
+        },
+      }
+    );
 
     setLeaderboard((prev) =>
       prev.map((u) =>

@@ -88,6 +88,8 @@ export default function Home() {
     );
   }
 
+  console.log(token);
+
   const [loading, setLoading] = useState(false);
 
   const [newAddedItem, setNewAddedItem] = useState({
@@ -169,6 +171,11 @@ export default function Home() {
             {
               email: user.email,
               points: 5, // You can modify this as per your requirements
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`, // verify auth
+              },
             }
           );
           // Fetch the leaderboard again after insertion
@@ -309,7 +316,7 @@ export default function Home() {
                 gap={{ base: 1, md: 1.5 }}
                 justifyContent={"center"}
                 background={"#74a2fa"}
-                padding={{ base: "6px", md: 1.5 }}
+                padding={{ base: "5px", md: 1.5 }}
                 borderRadius={"xl"}
                 _hover={{
                   background: "#365fad",
@@ -323,10 +330,14 @@ export default function Home() {
                 <Image
                   ref={btnRef}
                   src={cookie}
-                  h={{ base: "20px", md: "20px" }}
-                  w={{ base: "25px", md: "25px" }}
+                  h={{ base: "15px", md: "20px" }}
+                  w={{ base: "15px", md: "25px" }}
                 />
-                <Text as={"b"} fontSize={"lg"} color={"white"}>
+                <Text
+                  as={"b"}
+                  fontSize={{ base: "sm", md: "lg" }}
+                  color={"white"}
+                >
                   {user
                     ? leaderboard.find((u) => u.email === user.email)?.points
                     : 0}

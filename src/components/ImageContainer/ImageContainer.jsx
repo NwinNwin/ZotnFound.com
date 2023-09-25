@@ -16,7 +16,7 @@ export default function ImageContainer({ image, isresolved }) {
           alignItems={"center"}
           marginTop={30}
           flexDir={"column"}
-          w={450}
+          w={{ base: "100vw", md: 450 }}
         >
           <Text fontSize={18} as="b" color={"white"}>
             RETURNED

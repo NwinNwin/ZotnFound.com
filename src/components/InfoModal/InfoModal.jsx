@@ -27,6 +27,7 @@ export default function InfoModal({
   setLeaderboard,
 }) {
   const [showEmail, setShowEmail] = useState(false);
+  const [isShared, setIsShared] = useState(false);
   const { onLoginModalOpen } = useContext(DataContext);
   const { user } = UserAuth();
   const navigate = useNavigate();
@@ -170,8 +171,14 @@ export default function InfoModal({
                   size={"lg"}
                   variant={"outline"}
                   gap={2}
+                  onClick={() => {
+                    setIsShared(true);
+                    navigator.clipboard.writeText(
+                      `https://zotnfound.com/${props.id}`
+                    );
+                  }}
                 >
-                  <LinkIcon /> Share
+                  <LinkIcon /> {!isShared ? "Share" : "Copied"}
                 </Button>
               </Flex>
             </Flex>

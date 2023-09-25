@@ -197,10 +197,18 @@ export default function Map({
         // Update the leaderboard
         const pointsToAdd = newAddedItem.islost ? 1 : 3;
 
-        axios.put(`${process.env.REACT_APP_AWS_BACKEND_URL}/leaderboard`, {
-          email: user.email,
-          pointsToAdd: pointsToAdd,
-        });
+        axios.put(
+          `${process.env.REACT_APP_AWS_BACKEND_URL}/leaderboard`,
+          {
+            email: user.email,
+            pointsToAdd: pointsToAdd,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, // verify auth
+            },
+          }
+        );
 
         setLeaderboard((prev) =>
           prev.map((u) =>
