@@ -10,9 +10,9 @@ import { ChakraProvider } from "@chakra-ui/react";
 import "leaflet/dist/leaflet.css";
 import { AuthContextProvider } from "./context/AuthContext";
 import AboutPage from "./components/AboutPage/AboutPage";
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 
-ReactGA.initialize("UA-283774176-1");
+ReactGA.initialize("408250198");
 function App() {
   return (
     <AuthContextProvider>
