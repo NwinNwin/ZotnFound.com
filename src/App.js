@@ -12,7 +12,7 @@ import { AuthContextProvider } from "./context/AuthContext";
 import AboutPage from "./components/AboutPage/AboutPage";
 import ReactGA from "react-ga4";
 
-ReactGA.initialize("408250198");
+ReactGA.initialize("G-T3M3PZTJPN");
 function App() {
   return (
     <AuthContextProvider>
