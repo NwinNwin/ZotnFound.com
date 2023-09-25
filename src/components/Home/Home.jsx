@@ -90,8 +90,6 @@ export default function Home() {
     );
   }
 
-  console.log(token);
-
   const [loading, setLoading] = useState(false);
 
   const [newAddedItem, setNewAddedItem] = useState({

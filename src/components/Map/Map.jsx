@@ -48,7 +48,6 @@ export default function Map({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [itemData, setItemData] = useState({});
   const [showDonut, setShowDonut] = useState(false);
-  console.log(data);
 
   const allowedBounds = [
     [33.656487295651, -117.85412222020983],
