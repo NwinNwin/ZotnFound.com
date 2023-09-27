@@ -2,7 +2,7 @@
 
 ## ZotnFound
 <p>A platform designed for UCI students, allowing them to effortlessly locate and recover lost or found items, ensuring their safe return.</p>
-<p>Checkout the website! <a href="https://zotnfound.com/">zotnfound.com</a></p>
+<p>Checkout the website: <a href="https://zotnfound.com/">zotnfound.com</a></p>
 <img src="https://cdn.discordapp.com/attachments/918312671533727855/1113210954075865209/Untitled_design_1.png" width="210px"/>
 
 <p>Follow Us at: https://www.instagram.com/zotnfound/</p>
